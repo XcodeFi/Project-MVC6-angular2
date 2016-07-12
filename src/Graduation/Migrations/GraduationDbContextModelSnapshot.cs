@@ -75,14 +75,13 @@ namespace Graduation.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplycationUserId");
+                    b.Property<string>("ApplycationUserId")
+                        .IsRequired();
 
                     b.Property<string>("CardSize")
-                        .IsRequired()
                         .HasAnnotation("MaxLength", 50);
 
                     b.Property<string>("CardType")
-                        .IsRequired()
                         .HasAnnotation("MaxLength", 50);
 
                     b.Property<int>("CateId");
@@ -93,6 +92,8 @@ namespace Graduation.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
+                    b.Property<DateTime?>("DateEdited");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired();
 
@@ -102,11 +103,9 @@ namespace Graduation.Migrations
 
                     b.Property<int>("LikesNo");
 
-                    b.Property<byte?>("RateNo")
-                        .IsRequired();
+                    b.Property<byte?>("RateNo");
 
                     b.Property<string>("TextSearch")
-                        .IsRequired()
                         .HasAnnotation("MaxLength", 250);
 
                     b.Property<string>("Title");
@@ -275,6 +274,22 @@ namespace Graduation.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Errors");
+                });
+
+            modelBuilder.Entity("Graduation.Entities.Slider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("UrlSlug");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("Graduation.Models.ApplicationUser", b =>
@@ -449,7 +464,8 @@ namespace Graduation.Migrations
                 {
                     b.HasOne("Graduation.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Cards")
-                        .HasForeignKey("ApplycationUserId");
+                        .HasForeignKey("ApplycationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Graduation.Entities.Category", "Category")
                         .WithMany("Cards")

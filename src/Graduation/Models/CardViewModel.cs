@@ -18,9 +18,20 @@ namespace Graduation.Models
         public string[] Tag { get; set; }//text search
         public string ApplycationUserId { get; set; }
     }
-
+    /// <summary>
+    /// Props:
+    /// Id
+    /// CateID,
+    /// Title,
+    /// Content,
+    /// ImageUrl,
+    /// Isplulish,
+    /// UserId
+    /// TextSearch
+    /// </summary>
     public class CardCreateViewModel
     {
+        public int Id { get; set; }
         [Required]
         public int CateId { get; set; }//re
         [Required]
@@ -28,14 +39,10 @@ namespace Graduation.Models
         [Required]
         [StringLength(500)]
         public string Content { get; set; }//re
-        [StringLength(50)]
-        public string CardSize { get; set; }
         [Required]
         public string ImageUrl { get; set; }
         public bool IsPublished { get; set; }
         [StringLength(250)]
         public string TextSearch { get; set; }
-        [Required]
-        public string ApplycationUserId { get; set; }//re
     }
 }

@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace Graduation.Entities
 {
+    /// <summary>
+    /// Property require
+    /// CateID,
+    /// Content,
+    /// ImageUrl,
+    /// DateCreate,
+    /// Ispublish,
+    /// UserId
+    /// </summary>
     public class Card : IEntityBase
     {
         [Key]
@@ -19,7 +28,7 @@ namespace Graduation.Entities
         public virtual Category Category { get; set; }
         public string Title { get; set; }//re
         [StringLength(450)]
-        public string UrlSlug { get; set; }//re
+        public string UrlSlug { get; set; }
         [Required]
         [StringLength(500)]
         public string Content { get; set; }//re
@@ -46,6 +55,7 @@ namespace Graduation.Entities
         public virtual ApplicationUser ApplicationUser { get; set; }
         public Card()
         {
+            IsPublished = true;
             CardType = "Image";
             ViewNo = 0;
             LikesNo = 0;

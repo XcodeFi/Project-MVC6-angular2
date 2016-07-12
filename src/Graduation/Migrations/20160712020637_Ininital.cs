@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Graduation.Migrations
 {
-    public partial class Update : Migration
+    public partial class Ininital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,6 @@ namespace Graduation.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CateParentId = table.Column<int>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: false),
                     ImageUrl = table.Column<string>(maxLength: 250, nullable: false),
@@ -32,8 +31,8 @@ namespace Graduation.Migrations
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_CateParentId",
-                        column: x => x.CateParentId,
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -90,6 +89,21 @@ namespace Graduation.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Errors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sliders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    UrlSlug = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sliders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,18 +205,19 @@ namespace Graduation.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplycationUserId = table.Column<string>(nullable: true),
-                    CardSize = table.Column<string>(maxLength: 50, nullable: false),
-                    CardType = table.Column<string>(maxLength: 50, nullable: false),
+                    ApplycationUserId = table.Column<string>(nullable: false),
+                    CardSize = table.Column<string>(maxLength: 50, nullable: true),
+                    CardType = table.Column<string>(maxLength: 50, nullable: true),
                     CateId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(maxLength: 500, nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
+                    DateEdited = table.Column<DateTime>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
                     LikesNo = table.Column<int>(nullable: false),
-                    RateNo = table.Column<byte>(nullable: false),
-                    TextSearch = table.Column<string>(maxLength: 250, nullable: false),
+                    RateNo = table.Column<byte>(nullable: true),
+                    TextSearch = table.Column<string>(maxLength: 250, nullable: true),
                     Title = table.Column<string>(nullable: true),
                     UrlSlug = table.Column<string>(maxLength: 450, nullable: true),
                     ViewNo = table.Column<int>(nullable: false)
@@ -215,7 +230,7 @@ namespace Graduation.Migrations
                         column: x => x.ApplycationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cards_Categories_CateId",
                         column: x => x.CateId,
@@ -363,9 +378,9 @@ namespace Graduation.Migrations
                 column: "CateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CateParentId",
+                name: "IX_Categories_ParentId",
                 table: "Categories",
-                column: "CateParentId");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_BlogId",
@@ -432,6 +447,9 @@ namespace Graduation.Migrations
 
             migrationBuilder.DropTable(
                 name: "Errors");
+
+            migrationBuilder.DropTable(
+                name: "Sliders");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

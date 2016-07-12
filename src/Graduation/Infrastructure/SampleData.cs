@@ -19,7 +19,6 @@ namespace Graduation.Infrastructure
         const string defaultAdminUserName = "DefaultAdminUserName";
         const string defaultAdminPassword = "DefaultAdminPassword";
         static string UserId = string.Empty;
-        
 
         private static GraduationDbContext _context;
         public static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider, bool createUsers = true)
@@ -28,7 +27,7 @@ namespace Graduation.Infrastructure
             if (createUsers)
             {
                 await CreateAdminUser(serviceProvider);
-                UserId= _context.Users.FirstOrDefault(u => u.UserName == defaultAdminUserName).ToString();
+                UserId = _context.Users.FirstOrDefault(u => u.UserName.Equals("Administrator@test.com")).Id;
                 InsertTestData();
             }
         }
@@ -111,6 +110,7 @@ namespace Graduation.Infrastructure
 
             //const string adminRole = "Administrator";
 
+            
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             // TODO: Identity SQL does not support roles yet
             //var roleManager = serviceProvider.GetService<ApplicationRoleManager>();
@@ -124,6 +124,7 @@ namespace Graduation.Infrastructure
             {
                 user = new ApplicationUser { UserName = configuration[defaultAdminUserName],Email= configuration[defaultAdminUserName] };
                 await userManager.CreateAsync(user, configuration[defaultAdminPassword]);
+
                 //await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("Manager", "Allowed"));
             }
@@ -202,61 +203,61 @@ namespace Graduation.Infrastructure
 
             var cards = new Card[]
             {
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 24"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId}
+                new Card{Title="Card 1",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 2",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 3",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Content=content,Title="Card 1",ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Content=content,ImageUrl=imageUrl,Title="Card 1",TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 4",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 5",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 6",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 7",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 8",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 9",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 10",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 11",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 12",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 13",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 14",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 15",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 16",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 17",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 18",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 19",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
+                new Card{Title="Card 20",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 21",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 22",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 23",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 24",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 26",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
+                new Card{Title="Card 25",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 24"],ApplycationUserId=UserId},
+                new Card{Title="Card 27",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
+                new Card{Title="Card 28",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
+                new Card{Title="Card 29",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 30",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 31",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 33",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 32",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 34",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 35",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 36",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 37",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 38",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
+                new Card{Title="Card 39",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 40",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 41",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 42",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 43",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 44",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 45",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 46",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 47",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
+                new Card{Title="Card 48",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
+                new Card{Title="Card 49",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 50",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
+                new Card{Title="Card 51",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 52",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
+                new Card{Title="Card 53",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId}
             };
             foreach (var card in cards)
             {
