@@ -139,9 +139,9 @@ namespace Graduation
             //{
             //    app.UseExceptionHandler("/Home/Error");
             //}
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+            //app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 
-            app.UseExceptionHandler("/Home/Error");
+            //app.UseExceptionHandler("/Home/Error");
             app.UseStaticFiles();
 
             app.UseIdentity();

@@ -29,9 +29,8 @@ namespace Graduation.Models
     /// UserId
     /// TextSearch
     /// </summary>
-    public class CardCreateViewModel
+    public class CardCreateEditViewModel
     {
-        public int Id { get; set; }
         [Required]
         public int CateId { get; set; }//re
         [Required]

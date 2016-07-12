@@ -18,6 +18,7 @@ namespace Graduation.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class CardApiController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -41,13 +42,13 @@ namespace Graduation.Controllers
         // GET: api/values
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get()
+        public  IActionResult Get()
         {
             int currentPage = page;
             int currentPageSize = pageSize;
             //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
 
-            IEnumerable<Card> _cards = _cardRepo
+            IEnumerable<Card> _cards =_cardRepo
            .FindBy(c => c.IsDeleted == false && c.IsPublished == true)
            .OrderBy(u => u.Title)
            //.Skip((currentPage - 1) * currentPageSize)
@@ -80,7 +81,7 @@ namespace Graduation.Controllers
 
         //POST api/values
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CardCreateViewModel card)
+        public async Task<IActionResult> Create([FromBody] CardCreateEditViewModel card)
         {
             if (!ModelState.IsValid)
             {
@@ -91,16 +92,26 @@ namespace Graduation.Controllers
 
             //get current User
             ApplicationUser _applicationUser = await GetCurrentUserAsync();
-            Card _card = new Card
+            Card _card = new Card()
             {
                 Title = card.Title,
                 ApplycationUserId = id,
                 Content = card.Content,
                 IsPublished = card.IsPublished,
                 TextSearch = card.TextSearch,
-                ImageUrl = card.ImageUrl
+                ImageUrl = card.ImageUrl,
+                CateId=card.CateId
             };
             _cardRepo.Add(_card);
+            //try
+            //{
+            //    _cardRepo.Commit();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw e; 
+            //}
+
             try
             {
                 _cardRepo.Commit();
@@ -122,12 +133,13 @@ namespace Graduation.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Card card)
+        public IActionResult Put([FromRoute]int id, [FromBody]CardCreateEditViewModel card)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             Card _card = _cardRepo.GetSingle(id);
             if (_card == null)
             {
@@ -137,23 +149,29 @@ namespace Graduation.Controllers
             {
                 _card.Title = card.Title;
                 _card.ImageUrl = card.ImageUrl;
-                _card.UrlSlug = card.UrlSlug;
                 _card.IsPublished = card.IsPublished;
                 _card.CateId = card.CateId;
                 _card.Content = card.Content;
+                _card.DateEdited = DateTime.UtcNow;
 
                 _cardRepo.Edit(_card);
+
+
                 _cardRepo.Commit();
             }
 
-            return new NoContentResult();
+            return CreatedAtRoute("GetCard", new {id=_card.Id }, _card);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
-        public IActionResult Delete(int id)
+ 
+        public IActionResult Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             Card _card = _cardRepo.FindBy(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true).FirstOrDefault();
 
             if (_card == null)
@@ -166,7 +184,7 @@ namespace Graduation.Controllers
                 _cardRepo.Edit(_card);
                 _cardRepo.Commit();
 
-                return new NoContentResult();
+                return Ok(_card);
             }
         }
 
