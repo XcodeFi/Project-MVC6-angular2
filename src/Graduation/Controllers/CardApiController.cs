@@ -7,6 +7,7 @@ using System.Linq;
 using AutoMapper;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,12 +17,21 @@ namespace Graduation.Controllers
     [Authorize]
     public class CardApiController : Controller
     {
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
         int page = 1;
         int pageSize = 10;
-        public CardApiController(ICateRepository cateRepo,ICardRepository cardRepo)
+        public CardApiController(
+            ICateRepository cateRepo,
+            ICardRepository cardRepo,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _cardRepo = cardRepo;
             _cateRepo = cateRepo;
         }
