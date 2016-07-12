@@ -26,19 +26,12 @@ namespace Graduation.Models
         [Required]
         public string Title { get; set; }//re
         [Required]
-        [StringLength(450)]
-        public string UrlSlug { get; set; }//re
-        [Required]
         [StringLength(500)]
         public string Content { get; set; }//re
         [StringLength(50)]
         public string CardSize { get; set; }
         [Required]
         public string ImageUrl { get; set; }
-        public byte? RateNo { get; set; }
-        [Required]
-        public DateTime DateCreated { get; set; }//re
-        public DateTime? DateEdited { get; set; }
         public bool IsPublished { get; set; }
         [StringLength(250)]
         public string TextSearch { get; set; }

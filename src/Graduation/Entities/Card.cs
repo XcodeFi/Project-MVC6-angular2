@@ -15,8 +15,9 @@ namespace Graduation.Entities
         [Required]
         public int CateId { get; set; }//re
         [Required]
+        [ForeignKey("CateId")]
+        public virtual Category Category { get; set; }
         public string Title { get; set; }//re
-        [Required]
         [StringLength(450)]
         public string UrlSlug { get; set; }//re
         [Required]
@@ -30,16 +31,15 @@ namespace Graduation.Entities
         public string CardType { get; set; }
         public bool IsDeleted { get; set; }
         [Required]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; }//re
         public byte? RateNo { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }//re
         public DateTime? DateEdited { get; set; }
-        public bool IsPublished { get; set; }
+        [Required]
+        public bool IsPublished { get; set; }//re
         [StringLength(250)]
         public string TextSearch { get; set; }
-        [ForeignKey("CateId")]
-        public virtual Category Category { get; set; }
         [Required]
         public string ApplycationUserId { get; set; }//re
         [ForeignKey("ApplycationUserId")]
@@ -52,7 +52,6 @@ namespace Graduation.Entities
             IsDeleted = false;
             RateNo = 3;
             DateCreated = System.DateTime.UtcNow;
-            IsPublished = true;
             CardSize = "100*100";
         }
     }
