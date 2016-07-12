@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Graduation</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link href="~/css/mainsite.css" rel="stylesheet" />
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,700,600|Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <base href="/" />
+</head>
+<body>
+    @*header, tieu de*@
+    <header id="scroller">
+        <nav class="navbar navbar-default ccards-navbar margin-bottom-small accelerate" style="border-bottom: 1px solid #ccc; z-index: 9999;">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <img class="img-responsive img-logo" style="width:150px;height:25px;" src="~/images/logo/eCardsLogo.png" alt="Greetingcards.vn" />
+                    </a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                @*<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Thiệp online <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/">Tất cả</a></li>
+                                <li class="divider">Ngày lễ</li>
+                                <li><a href="/animals">Sinh nhật</a></li>
+                                <li><a href="/anniversary">Tình yêu</a></li>
+                                <li><a href="/birthdays">Cảm ơn</a></li>
+                                <li><a href="/business-greetings">Hỏi thăm</a></li>
+                                <li><a href="/care-and-encouragement">Chia sẻ &amp; Động viên</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Tạo thiệp của bạn
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Giới thiệu
+                            </a>
+                        </li>
+                        <li>
+                            <a href="blog">Bài viết</a>
+                        </li>
+                        <li>
+                            <a href="help">Trợ giúp</a>
+                        </li>
+                    </ul>
+                    
+                </div>*@
+            </div>
+        </nav>
+    </header>
+    @*end header, tieu de*@
+    @*noi bat, spotlight*@
+    
+    @*end spotlight*@
+
+    <div class="container">
+        @RenderBody()
+    </div>
+    @*footer*@
+    <div class="container">
+
+        <div class="row margin-bottom-large" id="accordion" role="tablist" aria-multiselectable="true">
+        </div>
+        <div id="footer" class="margin-bottom-large">
+            <footer class="row">
+                <div class="col-md-12">
+                    <div class="Footer_Main_Container row">
+                        <div class="col-md-3">
+                            <a href="#" rel="nofollow">
+                                <img class="img-responsive" style="width:194px;height:33px;"
+                                     src="~/images/logo/eCardsLogo.png">
+                            </a>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-12 Description">
+                                    Trang web gửi thiệp online miễn phí
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="#" rel="nofollow" class="">Thiệp online</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" rel="nofollow" class="">Thiệp của bạn</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" rel="nofollow" class="">Giới thiệu</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" rel="nofollow" class="">Bài viết</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" rel="nofollow class=" default_footer_link="">Trợ giúp</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-muted">Copyright © 2016-@DateTime.Now.Year, Greetingcard.vn</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div class="row">
+            <div class="hidden-xs hidden-sm col-md-12">
+                <p class="text-muted" style="font-size: 12px;">
+                    Gửi thiệp <b>MIỄN PHÍ</b> tới bạn bè và người thân của bạn!Gửi
+                    <a href="/">thiệp </a>
+                    tới bạn bè và người thân của bạn một cách dễ dàng và nhanh chóng với Greetingcard.vn
+                    Chia sẻ những thông điệp ý nghĩa tới gia đình và bạn bè một cách dễ dàng!
+                    <b>Tự mình tạo ra</b> những bức thiệp dễ thương gửi tới bạn bè và người thân của bạn như một món quà ý nghĩa!
+                    Greetingcard.vn – Chia sẻ những điều ý nghĩa của cuộc sống.
+                </p>
+            </div>
+        </div>
+    </div>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

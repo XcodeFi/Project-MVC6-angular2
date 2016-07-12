@@ -1,0 +1,21 @@
+﻿<div class="col-md-3 hidden-xs">
+    <ul class="nav nav-pills nav-stacked" *ngFor="let cate of cates">
+        <li class="nav-header">{{cate.name}}</li>
+        <li *ngFor="let child of cate.cateChilds"><a (clink)="goCate(child)"><i class="fa fa-birthday-cake fa-fw"></i>{{child.name}}</a></li>
+        <!--<li><a href="#"><i class="fa fa-glass fa-fw"></i>Thiệp cưới cưới</a></li>
+        <li><a href="#"><i class="fa fa-mail-reply-all fa-fw"></i>Thiệp cảm ơn</a></li>
+        <li><a href="#"><i class="fa fa-star-o fa-fw"></i>Thiệp chúc mừng</a></li>
+        <li><a href="#"><i class="fa fa-child fa-fw"></i>Thiệp mừng thành viên mới</a></li>
+        <li class="nav-header">Ngày lễ</li>
+        <li><a href="#"><i class="fa fa-calendar fa-fw"></i>Mùng 10/3</a></li>
+        <li><a href="#"><i class="fa fa-calendar fa-fw"></i>Quốc tế lao động 1/5</a></li>
+        <li class="active"><a href="#"><i class="fa fa-calendar fa-fw"></i>Ngày quốc tế phụ nữ</a></li>
+        <li><a href="#"><i class="fa fa-calendar fa-fw"></i>Phụ nữ Việt Nam</a></li>
+        <li class="nav-header">Thiệp nhiều người gửi</li>
+        <li><a href="#"><i class="fa fa-birthday-cake fa-fw"></i>Thiệp sinh nhật</a></li>
+        <li><a href="#"><i class="fa fa-heart fa-fw"></i>Lễ tình yêu 14/2</a></li>
+        <li><a href="#"><i class="fa fa-graduation-cap fa-fw"></i>Thiệp chúc mừng tốt nghiệp</a></li>
+        <li><a href="#"><i class="fa fa-star-o fa-fw"></i>Thiệp chúc mừng</a></li>
+        <li><a href="#"><i class="fa fa-child fa-fw"></i>New babby</a></li>*@-->
+    </ul>
+</div>

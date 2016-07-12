@@ -1,0 +1,14 @@
+﻿
+.nav-stacked .fa-fw {
+    width: 2em;
+}
+
+.nav-header {
+    text-transform: uppercase;
+    /*letter-spacing: 2px;*/
+    /*color: grey;*/
+}
+
+.nav > li > a {
+    padding: 0;
+}
