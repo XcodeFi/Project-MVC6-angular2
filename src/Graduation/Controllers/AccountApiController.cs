@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Graduation.Infrastructure.Repositories.Abstract;
 using Graduation.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Graduation.Models.AccountViewModels;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -56,12 +57,36 @@ namespace Graduation.Controllers
         {
             return "value";
         }
+        //[HttpPost("{api/accountapi/login}")]
+        //[AllowAnonymous]
+        //// POST api/values
+        //public async Task<IActionResult> Login([FromBody]LoginViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // This doesn't count login failures towards account lockout
+        //        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+        //        if (result.Succeeded)
+        //        {
+        //            _logger.LogInformation(1, "User logged in.");
+        //            return new JsonResult(result);
+        //        }
+        //        if (result.IsLockedOut)
+        //        {
+        //            _logger.LogWarning(2, "User account locked out.");
+        //            return new JsonResult("User account locked out.");
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //            return new JsonResult("Invalid login attempt.");
+        //        }
+        //    }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+        //    // If we got this far, something failed, redisplay form
+        //    return BadRequest(ModelState);
+        //}
 
         // PUT api/values/5
         [HttpPut("{id}")]
@@ -74,24 +99,5 @@ namespace Graduation.Controllers
         public void Delete(int id)
         {
         }
-        
-        [HttpPost("Logoff")]
-        public async Task<IActionResult> LogOff()
-        {
-            try
-            {
-                await _signInManager.SignOutAsync();
-                _logger.LogInformation(4, "User logged out.");
-                RedirectToAction(nameof(HomeController.Index), "Home");
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
-                _loggingRepository.Commit();
-                return BadRequest();
-            }
-        }
-
     }
 }

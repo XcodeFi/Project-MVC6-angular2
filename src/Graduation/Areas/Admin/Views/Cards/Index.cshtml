@@ -1,21 +1,23 @@
-@model IEnumerable<Graduation.Entities.Card>
+@model Graduation.Models.CardCreateEditViewModel
 
 @{
-    ViewData["Title"] = "Danh sách thi?p";
+    ViewData["Title"] = "Cards list";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section styles{
     <style>
         .pagination {
-            margin: 0px;
+            margin: 0;
         }
+
         .panel {
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         .table {
             margin-bottom: 0;
         }
+
         .panel-body {
             padding: 0;
         }
@@ -24,7 +26,7 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         <div class="row">
-            <div class="col-md-6"><a><Strong>List cards</Strong></a></div>
+            <div class="col-md-6"><a><Strong>Cards List</Strong></a></div>
             <div class="col-md-4">
                 <form action="#" method="get">
                     <div class="input-group">
@@ -36,7 +38,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-2 pull-right"><a class="btn btn-primary" asp-action="Create"><b>+</b>Create New</a></div>
+            <div class="col-md-2 pull-right"><a class="btn btn-primary" data-toggle="modal" data-target="#modalCreate" id="btnCreate"><b>+</b>Create New</a></div>
         </div>
     </div>
     <div class="panel-body">
@@ -44,81 +46,93 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Content)
+                        @Html.Raw("Title")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.DateCreated)
+                        @Html.Raw("Content")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IsDeleted)
+                        @Html.Raw("Date Created")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IsPublished)
+                        @Html.Raw("Is Publish")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.LikesNo)
+                        @Html.Raw("Likes")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.RateNo)
-                    </th>
-                    @*<th>
-                            @Html.DisplayNameFor(model => model.TextSearch)
-                        </th>*@
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
+                        @Html.Raw("Views")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.UrlSlug)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ViewNo)
+                        @Html.Raw("Rates")
                     </th>
                     <th class="text-center"><i class="fa fa-cogs"></i></th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-            {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Content)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateCreated)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IsDeleted)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IsPublished)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LikesNo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RateNo)
-                        </td>
-                        @*<td>
-                                @Html.DisplayFor(modelItem => item.TextSearch)
-                            </td>*@
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UrlSlug)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ViewNo)
-                        </td>
-                        <td align="center">
-                            <a asp-action="Edit" class="btn btn-info btn-xs" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                            <a asp-action="Details" class="btn btn-success btn-xs" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
-                            <a asp-action="Delete" class="btn btn-danger btn-xs" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+            <tbody id="data"></tbody>
         </table>
+    </div>
+
+    <!-- Modal create or edited-->
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Created OR Update</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formStudent">
+                        <div class="form-horizontal">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Category</label>
+                                    <select asp-for="CateId" class="form-control" asp-items="ViewBag.CateId"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label"></label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Content" class="control-label"></label>
+                                    <textarea asp-for="Content" row="4" class="form-control" />
+                                    <span asp-validation-for="Content" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-lg-offset-1">
+                                <label asp-for="ImageUrl" class="control-label"></label>
+                                <input asp-for="ImageUrl" class="form-control" style="display:none;" />
+                                <span asp-validation-for="ImageUrl" class="text-danger" />
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button id="txtUploadFile" class="btn btn-success">
+                                            <i class="fa fa-upload"></i>
+                                        </button>
+                                    </span>
+                                    <input type="file" name="UploadFile" class="form-control">
+                                </div>
+                                <label asp-for="TextSearch" class="control-label"></label>
+                                <input asp-for="TextSearch" class="form-control" />
+                                <span asp-validation-for="TextSearch" class="text-danger" />
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="checkbox">
+                                        <input asp-for="IsPublished" />
+                                        <label asp-for="IsPublished"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="return _add();" id="btnAdd">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="panel-footer">
         <div class="row">
@@ -126,18 +140,93 @@
                 Page 1 of 5
             </div>
             <div class="col col-xs-8">
-                <ul class="pagination hidden-xs pull-right">
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                </ul>
-                <ul class="pagination visible-xs pull-right">
-                    <li><a href="#">«</a></li>
-                    <li><a href="#">»</a></li>
-                </ul>
+                <ul id="pagination-demo" class="pagination-sm"></ul>
             </div>
         </div>
     </div>
 </div>
+@section scripts{
+    <script type="text/javascript">
+
+        $('#pagination-demo').twbsPagination({
+            totalPages: 10,
+            visiblePages: 4,
+            onPageClick: function (event, page) {
+                $('#data').html(_getAll());
+            }
+        });
+
+        function _getAll() {
+            $.ajax(
+                {
+                    url: "/api/cardapi",
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<tr>';
+                            html += '<td>' + item.title + '</td>';
+                            html += '<td>' + item.content + '</td>';
+                            html += '<td>' + item.dateCreated + '</td>';
+                            html += '<td align="center">' + '<input type="checkbox" checked=' + item.isPublished + '>' + '</td>';
+                            html += '<td>' + item.likesNo + '</td>';
+                            html += '<td>' + item.viewNo + '</td>';
+                            html += '<td>' + item.rateNo + '</td>';
+                            html += '<td align="center"><a class="btn btn-info btn-xs" ><i class="fa fa-edit"></i></a> ';
+                            html += '<a class="btn btn-success btn-xs" ><i class="fa fa-eye"></i></a> ';
+                            html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
+                            html += '</td></tr>';
+                        })
+                        $('#data').html(html);
+                    },
+                    error: function (errMe) {
+                        alert(err.responseText);
+                    }
+                });
+            $('#btnAdd').show();
+            return false;
+        }
+
+        //    "id": 1,
+        //"cateId": 5,
+        //"title": "Card 1",
+        //"urlSlug": null,
+        //"content": "content abc",
+        //"viewNo": 0,
+        //"likesNo": 0,
+        //"imageUrl": "images/cms/CROSSCARDS/15074-purrfect.jpg",
+        //"rateNo": 3,
+        //"dateCreated": "2016-07-12T03:19:20.5148935",
+        //"tag": [
+        //  "text1",
+        //  "text2",
+        //  "text3"
+
+        function _delete(id) {
+            alertify.confirm("Are you sure that you want to delete !", function (e) {
+                if (e) {
+                    // user clicked "ok"
+                    $.ajax({
+                        url: "/api/cardapi/" + id,
+                        type: "DELETE",
+                        success: function (resutl) {
+                            alertify.success("Successed!");
+                            _getAll();
+                        },
+                        error: function (errormessage) {
+                            alertify.error(errormessage.responseText);
+                        }
+                    })
+                } else {
+                    // user clicked "cancel"
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            _getAll();
+
+        });
+    </script>
+}

@@ -12,6 +12,7 @@ using System.Net;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Net.Http.Headers;
+using Graduation.Infrastructure.Repositories.Abstract;
 
 namespace Graduation.Areas.Admin.Controllers
 {
@@ -20,11 +21,15 @@ namespace Graduation.Areas.Admin.Controllers
     public class CardsController : Controller
     {
         private readonly GraduationDbContext _context;
+
+        private ICateRepository _cateRepo;
         private IHostingEnvironment hostingEnv;
         private string UploadDestination { get; set; }
         private string[] AllowedExtensions { get; set; }
-        public CardsController(GraduationDbContext context,IHostingEnvironment env )
+        public CardsController(GraduationDbContext context,IHostingEnvironment env ,
+            ICateRepository cateRepo)
         {
+            _cateRepo = cateRepo;
             this.hostingEnv = env;
             AllowedExtensions = new string[] { ".jpg", ".png", ".gif",".PNG" };
             _context = context;
@@ -32,10 +37,10 @@ namespace Graduation.Areas.Admin.Controllers
         }
 
         // GET: Cards
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var graduationDbContext = _context.Cards.Include(c => c.ApplicationUser).Include(c => c.Category);
-            return View(await graduationDbContext.ToListAsync());
+            ViewData["CateId"] = new SelectList(_cateRepo.GetAll(), "Id", "Name");
+            return View();
         }
 
         // GET: Cards/Details/5
@@ -77,7 +82,7 @@ namespace Graduation.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ApplycationUserId"] = new SelectList(_context.Users, "Id", "Id", card.ApplycationUserId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Name", card.CateId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Name");
             return View(card);
         }
 
@@ -135,24 +140,6 @@ namespace Graduation.Areas.Admin.Controllers
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Description", card.CateId);
             return View(card);
         }
-
-        // GET: Cards/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var card = await _context.Cards.SingleOrDefaultAsync(m => m.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-
-            return View(card);
-        }
-
         // POST: Cards/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -6,6 +6,8 @@
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "font-awsome": "4.6.3"
+    "font-awsome": "4.6.3",
+    "alertify": "*",
+    "moment": "*"
   }
 }

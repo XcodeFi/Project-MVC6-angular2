@@ -13,8 +13,8 @@ namespace Graduation.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        public UserManager<ApplicationUser> _userManager { get; }
+        public SignInManager<ApplicationUser> _signInManager { get; }
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;

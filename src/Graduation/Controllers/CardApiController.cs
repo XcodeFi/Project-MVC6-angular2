@@ -91,7 +91,6 @@ namespace Graduation.Controllers
             string id = "b449468f-94fa-4e66-98e2-42d516059d01";
 
             //get current User
-            ApplicationUser _applicationUser = await GetCurrentUserAsync();
             Card _card = new Card()
             {
                 Title = card.Title,
@@ -165,7 +164,6 @@ namespace Graduation.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
- 
         public IActionResult Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)

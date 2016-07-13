@@ -42,6 +42,23 @@ var CardDetailComponent = (function () {
     CardDetailComponent.prototype.goBack = function () {
         window.history.back();
     };
+    CardDetailComponent.prototype.ngAfterViewInit = function () {
+        //$(function () {
+        //    $('#eSendDate').datetimepicker({ format: 'MM/DD/YYYY', defaultDate: moment() });
+        //});
+        //$(".toggle-social-buttons").click(function () {
+        //    var shareButtonRow = $(this).closest(".caption").find(".share-button-row");
+        //    var socialButtonRow = $(this).closest(".caption").find(".social-button-row");
+        //    if ($(shareButtonRow).hasClass("hidden")) {
+        //        $(shareButtonRow).removeClass("hidden");
+        //        $(socialButtonRow).addClass("hidden");
+        //    }
+        //    else {
+        //        $(shareButtonRow).addClass("hidden");
+        //        $(socialButtonRow).removeClass("hidden");
+        //    }
+        //});
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', models_1.Card)

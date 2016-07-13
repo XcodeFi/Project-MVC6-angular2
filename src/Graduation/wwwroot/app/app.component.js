@@ -31,6 +31,20 @@ var AppComponent = (function () {
         this._accountService.Logoff();
         console.log('Logout');
     };
+    AppComponent.prototype.ngAfterViewInit = function () {
+        $(document).ready(function () {
+            $(".search-btn a").click(function () {
+                $(".search-collapse").fadeOut(function () {
+                    $(".search-box").fadeIn();
+                });
+            });
+            $(".search-btn-close").click(function () {
+                $(".search-box").fadeOut(function () {
+                    $(".search-collapse").fadeIn();
+                });
+            });
+        });
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',

@@ -14,6 +14,7 @@ namespace Graduation.Models
         public int LikesNo { get; set; }
         public string ImageUrl { get; set; }
         public byte? RateNo { get; set; }
+        public bool IsPublished { get; set; }
         public DateTime DateCreated { get; set; }
         public string[] Tag { get; set; }//text search
         public string ApplycationUserId { get; set; }

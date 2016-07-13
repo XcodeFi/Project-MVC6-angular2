@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default ccards-navbar margin-bottom-small accelerate" style="border-bottom: 1px solid #ccc; z-index: 9999;">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" [routerLink]="['/']">
                     <img class="img-responsive img-logo" style="width:150px;height:25px;" src="../images/logo/eCardsLogo.png" alt="Greetingcards.vn" />
                 </a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -50,7 +50,7 @@
                             Search
                         </a>
                     </li>
-                    <li class="search-box" (click)="activeSearch()" style="display: none;">
+                    <li class="search-box" style="display: none;">
                         <form action="//" method="GET" class="navbar-form navbar-left" role="search">
                             <div class="form-group">
                                 <div class="input-group">

@@ -1,4 +1,8 @@
-﻿import { Component, OnInit, trigger, state, style, group, animate, transition } from '@angular/core';
+﻿import { Component,
+    OnInit, trigger,
+    state, style, group
+    , animate, transition,
+    AfterViewInit } from '@angular/core';
 import {Router} from '@angular/router';
 
 
@@ -8,7 +12,7 @@ import {CateListComponent} from './cate-list.component'
 import {CardService} from '../services/card.service';
 import {Card} from '../models/models';
 
-
+declare var $: JQueryStatic;
 @Component({
     templateUrl: 'app/components/cate.component.html',
     //styleUrls: ['css/cate.component.css'],
@@ -32,7 +36,7 @@ import {Card} from '../models/models';
         ])
     ]
 })
-export class CatesComponent implements OnInit {
+export class CatesComponent implements OnInit, AfterViewInit {
     errorMessage: string;
     //cates: Cate[]=[];
     cards: Card[] = [];    
@@ -62,5 +66,28 @@ export class CatesComponent implements OnInit {
     gotoDetail(card: Card) {
         let link = ['/detail', card.id];
         this._router.navigate(link);
+    }
+
+    ngAfterViewInit() {
+        $(document).ready(function () {
+            $(".toggle-social-buttons").click(function () {
+
+                var shareButtonRow = $(this).closest(".caption").find(".share-button-row");
+                var socialButtonRow = $(this).closest(".caption").find(".social-button-row");
+
+                if ($(shareButtonRow).hasClass("hidden")) {
+                    $(shareButtonRow).removeClass("hidden");
+                    $(socialButtonRow).addClass("hidden");
+                }
+                else {
+                    $(shareButtonRow).addClass("hidden");
+                    $(socialButtonRow).removeClass("hidden");
+                }
+            });
+            $(".scroll-to-top").click(function (e) {
+                e.preventDefault();
+                $("html,body").animate({ scrollTop: 0 }, 500);
+            })
+        });
     }
 }
