@@ -13,7 +13,7 @@ namespace Graduation.Infrastructure.Mapping
             //   .ForMember(vm=>vm.Tag,map=>map.MapFrom(c=>c.TextSearch.Split(',')));
             Mapper.CreateMap<Card, CardViewModel>()
                 .ForMember(vm => vm.Tag, map => map.MapFrom(c => c.TextSearch.Split(',')))
-                .ForMember(vm=>vm.ImageUrl,map=>map.MapFrom(c=>"images/cms/CROSSCARDS/"+c.ImageUrl));
+                .ForMember(vm=>vm.ImageUrl,map=>map.MapFrom(c=>"images/cms/news/"+c.ImageUrl));
 
             Mapper.CreateMap<Category, CateViewModel>()
                   .ForMember(vm => vm.ImageUrl, map => map.MapFrom(a => "images/cms/CROSSCARDS/" + a.ImageUrl))

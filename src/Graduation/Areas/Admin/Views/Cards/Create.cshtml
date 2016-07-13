@@ -1,5 +1,4 @@
 @model Graduation.Entities.Card
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -90,7 +89,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
     <script type="text/javascript">
         $('#btnSelectImage').on('click', function (e) {

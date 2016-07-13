@@ -156,6 +156,8 @@ namespace Graduation.Areas.Admin.Controllers
             return _context.Cards.Any(e => e.Id == id);
         }
 
+
+        #region help
         [HttpPost]
         public IActionResult UploadFilesAjax()
         {
@@ -173,11 +175,15 @@ namespace Graduation.Areas.Admin.Controllers
                 filename = UploadDestination + $@"/{filename}";
                 size += file.Length;
 
+                if (size==0)
+                {
+                    return NotFound();
+                }
                 //check extension
                 bool extension = this.VerifyFileExtension(filename);
                 if (extension == false)
                 {
-                    return Json("File is not image!");
+                    return NotFound(); //Json("File is not image!");
                 }
                 using (FileStream fs = System.IO.File.Create(filename))
                 {
@@ -192,5 +198,6 @@ namespace Graduation.Areas.Admin.Controllers
         {
             return AllowedExtensions.Contains(Path.GetExtension(path));
         }
+        #region
     }
 }

@@ -77,18 +77,29 @@
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Created OR Update</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="formStudent">
+                <form id="frmCard" role="form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Created OR Update</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-horizontal">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Category</label>
-                                    <select asp-for="CateId" class="form-control" asp-items="ViewBag.CateId"></select>
+                                <div class="form-inline">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label">Category</label>
+                                                <select asp-for="CateId" class="form-control" asp-items="ViewBag.CateId"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="checkbox">
+                                                <label><input asp-for="IsPublished"/>Is Published</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="Title" class="control-label"></label>
@@ -97,11 +108,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="Content" class="control-label"></label>
-                                    <textarea asp-for="Content" row="4" class="form-control" />
+                                    <textarea asp-for="Content" rows="5" class="form-control"></textarea>
                                     <span asp-validation-for="Content" class="text-danger" />
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-offset-1">
+                                <!--image-->
                                 <label asp-for="ImageUrl" class="control-label"></label>
                                 <input asp-for="ImageUrl" class="form-control" style="display:none;" />
                                 <span asp-validation-for="ImageUrl" class="text-danger" />
@@ -111,43 +123,43 @@
                                             <i class="fa fa-upload"></i>
                                         </button>
                                     </span>
-                                    <input type="file" name="UploadFile" class="form-control">
+                                    <input type="file" id="files" name="UploadFile" class="form-control">
                                 </div>
+                                <div class="input-group">
+                                    <img src="http://placehold.it/330x150" alt="image" id="imgId" class="img-responsive img-radio">
+                                </div>
+                                <!---text search-->
                                 <label asp-for="TextSearch" class="control-label"></label>
                                 <input asp-for="TextSearch" class="form-control" />
                                 <span asp-validation-for="TextSearch" class="text-danger" />
                             </div>
                             <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div class="checkbox">
-                                        <input asp-for="IsPublished" />
-                                        <label asp-for="IsPublished"></label>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="return _add();" id="btnAdd">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel-footer">
-        <div class="row">
-            <div class="col col-xs-4">
-                Page 1 of 5
-            </div>
-            <div class="col col-xs-8">
-                <ul id="pagination-demo" class="pagination-sm"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" onclick="return _save();" id="btnAdd">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-@section scripts{
-    <script type="text/javascript">
+<div class="panel-footer">
+    <div class="row">
+        <div class="col col-xs-4">
+            Page 1 of 5
+        </div>
+        <div class="col col-xs-8">
+            <ul id="pagination-demo" class="pagination-sm"></ul>
+        </div>
+    </div>
+</div>
 
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script type="text/javascript">
         $('#pagination-demo').twbsPagination({
             totalPages: 10,
             visiblePages: 4,
@@ -156,6 +168,9 @@
             }
         });
 
+        $host = location.origin;
+        $path="images/cms/news/"
+        $id = "";
         function _getAll() {
             $.ajax(
                 {
@@ -173,7 +188,7 @@
                             html += '<td>' + item.likesNo + '</td>';
                             html += '<td>' + item.viewNo + '</td>';
                             html += '<td>' + item.rateNo + '</td>';
-                            html += '<td align="center"><a class="btn btn-info btn-xs" ><i class="fa fa-edit"></i></a> ';
+                            html += '<td align="center"><a class="btn btn-info btn-xs" onclick="return _edit('+item.id+')" ><i class="fa fa-edit"></i></a> ';
                             html += '<a class="btn btn-success btn-xs" ><i class="fa fa-eye"></i></a> ';
                             html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
                             html += '</td></tr>';
@@ -181,28 +196,81 @@
                         $('#data').html(html);
                     },
                     error: function (errMe) {
-                        alert(err.responseText);
+                        alertify.error(err.responseText);
                     }
                 });
             $('#btnAdd').show();
             return false;
         }
 
-        //    "id": 1,
-        //"cateId": 5,
-        //"title": "Card 1",
-        //"urlSlug": null,
-        //"content": "content abc",
-        //"viewNo": 0,
-        //"likesNo": 0,
-        //"imageUrl": "images/cms/CROSSCARDS/15074-purrfect.jpg",
-        //"rateNo": 3,
-        //"dateCreated": "2016-07-12T03:19:20.5148935",
-        //"tag": [
-        //  "text1",
-        //  "text2",
-        //  "text3"
+        //btn edit
+        function _edit(id) {
+            $id = id;
+            $('#modalCreate').modal('show');
+            $.ajax(
+                {
+                    url: "/api/cardapi/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        console.log(result.content);
+                        //$CateId.val() = result.cateId;
+                        $("#Title").attr("value", result.title);
+                        document.getElementById("imgId").src = $host + "/" + result.imageUrl;
+                        document.getElementById("ImageUrl").value = result.imageUrl.replace($path,"");
+                        document.getElementById("IsPublished").checked = result.isPublished;
+                        document.getElementById("CateId").value = result.cateId; debugger;
+                        document.getElementById("Content").value = result.content;
+                        var _tag = "";
+                        for (var t in result.tag) {
+                            _tag += result.tag[t]+",";
+                        }
+                        document.getElementById("TextSearch").value = _tag;
+                    },
+                    error: function (e) {
+                        alertify.error("Something wrong");
+                    }
+                }
+                );
+        };
+        function _save() {
 
+            if ($id.toString().trim()=="") {
+                _add();
+            }
+            else
+            {
+                _edit($id);
+            }
+
+        }
+        function _add() {
+            var obj = {
+                CateId: $("#CateId").val(),
+                Title: $("#Title").val(),
+                Content: $("#Content").val(),
+                ImageUrl: $("#ImageUrl").val(),
+                IsPublished: $("#IsPublished").val(),
+                TextSearch: $("#TextSearch").val()
+            }
+            $.ajax({
+                url: '/api/cardapi',
+                data: JSON.stringify(obj),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alertify.success("Add"+obj.Title+"was success");
+                    _getAll();
+                    $('#modalCreate').modal('hide');
+                },
+                error: function (errormessage) {
+                    alertify.error(errormessage.responseText);
+                }
+            });
+        }
+
+        //delete
         function _delete(id) {
             alertify.confirm("Are you sure that you want to delete !", function (e) {
                 if (e) {
@@ -223,6 +291,33 @@
                 }
             });
         }
+
+
+        //xu ly up anh
+        $("#txtUploadFile").click(function (evt) {
+            evt.preventDefault();
+            var fileUpload = $("#files").get(0);
+            var files = fileUpload.files;
+            var data = new FormData();
+            for (var i = 0; i < files.length ; i++) {
+                data.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: "/admin/cards/UploadFilesAjax",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (message) {
+                    alertify.success(message+"was UPLOADED");
+                    $("#imgId").attr("src", "/images/cms/news/" + message);
+                    $("#ImageUrl").attr("value", message);
+                },
+                error: function () {
+                    alertify.error("There was error uploading files!");
+                }
+            });
+        });
 
         $(document).ready(function () {
             _getAll();

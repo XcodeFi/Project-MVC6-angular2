@@ -66,7 +66,7 @@ namespace Graduation.Controllers
         public IActionResult Get(int id)
         {
             Card _card = _cardRepo
-            .GetSingle(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true);
+            .GetSingle(c => c.Id == id && c.IsDeleted == false);
 
             if (_card != null)
             {
@@ -81,7 +81,7 @@ namespace Graduation.Controllers
 
         //POST api/values
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CardCreateEditViewModel card)
+        public IActionResult Create([FromBody] CardCreateEditViewModel card)
         {
             if (!ModelState.IsValid)
             {
@@ -102,15 +102,7 @@ namespace Graduation.Controllers
                 CateId=card.CateId
             };
             _cardRepo.Add(_card);
-            //try
-            //{
-            //    _cardRepo.Commit();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw e; 
-            //}
-
+            
             try
             {
                 _cardRepo.Commit();
