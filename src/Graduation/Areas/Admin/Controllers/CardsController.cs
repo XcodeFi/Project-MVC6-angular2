@@ -26,18 +26,18 @@ namespace Graduation.Areas.Admin.Controllers
         private IHostingEnvironment hostingEnv;
         private string UploadDestination { get; set; }
         private string[] AllowedExtensions { get; set; }
-        public CardsController(GraduationDbContext context,IHostingEnvironment env ,
+        public CardsController(GraduationDbContext context, IHostingEnvironment env,
             ICateRepository cateRepo)
         {
             _cateRepo = cateRepo;
             this.hostingEnv = env;
-            AllowedExtensions = new string[] { ".jpg", ".png", ".gif",".PNG" };
+            AllowedExtensions = new string[] { ".jpg", ".png", ".gif", ".PNG" };
             _context = context;
             UploadDestination = hostingEnv.WebRootPath + "/images/cms/news";
         }
 
         // GET: Cards
-        public  IActionResult Index()
+        public IActionResult Index()
         {
             ViewData["CateId"] = new SelectList(_cateRepo.GetAll(), "Id", "Name");
             return View();
@@ -175,7 +175,7 @@ namespace Graduation.Areas.Admin.Controllers
                 filename = UploadDestination + $@"/{filename}";
                 size += file.Length;
 
-                if (size==0)
+                if (size == 0)
                 {
                     return NotFound();
                 }
@@ -198,6 +198,6 @@ namespace Graduation.Areas.Admin.Controllers
         {
             return AllowedExtensions.Contains(Path.GetExtension(path));
         }
-        #region
+        #endregion
     }
 }

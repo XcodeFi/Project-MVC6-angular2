@@ -60,6 +60,28 @@ namespace Graduation.Controllers
             return new OkObjectResult(_cardVM);
         }
 
+        [HttpGet("admin")]
+        [Authorize(Policy = "Manager")]
+        public IActionResult GetAdmin()
+        {
+            int currentPage = page;
+            int currentPageSize = pageSize;
+            //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
+
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false)
+           .OrderBy(u => u.Title)
+           //.Skip((currentPage - 1) * currentPageSize)
+           //.Take(currentPageSize)
+           .ToList();
+
+            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
+            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
+            return new OkObjectResult(_cardVM);
+        }
+
+
+
         // GET api/values/5
         [HttpGet("{id}", Name = "GetCard")]
         [AllowAnonymous]
@@ -81,7 +103,7 @@ namespace Graduation.Controllers
 
         //POST api/values
         [HttpPost]
-        public IActionResult Create([FromBody] CardCreateEditViewModel card)
+        public async Task<IActionResult> Create([FromBody] CardCreateEditViewModel card)
         {
             if (!ModelState.IsValid)
             {
@@ -90,19 +112,20 @@ namespace Graduation.Controllers
 
             string id = "b449468f-94fa-4e66-98e2-42d516059d01";
 
+            ApplicationUser _user = await GetCurrentUserAsync();
             //get current User
             Card _card = new Card()
             {
                 Title = card.Title,
-                ApplycationUserId = id,
+                ApplycationUserId = _user.Id,
                 Content = card.Content,
                 IsPublished = card.IsPublished,
                 TextSearch = card.TextSearch,
                 ImageUrl = card.ImageUrl,
-                CateId=card.CateId
+                CateId = card.CateId
             };
             _cardRepo.Add(_card);
-            
+
             try
             {
                 _cardRepo.Commit();
