@@ -86,71 +86,7 @@ namespace Graduation.Areas.Admin.Controllers
             return View(card);
         }
 
-        // GET: Cards/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var card = await _context.Cards.SingleOrDefaultAsync(m => m.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-            ViewData["ApplycationUserId"] = new SelectList(_context.Users, "Id", "Id", card.ApplycationUserId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Description", card.CateId);
-            return View(card);
-        }
-
-        // POST: Cards/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ApplycationUserId,CardSize,CardType,CateId,Content,DateCreated,ImageUrl,IsDeleted,IsPublished,LikesNo,RateNo,TextSearch,Title,UrlSlug,ViewNo")] Card card)
-        {
-            if (id != card.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(card);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CardExists(card.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            ViewData["ApplycationUserId"] = new SelectList(_context.Users, "Id", "Id", card.ApplycationUserId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Description", card.CateId);
-            return View(card);
-        }
-        // POST: Cards/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var card = await _context.Cards.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Cards.Remove(card);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
+       
         private bool CardExists(int id)
         {
             return _context.Cards.Any(e => e.Id == id);

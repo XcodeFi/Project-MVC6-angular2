@@ -12,9 +12,7 @@ namespace Graduation.Infrastructure.Mapping
             //   //.ForMember(vm => vm.ImageUrl, map => map.MapFrom(p => p.ImageUrl))
             //   .ForMember(vm=>vm.Tag,map=>map.MapFrom(c=>c.TextSearch.Split(',')));
             Mapper.CreateMap<Card, CardViewModel>()
-                .ForMember(vm => vm.Tag, map => map.MapFrom(c => c.TextSearch.Split(',')))
-                .ForMember(vm=>vm.ImageUrl,map=>map.MapFrom(c=>"images/cms/news/"+c.ImageUrl));
-
+                .ForMember(vm => vm.Tag, map => map.MapFrom(c => c.TextSearch.Split(',')));
             Mapper.CreateMap<Category, CateViewModel>()
                   .ForMember(vm => vm.ImageUrl, map => map.MapFrom(a => "images/cms/CROSSCARDS/" + a.ImageUrl))
                   ;

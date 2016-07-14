@@ -77,14 +77,14 @@
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form id="frmCard" role="form">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Created OR Update</h4>
-                    </div>
-                    <div class="modal-body">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Created OR Update</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmCard">
                         <div class="form-horizontal">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="col-md-6">
                                 <div class="form-inline">
                                     <div class="row">
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="checkbox">
-                                                <label><input asp-for="IsPublished"/>Is Published</label>
+                                                <label><input asp-for="IsPublished" />Is Published</label>
                                             </div>
                                         </div>
                                     </div>
@@ -109,39 +109,34 @@
                                 <div class="form-group">
                                     <label asp-for="Content" class="control-label"></label>
                                     <textarea asp-for="Content" rows="5" class="form-control"></textarea>
-                                    <span asp-validation-for="Content" class="text-danger" />
+                                    <span asp-validation-for="Content" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-offset-1">
                                 <!--image-->
                                 <label asp-for="ImageUrl" class="control-label"></label>
                                 <input asp-for="ImageUrl" class="form-control" style="display:none;" />
-                                <span asp-validation-for="ImageUrl" class="text-danger" />
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <button id="txtUploadFile" class="btn btn-success">
                                             <i class="fa fa-upload"></i>
                                         </button>
                                     </span>
-                                    <input type="file" id="files" name="UploadFile" class="form-control">
+                                    <input type="file" id="files" name="UploadFile" class="form-control" />
                                 </div>
-                                <div class="input-group">
-                                    <img src="http://placehold.it/330x150" alt="image" id="imgId" class="img-responsive img-radio">
-                                </div>
-                                <!---text search-->
+                                <img src="~/images/logo/image_default.png" alt="image" id="imgId" class="img-responsive img-radio" />
                                 <label asp-for="TextSearch" class="control-label"></label>
                                 <input asp-for="TextSearch" class="form-control" />
-                                <span asp-validation-for="TextSearch" class="text-danger" />
+                                <span asp-validation-for="TextSearch" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-
-                            </div>
+                            <div class="form-group"></div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="return _save();" id="btnAdd">Save</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="return btnCreate()" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
     </div>

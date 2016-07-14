@@ -7,9 +7,9 @@
 });
 
 $host = location.origin;
-var path = "images/cms/news/";
+var path = "/images/cms/news/";
 var _id = -1;
-
+var _imageUrl = "";
 function _getAll() {
     $.ajax(
         {
@@ -28,16 +28,15 @@ function _getAll() {
                     {
                         $checked = "";
                     }
-
                     html += '<tr>';
                     html += '<td>' + item.title + '</td>';
-                    html += '<td>' + item.content + '</td>';
-                    html += '<td>' + item.dateCreated + '</td>';
+                    html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="'+item.content+'" alt="' + item.content + '" /></td>';
+                    html += '<td>' + new Date(item.dateCreated) + '</td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
                     html += '<td>' + item.likesNo + '</td>';
                     html += '<td>' + item.viewNo + '</td>';
                     html += '<td>' + item.rateNo + '</td>';
-                    html += '<td align="center"><a class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></a> ';
+                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
                     html += '<a class="btn btn-success btn-xs" ><i class="fa fa-eye"></i></a> ';
                     html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
                     html += '</td></tr>';
@@ -54,7 +53,7 @@ function _getAll() {
 
 //btn edit
 function _edit(id) {
-    $id = id;
+    _id = id;
     $('#modalCreate').modal('show');
     $.ajax(
         {
@@ -62,11 +61,9 @@ function _edit(id) {
             type: "GET",
             contentType: "application/json;charset=utf-8",
             success: function (result) {
-                console.log(result.content);
-                //$CateId.val() = result.cateId;
                 $("#Title").attr("value", result.title);
-                document.getElementById("imgId").src = $host + "/" + result.imageUrl;
-                document.getElementById("ImageUrl").value = result.imageUrl.replace(path, "");
+                document.getElementById("imgId").src = $host + path + result.imageUrl;
+                document.getElementById("ImageUrl").value = result.imageUrl;
                 document.getElementById("IsPublished").checked = result.isPublished;
                 document.getElementById("CateId").value = result.cateId;
                 document.getElementById("Content").value = result.content;
@@ -74,7 +71,7 @@ function _edit(id) {
                 for (var t in result.tag) {
                     _tag += result.tag[t] + ",";
                 }
-                document.getElementById("TextSearch").value = _tag;
+                document.getElementById("TextSearch").value = _tag.substring(0, _tag.length - 1);
             },
             error: function (e) {
                 alertify.error("Something wrong");
@@ -92,6 +89,7 @@ function _put(id) {
         IsPublished: document.getElementById("IsPublished").checked,
         TextSearch: $("#TextSearch").val()
     };
+    debugger;
     $.ajax(
         {
             url: "/api/cardapi/" + id,
@@ -99,6 +97,7 @@ function _put(id) {
             data:JSON.stringify(obj),
             contentType: "application/json;charset=utf-8",
             success: function (result) {
+                $('#modalCreate').modal('hide');
                 _getAll();
                 alertify.success("This card was edit!");
                 _id = -1;//gan lai gia tri ban dau 
@@ -109,17 +108,16 @@ function _put(id) {
         }
         );
 }
-
-function _save() {
-
-    if (_id===-1) {
+function btnCreate()
+{
+    if (_id === -1) {
         _add();
     }
     else {
         _put(_id);
     }
-
 }
+
 function _add() {
     var obj = {
         CateId: $("#CateId").val(),
@@ -136,7 +134,7 @@ function _add() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            alertify.success("Add" + obj.Title + "was success");
+            alertify.success("Add " + obj.Title + " was success!");
             _getAll();
             $('#modalCreate').modal('hide');
         },
@@ -155,7 +153,7 @@ function _delete(id) {
                 url: "/api/cardapi/" + id,
                 type: "DELETE",
                 success: function (resutl) {
-                    alertify.success("Successed!");
+                    alertify.success("Delete Successed!");
                     _getAll();
                 },
                 error: function (errormessage) {
@@ -170,6 +168,7 @@ function _delete(id) {
 
 
 //xu ly up anh
+
 $("#txtUploadFile").click(function (evt) {
     evt.preventDefault();
     var fileUpload = $("#files").get(0);
@@ -186,8 +185,9 @@ $("#txtUploadFile").click(function (evt) {
         data: data,
         success: function (message) {
             alertify.success(message + "was UPLOADED");
-            $("#imgId").attr("src", "/images/cms/news/" + message);
-            $("#ImageUrl").attr("value", message);
+            $("#imgId").attr("src", path + message);
+            document.getElementById("ImageUrl").value = message;
+            _imageUrl = message;
         },
         error: function () {
             alertify.error("There was error uploading files!");
@@ -197,5 +197,5 @@ $("#txtUploadFile").click(function (evt) {
 
 $(document).ready(function () {
     _getAll();
-
+    $('[data-toggle="tooltip"]').tooltip();
 });

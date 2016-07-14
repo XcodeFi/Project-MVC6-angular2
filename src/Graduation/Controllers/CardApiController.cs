@@ -21,6 +21,8 @@ namespace Graduation.Controllers
     [Authorize]
     public class CardApiController : Controller
     {
+        private readonly ILoggingRepository _logRepo;
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private ICardRepository _cardRepo;
@@ -31,12 +33,15 @@ namespace Graduation.Controllers
             ICateRepository cateRepo,
             ICardRepository cardRepo,
             UserManager<ApplicationUser> userManager,
+            ILoggingRepository logRepo,
             SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _cardRepo = cardRepo;
             _cateRepo = cateRepo;
+
+            _logRepo = logRepo;
         }
 
         // GET: api/values
@@ -110,8 +115,6 @@ namespace Graduation.Controllers
                 return BadRequest(ModelState);
             }
 
-            string id = "b449468f-94fa-4e66-98e2-42d516059d01";
-
             ApplicationUser _user = await GetCurrentUserAsync();
             //get current User
             Card _card = new Card()
@@ -130,7 +133,7 @@ namespace Graduation.Controllers
             {
                 _cardRepo.Commit();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 if (CardExists(_card.Id))
                 {
@@ -138,7 +141,13 @@ namespace Graduation.Controllers
                 }
                 else
                 {
-                    throw;
+                    _logRepo.Add(new Error
+                    {
+                        DateCreated = DateTime.UtcNow,
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace
+                    });
+                    _logRepo.Commit();
                 }
             }
             //Card _cardResult=_cardRepo.f
@@ -185,7 +194,7 @@ namespace Graduation.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Card _card = _cardRepo.FindBy(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true).FirstOrDefault();
+            Card _card = _cardRepo.FindBy(c => c.Id == id && c.IsDeleted == false).FirstOrDefault();
 
             if (_card == null)
             {
@@ -196,7 +205,7 @@ namespace Graduation.Controllers
                 _card.IsDeleted = true;
                 _cardRepo.Edit(_card);
                 _cardRepo.Commit();
-
+               
                 return Ok(_card);
             }
         }
