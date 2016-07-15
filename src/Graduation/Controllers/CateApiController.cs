@@ -24,7 +24,6 @@ namespace Graduation.Controllers
         private Expression<Func<Category, object>>[] includeProperties;
         private int page = 1;
         private int pageSize = 10;
-
         public CateApiController(ICardRepository cardRepo,ICateRepository cateRepo)
         {
             _cateRepo = cateRepo;
@@ -37,7 +36,6 @@ namespace Graduation.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-
             //lay cate cha
             IEnumerable<Category> cateParent=_cateRepo
            .FindBy(c => c.IsDeleted == false && c.IsPublished == true&&c.IsMainMenu==true&&c.Level==0)
@@ -85,7 +83,6 @@ namespace Graduation.Controllers
         [HttpGet("/api/cateapi/getChild")]
         public IActionResult GetChild()
         {
-
             //lay cate con
             IEnumerable<Category> cateChild = _cateRepo
            .FindBy(c => c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true && c.Level == 1)
@@ -96,7 +93,6 @@ namespace Graduation.Controllers
 
             return new OkObjectResult(_cateC);
         }
-
 
         [AllowAnonymous]
         // GET api/values/5

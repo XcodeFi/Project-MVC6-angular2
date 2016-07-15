@@ -5,38 +5,22 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section styles{
-    <style>
-        .pagination {
-            margin: 0;
-        }
-
-        .panel {
-            margin-bottom: 0;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .panel-body {
-            padding: 0;
-        }
-    </style>
+<link href="~/css/Admin/custom-panel.css" rel="stylesheet" />
 }
+
+<br />
 <div class="panel panel-default">
     <div class="panel panel-heading">
         <div class="row">
             <div class="col-md-6"><a><Strong>Cards List</Strong></a></div>
             <div class="col-md-4">
-                <form action="#" method="get">
-                    <div class="input-group">
-                        <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
-                        <input class="form-control" id="system-search" name="q" placeholder="Search for" required>
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-                        </span>
-                    </div>
-                </form>
+                <div class="input-group">
+                    <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
+                    <input class="form-control" id="txtSearch" name="q" placeholder="Search for" required>
+                    <span class="input-group-btn">
+                        <button onclick="return _search()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+                </div>
             </div>
             <div class="col-md-2 pull-right"><a class="btn btn-primary" data-toggle="modal" data-target="#modalCreate" id="btnCreate"><b>+</b>Create New</a></div>
         </div>
@@ -141,18 +125,22 @@
         </div>
     </div>
 </div>
+
+
 <div class="panel-footer">
     <div class="row">
         <div class="col col-xs-4">
-            Page 1 of 5
+            Total pages <strong id="_totalPageId"></strong> / <strong id="_totalItemId"></strong> Card items
         </div>
         <div class="col col-xs-8">
-            <ul id="pagination-demo" class="pagination-sm"></ul>
+            <ul id="pagination-demo" class="pagination-sm hidden-xs pull-right"></ul>
         </div>
+
     </div>
 </div>
-
+<br />
 @section scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/esimakin-twbs-pagination-4a2f5ff/jquery.twbsPagination.js"></script>
     <script src="~/js/card_admin.js"></script>
 }

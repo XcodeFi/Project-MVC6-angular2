@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Graduation.Entities;
 using Graduation.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Graduation.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize("Manager")]
     public class CategoryBlogsController : Controller
     {
         private readonly GraduationDbContext _context;

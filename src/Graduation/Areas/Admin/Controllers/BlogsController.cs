@@ -49,8 +49,8 @@ namespace Graduation.Areas.Admin.Controllers
         // GET: Blogs/Create
         public IActionResult Create()
         {
-            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["CateBlogId"] = new SelectList(_context.CategoryBlogs, "Id", "Description");
+            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "UserName");
+            ViewData["CateBlogId"] = new SelectList(_context.CategoryBlogs, "Id", "Title");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace Graduation.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "Id", blog.AppicationUserId);
+            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "", blog.AppicationUserId);
             ViewData["CateBlogId"] = new SelectList(_context.CategoryBlogs, "Id", "Description", blog.CateBlogId);
             return View(blog);
         }
@@ -85,8 +85,8 @@ namespace Graduation.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "Id", blog.AppicationUserId);
-            ViewData["CateBlogId"] = new SelectList(_context.CategoryBlogs, "Id", "Description", blog.CateBlogId);
+            ViewData["AppicationUserId"] = new SelectList(_context.Users, "Id", "UserName", blog.AppicationUserId);
+            ViewData["CateBlogId"] = new SelectList(_context.CategoryBlogs, "Id", "Title", blog.CateBlogId);
             return View(blog);
         }
 

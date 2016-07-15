@@ -18,6 +18,6 @@ namespace Graduation.Infrastructure.Core
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
 
-        public List<T> Items { get; set; }
+        public IEnumerable<T> Items { get; set; }
     }
 }

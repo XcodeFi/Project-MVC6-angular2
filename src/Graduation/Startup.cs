@@ -105,6 +105,8 @@ namespace Graduation
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ISliderRepository, SliderRepository>();
 
+            services.AddScoped<IViewRepository, ViewRepository>();
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -141,9 +143,9 @@ namespace Graduation
             //{
             //    app.UseExceptionHandler("/Home/Error");
             //}
-            //app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
 
-            //app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Home/Error");
             app.UseStaticFiles();
 
             app.UseIdentity();

@@ -54,7 +54,19 @@ namespace Graduation.Infrastructure
             {
                 cateDic.Add(item.Name, item);
             }
-            
+
+            if (!_context.Views.Any())
+            {
+                View _view = new View
+                {
+                    Key = 1,
+                    TotalViewings = 0,
+                    TotalViewIsMember = 0,
+                    TotalViews = 0
+                };
+                _context.Views.Add(_view);
+                _context.SaveChanges();
+            }
             //add card vao csdl
             var cards = GetCard(cateDic);
             if (!_context.Cards.Any())
@@ -137,16 +149,17 @@ namespace Graduation.Infrastructure
         /// </summary>
         public static Dictionary<string, Category> Cates
         {
+
+            //Thiệp mới
             get
             {
                 if (cates == null)
                 {
                     var catesList = new Category[]
                     {
-                        new Category {Name="Cate 0",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 1",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 2",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 3",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp mới",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Ngày lễ",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp nhiều người gửi",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
                     };
                     cates = new Dictionary<string, Category>();
 
@@ -167,23 +180,23 @@ namespace Graduation.Infrastructure
         {
             var catesList = new Category[]
             {
-                        new Category {Name="Cate 01",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 02",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 03",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 05",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 06",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 07",CateParent=cates["Cate 0"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 11",CateParent=cates["Cate 1"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 12",CateParent=cates["Cate 1"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 13",CateParent=cates["Cate 1"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 14",CateParent=cates["Cate 1"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 15",CateParent=cates["Cate 1"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 21",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 22",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 23",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 24",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 25",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 26",CateParent=cates["Cate 2"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"}
+                        new Category {Name="Thiệp cưới",Icon="fa fa-glass fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp cảm ơn",Icon="fa fa-mail-reply-all fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp chúc mừng",Icon="fa fa-star-o fa-fw", CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp mừng thành viên mới",Icon="fa fa-child fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Cate 06",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Cate 07",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Mùng 10/3",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Quốc tế lao động 1/5",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Ngày quốc tế phụ nữ",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Phụ nữ Việt Nam",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Cate 15",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp sinh nhật",Icon="fa fa-birthday-cake fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Lễ tình yêu 14/2",Icon="fa fa-heart fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp chúc mừng tốt nghiệp",Icon="fa fa-graduation-cap fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp chúc mừng 1",Icon="fa fa-star-o fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Cate 25",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Cate 26",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"}
             };
             foreach (var cate in catesList)
             {
@@ -203,61 +216,61 @@ namespace Graduation.Infrastructure
 
             var cards = new Card[]
             {
-                new Card{Title="Card 1",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 2",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 3",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,Title="Card 1",ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Content=content,ImageUrl=imageUrl,Title="Card 1",TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 4",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 5",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 6",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 7",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 8",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 9",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 10",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 11",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 12",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 13",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 14",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 15",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 16",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 17",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 18",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 19",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 01"],ApplycationUserId=UserId},
-                new Card{Title="Card 20",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 21",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 22",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 23",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 24",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 26",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 11"],ApplycationUserId=UserId},
-                new Card{Title="Card 25",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 24"],ApplycationUserId=UserId},
-                new Card{Title="Card 27",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
-                new Card{Title="Card 28",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Cate 21"],ApplycationUserId=UserId},
-                new Card{Title="Card 29",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 30",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 31",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 33",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 32",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 34",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 35",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 36",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 37",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 38",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Cate 22"],ApplycationUserId=UserId},
-                new Card{Title="Card 39",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 40",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 41",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 42",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 43",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 44",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 45",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 46",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 47",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Title="Card 48",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Title="Card 49",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 50",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 13"],ApplycationUserId=UserId},
-                new Card{Title="Card 51",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 52",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId},
-                new Card{Title="Card 53",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Cate 23"],ApplycationUserId=UserId}
+                new Card{Title="Card 1",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 2",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 3",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Content=content,Title="Card 132",ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Content=content,ImageUrl=imageUrl,Title="Card 113",TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 4",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 5",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 6",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 7",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 8",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 9",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cưới"],ApplycationUserId=UserId},
+                new Card{Title="Card 10",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 11",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 12",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 13",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 14",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 15",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 16",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 17",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 18",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 19",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp cảm ơn"],ApplycationUserId=UserId},
+                new Card{Title="Card 20",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 21",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 22",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 23",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 24",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 26",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 25",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 27",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 28",Content=content,ImageUrl=imageUrl,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 29",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 30",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Mùng 10/3"],ApplycationUserId=UserId},
+                new Card{Title="Card 31",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Quốc tế lao động 1/5"],ApplycationUserId=UserId},
+                new Card{Title="Card 33",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Quốc tế lao động 1/5"],ApplycationUserId=UserId},
+                new Card{Title="Card 32",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Quốc tế lao động 1/5"],ApplycationUserId=UserId},
+                new Card{Title="Card 34",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Ngày quốc tế phụ nữ"],ApplycationUserId=UserId},
+                new Card{Title="Card 35",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Ngày quốc tế phụ nữ"],ApplycationUserId=UserId},
+                new Card{Title="Card 36",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Ngày quốc tế phụ nữ"],ApplycationUserId=UserId},
+                new Card{Title="Card 37",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Phụ nữ Việt Nam"],ApplycationUserId=UserId},
+                new Card{Title="Card 38",Content=content,ImageUrl=imageUrl2,TextSearch=textSearch,Category=cates["Phụ nữ Việt Nam"],ApplycationUserId=UserId},
+                new Card{Title="Card 39",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Phụ nữ Việt Nam"],ApplycationUserId=UserId},
+                new Card{Title="Card 40",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp sinh nhật"],ApplycationUserId=UserId},
+                new Card{Title="Card 41",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp sinh nhật"],ApplycationUserId=UserId},
+                new Card{Title="Card 42",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp sinh nhật"],ApplycationUserId=UserId},
+                new Card{Title="Card 43",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp sinh nhật"],ApplycationUserId=UserId},
+                new Card{Title="Card 44",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Lễ tình yêu 14/2"],ApplycationUserId=UserId},
+                new Card{Title="Card 45",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Lễ tình yêu 14/2"],ApplycationUserId=UserId},
+                new Card{Title="Card 46",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Lễ tình yêu 14/2"],ApplycationUserId=UserId},
+                new Card{Title="Card 47",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng tốt nghiệp"],ApplycationUserId=UserId},
+                new Card{Title="Card 48",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng tốt nghiệp"],ApplycationUserId=UserId},
+                new Card{Title="Card 49",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng tốt nghiệp"],ApplycationUserId=UserId},
+                new Card{Title="Card 50",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 51",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 52",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId},
+                new Card{Title="Card 53",Content=content,ImageUrl=imageUrl3,TextSearch=textSearch,Category=cates["Thiệp chúc mừng"],ApplycationUserId=UserId}
             };
             foreach (var card in cards)
             {

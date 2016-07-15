@@ -20,6 +20,7 @@
 
 export class Cate {
     constructor(
+        public icon: string,
         public id: number,
         public parentId: number,
         public level: number,

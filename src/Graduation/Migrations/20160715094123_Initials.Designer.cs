@@ -8,9 +8,10 @@ using Graduation.Infrastructure;
 namespace Graduation.Migrations
 {
     [DbContext(typeof(GraduationDbContext))]
-    partial class GraduationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160715094123_Initials")]
+    partial class Initials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -134,8 +135,6 @@ namespace Graduation.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 300);
-
-                    b.Property<string>("Icon");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()

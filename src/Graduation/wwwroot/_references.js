@@ -157,6 +157,7 @@
 /// <reference path="bower_components/raphael/dev/require.js" />
 /// <reference path="bower_components/raphael/raphael.js" />
 /// <reference path="bower_components/raphael/raphael-min.js" />
+/// <reference path="js/Admin/dashboard.js" />
 /// <reference path="js/card_admin.js" />
 /// <reference path="js/site.js" />
 /// <reference path="js/systemjs.config.js" />

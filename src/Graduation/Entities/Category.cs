@@ -9,6 +9,9 @@ namespace Graduation.Entities
     {
         [Key]
         public int Id { get; set; }
+        [StringLength(100)]
+        public string Icon { get; set; }
+
         public int? ParentId { get; set; }
         [Required]
         public byte Level { get; set; }
@@ -40,6 +43,7 @@ namespace Graduation.Entities
         public virtual Category CateParent { get; set; }
         public Category()
         {
+            Icon = "fa fa-folder fa-fw";
             Level = 1;
             DateCreated = DateTime.UtcNow;
             IsPublished = true;

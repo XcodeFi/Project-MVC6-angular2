@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using Graduation.Infrastructure.Core;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,14 +22,13 @@ namespace Graduation.Controllers
     [Authorize]
     public class CardApiController : Controller
     {
+        #region Declare repo and varible
         private readonly ILoggingRepository _logRepo;
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
-        int page = 1;
-        int pageSize = 10;
+        #endregion
         public CardApiController(
             ICateRepository cateRepo,
             ICardRepository cardRepo,
@@ -47,46 +47,66 @@ namespace Graduation.Controllers
         // GET: api/values
         [HttpGet]
         [AllowAnonymous]
-        public  IActionResult Get()
+        public IActionResult Get()
         {
-            int currentPage = page;
-            int currentPageSize = pageSize;
-            //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
-
-            IEnumerable<Card> _cards =_cardRepo
+            IEnumerable<Card> _cards = _cardRepo
            .FindBy(c => c.IsDeleted == false && c.IsPublished == true)
-           .OrderBy(u => u.Title)
+           .OrderByDescending(u => u.DateCreated)
            //.Skip((currentPage - 1) * currentPageSize)
            //.Take(currentPageSize)
            .ToList();
-
-            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
             return new OkObjectResult(_cardVM);
         }
-
-        [HttpGet("admin")]
         [Authorize(Policy = "Manager")]
-        public IActionResult GetAdmin()
+        [HttpGet("admin/{page:int=0}/{pageSize}")]
+        public IActionResult GetAdmin(int? page, int? pageSize = 12)
         {
-            int currentPage = page;
-            int currentPageSize = pageSize;
+            int currentPage = page.Value;
+            int currentPageSize = pageSize.Value;
+            PaginationSet<CardViewModel> pagedSet = new PaginationSet<CardViewModel>();
+
             //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
 
             IEnumerable<Card> _cards = _cardRepo
            .FindBy(c => c.IsDeleted == false)
-           .OrderBy(u => u.Title)
-           //.Skip((currentPage - 1) * currentPageSize)
-           //.Take(currentPageSize)
+           .OrderByDescending(u => u.DateCreated)
+           .Skip(currentPage * currentPageSize)
+           .Take(currentPageSize)
            .ToList();
+
+            int _totalCard = _cardRepo.FindBy(c => c.IsDeleted == false).Count();
 
             //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
+
+            pagedSet = new PaginationSet<CardViewModel>()
+            {
+                Page = currentPage,
+                TotalCount = _totalCard,
+                TotalPages = (int)Math.Ceiling((decimal)_totalCard / currentPageSize),
+                Items = _cardVM
+            };
+            return new OkObjectResult(pagedSet);
+        }
+        [AllowAnonymous]
+        [HttpGet("search/{key}")]
+        public IActionResult Search(string key = "")
+        {
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false)
+           .OrderBy(u => u.Title)
+           .ToList();
+
+            IEnumerable<Card> cardTmp = (from i in _cards
+                                         where i.Content.Contains(key) || i.Title.Contains(key) || i.TextSearch.Contains(key)
+                                         select i
+                       ).ToList();
+
+            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
+            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(cardTmp);
             return new OkObjectResult(_cardVM);
         }
-
-
-
         // GET api/values/5
         [HttpGet("{id}", Name = "GetCard")]
         [AllowAnonymous]
@@ -98,6 +118,7 @@ namespace Graduation.Controllers
             if (_card != null)
             {
                 CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
+                UpdateView(id);
                 return new OkObjectResult(_cardVM);
             }
             else
@@ -105,7 +126,6 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
-
         //POST api/values
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CardCreateEditViewModel card)
@@ -153,7 +173,6 @@ namespace Graduation.Controllers
             //Card _cardResult=_cardRepo.f
             return CreatedAtAction("GetCard", new { id = _card.Id }, _card);
         }
-
         // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Put([FromRoute]int id, [FromBody]CardCreateEditViewModel card)
@@ -183,7 +202,7 @@ namespace Graduation.Controllers
                 _cardRepo.Commit();
             }
 
-            return CreatedAtRoute("GetCard", new {id=_card.Id }, _card);
+            return CreatedAtRoute("GetCard", new { id = _card.Id }, _card);
         }
 
         // DELETE api/values/5
@@ -205,12 +224,53 @@ namespace Graduation.Controllers
                 _card.IsDeleted = true;
                 _cardRepo.Edit(_card);
                 _cardRepo.Commit();
-               
+
                 return Ok(_card);
             }
         }
-
-
+        #region Component
+        /// <summary>
+        /// Auto update view when user or anyone get card from page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IActionResult UpdateView([FromRoute]int id)
+        {
+            Card _card = _cardRepo.GetSingle(id);
+            if (_card == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                int _currentViewNo = _card.ViewNo;
+                _card.ViewNo = _currentViewNo + 1;
+                _cardRepo.Edit(_card);
+                try
+                {
+                    _cardRepo.Commit();
+                }
+                catch (DbUpdateException ex)
+                {
+                    if (CardExists(_card.Id))
+                    {
+                        return new StatusCodeResult(StatusCodes.Status409Conflict);
+                    }
+                    else
+                    {
+                        _logRepo.Add(new Error
+                        {
+                            DateCreated = DateTime.UtcNow,
+                            Message = ex.Message,
+                            StackTrace = ex.StackTrace
+                        });
+                        _logRepo.Commit();
+                    }
+                }
+            }
+            return CreatedAtRoute("GetCard", new { id = _card.Id }, _card);
+        }
+        #endregion
         #region Help
         private Task<ApplicationUser> GetCurrentUserAsync()
         {

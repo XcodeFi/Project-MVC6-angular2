@@ -1,22 +1,29 @@
-﻿$('#pagination-demo').twbsPagination({
-    totalPages: 10,
-    visiblePages: 4,
-    onPageClick: function (event, page) {
-        $('#data').html(_getAll());
-    }
-});
-
-$host = location.origin;
+﻿$host = location.origin;
 var path = "/images/cms/news/";
 var _id = -1;
 var _imageUrl = "";
-function _getAll() {
+var _itemPerPage = 7;
+
+function resetForm()
+{
+    document.getElementById("Title").value="";
+    document.getElementById("Content").value="";
+    document.getElementById("ImageUrl").value="";
+    document.getElementById("TextSearch").value = "";
+}
+
+function _getAll(page,itemPerpage) {
     $.ajax(
         {
-            url: "/api/cardapi/admin",
+            url: "/api/cardapi/admin/"+page+"/"+itemPerpage,
             type: "GET",
             contentType: "application/json;charset=utf-8",
-            success: function (result) {
+            success: function (_result) {
+                _totalPages = _result.totalPages;
+                _totalCount = _result.totalCount;
+                _count = _result.count;
+                _page = _result.page;
+                var result = _result.items;
                 var html = '';
                 $.each(result, function (key, item) {
                     //xu ly check box
@@ -37,20 +44,19 @@ function _getAll() {
                     html += '<td>' + item.viewNo + '</td>';
                     html += '<td>' + item.rateNo + '</td>';
                     html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
-                    html += '<a class="btn btn-success btn-xs" ><i class="fa fa-eye"></i></a> ';
+                    html += '<a class="btn btn-success btn-xs" href="/admin/cards/details/'+item.id+'" ><i class="fa fa-eye"></i></a> ';
                     html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
                     html += '</td></tr>';
                 })
+                
                 $('#data').html(html);
             },
             error: function (errMe) {
                 alertify.error(err.responseText);
             }
         });
-    $('#btnAdd').show();
     return false;
 }
-
 //btn edit
 function _edit(id) {
     _id = id;
@@ -79,7 +85,46 @@ function _edit(id) {
         }
         );
 };
-
+//search
+function _search() {
+    $.ajax(
+        {
+            url: "/api/cardapi/search/" + document.getElementById("txtSearch").value,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    //xu ly check box
+                    $checked = "";
+                    if (item.isPublished) {
+                        $checked = "checked"
+                    }
+                    else {
+                        $checked = "";
+                    }
+                    html += '<tr>';
+                    html += '<td>' + item.title + '</td>';
+                    html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.content + '" alt="' + item.content + '" /></td>';
+                    html += '<td>' + new Date(item.dateCreated) + '</td>';
+                    html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
+                    html += '<td>' + item.likesNo + '</td>';
+                    html += '<td>' + item.viewNo + '</td>';
+                    html += '<td>' + item.rateNo + '</td>';
+                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
+                    html += '<a class="btn btn-success btn-xs" href="/admin/cards/details/' + item.id + '" ><i class="fa fa-eye"></i></a> ';
+                    html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
+                    html += '</td></tr>';
+                })
+                $('#data').html(html);
+            },
+            error: function (e) {
+                alertify.error("Something wrong");
+            }
+        }
+        );
+};
+//sua
 function _put(id) {
     var obj = {
         CateId: $("#CateId").val(),
@@ -89,7 +134,6 @@ function _put(id) {
         IsPublished: document.getElementById("IsPublished").checked,
         TextSearch: $("#TextSearch").val()
     };
-    debugger;
     $.ajax(
         {
             url: "/api/cardapi/" + id,
@@ -98,9 +142,11 @@ function _put(id) {
             contentType: "application/json;charset=utf-8",
             success: function (result) {
                 $('#modalCreate').modal('hide');
-                _getAll();
+                _getAll(0,_itemPerPage);
                 alertify.success("This card was edit!");
                 _id = -1;//gan lai gia tri ban dau 
+                resetForm();
+
             },
             error: function (e) {
                 alertify.error("Something wrong");
@@ -108,6 +154,7 @@ function _put(id) {
         }
         );
 }
+//save
 function btnCreate()
 {
     if (_id === -1) {
@@ -117,7 +164,7 @@ function btnCreate()
         _put(_id);
     }
 }
-
+//them
 function _add() {
     var obj = {
         CateId: $("#CateId").val(),
@@ -135,7 +182,7 @@ function _add() {
         dataType: "json",
         success: function (result) {
             alertify.success("Add " + obj.Title + " was success!");
-            _getAll();
+            _getAll(0,_itemPerPage);
             $('#modalCreate').modal('hide');
         },
         error: function (errormessage) {
@@ -143,7 +190,6 @@ function _add() {
         }
     });
 }
-
 //delete
 function _delete(id) {
     alertify.confirm("Are you sure that you want to delete !", function (e) {
@@ -154,7 +200,7 @@ function _delete(id) {
                 type: "DELETE",
                 success: function (resutl) {
                     alertify.success("Delete Successed!");
-                    _getAll();
+                    _getAll(0,_itemPerPage);
                 },
                 error: function (errormessage) {
                     alertify.error(errormessage.responseText);
@@ -165,10 +211,7 @@ function _delete(id) {
         }
     });
 }
-
-
 //xu ly up anh
-
 $("#txtUploadFile").click(function (evt) {
     evt.preventDefault();
     var fileUpload = $("#files").get(0);
@@ -196,6 +239,35 @@ $("#txtUploadFile").click(function (evt) {
 });
 
 $(document).ready(function () {
-    _getAll();
     $('[data-toggle="tooltip"]').tooltip();
+    $_totalPages=1;
+    $_totalCount=1;
+    $_count=1;
+    $_page=1;
+    $.ajax(
+        {
+            async:false,
+            url: "/api/cardapi/admin/0/7",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (_result) {
+                $_totalPages = _result.totalPages;
+                $_totalCount = _result.totalCount;
+                $_count = _result.count;
+                $_page = _result.page;
+            },
+            error: function (errMe) {
+                alertify.error(err.responseText);
+            }
+        }
+        );
+    $('#pagination-demo').twbsPagination({
+        totalPages: $_totalPages,
+        visiblePages: 3,
+        onPageClick: function (event, page) {
+            _getAll(page - 1, 7)
+        }
+    });
+    $("#_totalItemId").html($_totalCount);
+    $("#_totalPageId").html($_totalPages);
 });

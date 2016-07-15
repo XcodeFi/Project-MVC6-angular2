@@ -22,7 +22,8 @@ var Card = (function () {
 }());
 exports.Card = Card;
 var Cate = (function () {
-    function Cate(id, parentId, level, name, urlSlug, imageUrl, dateCreated, description, status, cateChilds) {
+    function Cate(icon, id, parentId, level, name, urlSlug, imageUrl, dateCreated, description, status, cateChilds) {
+        this.icon = icon;
         this.id = id;
         this.parentId = parentId;
         this.level = level;

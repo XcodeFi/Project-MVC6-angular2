@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Graduation.Entities;
 using Graduation.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using Graduation.Infrastructure.Repositories.Abstract;
 
 namespace Graduation.Areas.Admin.Controllers
 {
@@ -15,18 +16,24 @@ namespace Graduation.Areas.Admin.Controllers
     [Authorize("Manager")]
     public class CategoriesController : Controller
     {
+
+        private ICateRepository _cateRepo;
         private readonly GraduationDbContext _context;
 
-        public CategoriesController(GraduationDbContext context)
+        public CategoriesController(
+            GraduationDbContext context,
+            ICateRepository cateRepo
+            )
         {
-            _context = context;    
+            _context = context;
+            _cateRepo = cateRepo;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var graduationDbContext = _context.Categories.Include(c => c.CateParent);
-            return View(await graduationDbContext.ToListAsync());
+            var graduationDbContext = _cateRepo.AllIncludingAsync(c => c.CateParent);
+            return View(await graduationDbContext);
         }
 
         // GET: Categories/Details/5
@@ -49,7 +56,7 @@ namespace Graduation.Areas.Admin.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Description");
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name");
             return View();
         }
 
@@ -66,7 +73,7 @@ namespace Graduation.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Description", category.ParentId);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Description", category.ParentId);
             return View(category);
         }
 
@@ -83,7 +90,7 @@ namespace Graduation.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Description", category.ParentId);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", category.ParentId);
             return View(category);
         }
 
@@ -119,7 +126,7 @@ namespace Graduation.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Description", category.ParentId);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Description", category.ParentId);
             return View(category);
         }
 

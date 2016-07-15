@@ -8,9 +8,10 @@ using Graduation.Infrastructure;
 namespace Graduation.Migrations
 {
     [DbContext(typeof(GraduationDbContext))]
-    partial class GraduationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160715105616_Initials1")]
+    partial class Initials1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

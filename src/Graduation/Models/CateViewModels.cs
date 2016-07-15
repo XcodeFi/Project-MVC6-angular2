@@ -9,6 +9,7 @@ namespace Graduation.Models
     public class CateViewModel
     {
         public int Id { get; set; }
+        public string Icon { get; set; }
         public int? ParentId { get; set; }
         public byte Level { get; set; }
         public string Name { get; set; }

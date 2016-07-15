@@ -67,25 +67,6 @@ namespace Graduation.Areas.Admin.Controllers
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
-
-        // POST: Cards/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ApplycationUserId,CardSize,CardType,CateId,Content,ImageUrl,IsDeleted,IsPublished,LikesNo,RateNo,TextSearch,Title,UrlSlug,ViewNo")] Card card)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(card);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewData["ApplycationUserId"] = new SelectList(_context.Users, "Id", "Id", card.ApplycationUserId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Name");
-            return View(card);
-        }
-
        
         private bool CardExists(int id)
         {

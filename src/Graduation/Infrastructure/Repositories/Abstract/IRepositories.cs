@@ -10,6 +10,8 @@ namespace Graduation.Infrastructure.Repositories.Abstract
     public interface ICommentRepository : IEntityBaseRepository<Comment> { }
     public interface IContactRepository : IEntityBaseRepository<Contact> { }
     public interface ISliderRepository : IEntityBaseRepository<Slider> { }
+    public interface IViewRepository : IEntityBaseRepository<View> { }
+
     //public interface IRoleRepository : IEntityBaseRepository<Role> { }
     //public interface IUserRepository : IEntityBaseRepository<User>
     //{

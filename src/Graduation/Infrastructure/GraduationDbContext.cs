@@ -25,6 +25,12 @@ namespace Graduation.Infrastructure
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Error> Errors { get; set; }
+
+        //addition
         public DbSet<Slider> Sliders { get; set; }
+
+        public DbSet<View> Views { get; set; }
+
+
     }
 }

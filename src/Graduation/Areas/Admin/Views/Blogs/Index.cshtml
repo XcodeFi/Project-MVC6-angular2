@@ -4,111 +4,115 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateEdited)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DatePosted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsLocked)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LikeNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Summary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TextSearch)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UrlSlug)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViewNo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateEdited)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DatePosted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsLocked)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LikeNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TextSearch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UrlSlug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ViewNo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section styles{
+    <link href="~/css/Admin/custom-panel.css" rel="stylesheet" />
 }
-    </tbody>
-</table>
+<br />
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <div class="row">
+            <div class="col-md-6"><a><Strong>Blog List</Strong></a></div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
+                    <input class="form-control" id="txtSearch" name="q" placeholder="Search for" required>
+                    <span class="input-group-btn">
+                        <button onclick="return _search()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 pull-right">
+                <a class="btn btn-primary" asp-action="Create"><b>+</b>Create New</a>
+            </div>
+            @*<div class="col-md-2 pull-right"><a class="btn btn-primary" asp-action="Create" data-toggle="modal" data-target="#modalCreate" id="btnCreate"><b>+</b>Create New</a></div>*@
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateEdited)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatePosted)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsDeleted)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsLocked)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LikeNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        User writed
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ViewNo)
+                    </th>
+                    <th class="text-center"><i class="fa fa-cogs"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateEdited)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatePosted)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsDeleted)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsLocked)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LikeNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ViewNo)
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-success btn-xs" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-danger btn-xs" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+       
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col col-xs-4">
+                Total pages <strong id="_totalPageId"></strong> / <strong id="_totalItemId"></strong> Card items
+            </div>
+            <div class="col col-xs-8">
+                <ul id="pagination-demo" class="pagination-sm hidden-xs pull-right"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br />

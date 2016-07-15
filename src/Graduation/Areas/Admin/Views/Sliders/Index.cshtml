@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.UrlSlug)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> |
+                <a class="btn btn-success btn-xs"  asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a> |
+                <a class="btn btn-danger btn-xs"  asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
             </td>
         </tr>
 }
