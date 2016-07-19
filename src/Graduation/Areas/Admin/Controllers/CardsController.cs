@@ -18,32 +18,29 @@ namespace Graduation.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize("Manager")]
-    public class CardsController : Controller
+    public class CardsController : BaseController
     {
-        private readonly GraduationDbContext _context;
-
         private ICateRepository _cateRepo;
-        private IHostingEnvironment hostingEnv;
-        private string UploadDestination { get; set; }
-        private string[] AllowedExtensions { get; set; }
-        public CardsController(GraduationDbContext context, IHostingEnvironment env,
+        public CardsController(
+            ILoggingRepository logging,
+            GraduationDbContext context, 
+            IHostingEnvironment env,
             ICateRepository cateRepo)
+            :base(logging,context,env)
         {
             _cateRepo = cateRepo;
-            this.hostingEnv = env;
             AllowedExtensions = new string[] { ".jpg", ".png", ".gif", ".PNG" };
-            _context = context;
-            UploadDestination = hostingEnv.WebRootPath + "/images/cms/news";
+            UploadDestination = env.WebRootPath + "/images/cms/news";
         }
 
         // GET: Cards
         public IActionResult Index()
         {
-            ViewData["CateId"] = new SelectList(_cateRepo.GetAll(), "Id", "Name");
+            ViewData["CateId"] = new SelectList(_cateRepo.GetAll().Where(c=>c.Level==1), "Id", "Name");
             return View();
         }
 
-        // GET: Cards/Details/5
+        // GET: Cards/Details/5 
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -67,54 +64,9 @@ namespace Graduation.Areas.Admin.Controllers
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
-       
         private bool CardExists(int id)
         {
             return _context.Cards.Any(e => e.Id == id);
         }
-
-
-        #region help
-        [HttpPost]
-        public IActionResult UploadFilesAjax()
-        {
-            long size = 0;
-            var files = Request.Form.Files;
-            string _fileName = String.Empty;
-            foreach (var file in files)
-            {
-                var filename = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition)
-                                .FileName
-                                .Trim('"');
-                _fileName = filename;
-                //filename = hostingEnv.WebRootPath+ "/images/" + $@"\{filename}";
-                filename = UploadDestination + $@"/{filename}";
-                size += file.Length;
-
-                if (size == 0)
-                {
-                    return NotFound();
-                }
-                //check extension
-                bool extension = this.VerifyFileExtension(filename);
-                if (extension == false)
-                {
-                    return NotFound(); //Json("File is not image!");
-                }
-                using (FileStream fs = System.IO.File.Create(filename))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                }
-            }
-            string message = $"{files.Count} {_fileName} file(s) /  { size} bytes uploaded successfully!";
-            return Json(_fileName);
-        }
-        private bool VerifyFileExtension(string path)
-        {
-            return AllowedExtensions.Contains(Path.GetExtension(path));
-        }
-        #endregion
     }
 }

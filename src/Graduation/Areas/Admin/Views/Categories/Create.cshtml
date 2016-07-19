@@ -1,109 +1,112 @@
-@model Graduation.Entities.Category
+@model Graduation.Areas.Admin.Models.CateViewModels
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>Create</h2>
-
+@section styles{
+    
+}
+<hr />
 <form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Category</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="DateCreated" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger" />
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Create Category</h4>
         </div>
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger" />
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="row">
+                    <section class="col-sm-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    </section>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ImageUrl" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IsDeleted" />
-                    <label asp-for="IsDeleted"></label>
+            <div class="col-sm-3">
+                <div class="row">
+                    <section class="col-sm-12">
+                        <label asp-for="ImageUrl" class="control-label"></label>
+                        <input asp-for="ImageUrl" class="form-control" style="display:none;" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <img src="holder.js/340x150" alt="image" id="imgId" class="img-responsive img-radio" />
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button id="txtUploadFile" class="btn btn-success">
+                                    <i class="fa fa-upload"></i>
+                                </button>
+                            </span>
+                            <input type="file" id="files" name="UploadFile" class="form-control" />
+                        </div>
+                    </section>
+
+                </div>
+            </div><div class="col-sm-9">
+                <div class="row">
+                    <section class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" asp-for="ParentId"></label>
+                            <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId"></select>
+                        </div>
+                    </section>
+                    <section class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" asp-for="Icon"></label>
+                            <input asp-for="Icon" class="form-control" />
+                            <span asp-validation-for="Icon" class="text-danger" />
+                        </div>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </section>
+                    <section class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Level" class="control-label"></label>
+                            <input asp-for="Level" class="form-control" />
+                            <span asp-validation-for="Level" class="text-danger" />
+                        </div>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col-sm-3">
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-11">
+                                <div class="checkbox">
+                                    <input asp-for="IsMainMenu" />
+                                    <label asp-for="IsMainMenu"></label>
+                                </div>
+                                <div class="checkbox">
+                                    <input asp-for="IsPublished" />
+                                    <label asp-for="IsPublished"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-sm-9">
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IsMainMenu" />
-                    <label asp-for="IsMainMenu"></label>
+        <div class="panel-footer">
+                <div class="row">
+                    <section class="col-sm-6">
+                            <a asp-action="Index">Back to List</a>
+                    </section>
+                    <section class="col-sm-6"><input type="submit" value="Create" style="padding-right:15px;" class="btn btn-primary pull-right" /></section>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IsPublished" />
-                    <label asp-for="IsPublished"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Level" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Level" class="form-control" />
-                <span asp-validation-for="Level" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ParentId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ParentId" class ="form-control" asp-items="ViewBag.ParentId"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="Status" />
-                    <label asp-for="Status"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UrlSlug" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UrlSlug" class="form-control" />
-                <span asp-validation-for="UrlSlug" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
         </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Admin/cate_admin.js"></script>
 }

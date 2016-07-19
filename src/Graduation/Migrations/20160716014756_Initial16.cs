@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Graduation.Migrations
 {
-    public partial class Ininital : Migration
+    public partial class Initial16 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace Graduation.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: false),
+                    Icon = table.Column<string>(maxLength: 100, nullable: true),
                     ImageUrl = table.Column<string>(maxLength: 250, nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     IsMainMenu = table.Column<bool>(nullable: false),
@@ -104,6 +105,23 @@ namespace Graduation.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sliders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Views",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Key = table.Column<int>(nullable: false),
+                    TimeView = table.Column<DateTime>(nullable: false),
+                    TotalViewIsMember = table.Column<int>(nullable: false),
+                    TotalViewings = table.Column<int>(nullable: false),
+                    TotalViews = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Views", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -450,6 +468,9 @@ namespace Graduation.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sliders");
+
+            migrationBuilder.DropTable(
+                name: "Views");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

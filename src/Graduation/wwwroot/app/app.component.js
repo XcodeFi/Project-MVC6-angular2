@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var cate_service_1 = require('./services/cate.service');
 var card_service_1 = require('./services/card.service');
 var account_service_1 = require('./services/account.service');
+core_1.enableProdMode();
 var AppComponent = (function () {
     function AppComponent(_cateService, _accountService) {
         this._cateService = _cateService;

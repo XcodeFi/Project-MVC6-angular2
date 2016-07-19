@@ -135,7 +135,8 @@ namespace Graduation.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 300);
 
-                    b.Property<string>("Icon");
+                    b.Property<string>("Icon")
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()

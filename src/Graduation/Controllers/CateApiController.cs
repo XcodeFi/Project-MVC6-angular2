@@ -112,10 +112,10 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
-        [AllowAnonymous]
+        [Authorize(Policy ="Manager")]
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]Category value)
+        public IActionResult Post([FromBody]CateViewModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -124,7 +124,6 @@ namespace Graduation.Controllers
 
 
             //Category _newCate = Mapper.Map<CardViewModel, Card>(cardVm);
-
             Category _newCate = new Category {
                 Description = value.Description,
                 ImageUrl = value.ImageUrl,

@@ -2,7 +2,6 @@
 function GetAllUse()
 {
     $.get("/api/accountapi/GetAllUsers/0/5", function (data) {
-
         document.getElementById("txtTotalUsers").innerHTML = data.totalCount;
     });
 }
@@ -13,11 +12,8 @@ function GetAllCard()
         document.getElementById("txtTotalCards").innerHTML = data.totalCount;
     });
 }
-
-
 function GetViews()
 {
-
     $.ajax(
         {
             url: "/api/viewapi",
@@ -34,9 +30,7 @@ var _init=function()
     GetViews();
     GetAllUse();
     GetAllCard();
-    
 }
-
 
 $(document).ready(function () {
     _init();

@@ -4,12 +4,13 @@ var _id = -1;
 var _imageUrl = "";
 var _itemPerPage = 7;
 
-function resetForm()
+function _resetForm()
 {
     document.getElementById("Title").value="";
     document.getElementById("Content").value="";
     document.getElementById("ImageUrl").value="";
     document.getElementById("TextSearch").value = "";
+    document.getElementById("imgId").src = "holder.js/330x190";
 }
 
 function _getAll(page,itemPerpage) {
@@ -67,7 +68,7 @@ function _edit(id) {
             type: "GET",
             contentType: "application/json;charset=utf-8",
             success: function (result) {
-                $("#Title").attr("value", result.title);
+                document.getElementById("Title").value= result.title;
                 document.getElementById("imgId").src = $host + path + result.imageUrl;
                 document.getElementById("ImageUrl").value = result.imageUrl;
                 document.getElementById("IsPublished").checked = result.isPublished;
@@ -86,44 +87,6 @@ function _edit(id) {
         );
 };
 //search
-function _search() {
-    $.ajax(
-        {
-            url: "/api/cardapi/search/" + document.getElementById("txtSearch").value,
-            type: "GET",
-            contentType: "application/json;charset=utf-8",
-            success: function (result) {
-                var html = '';
-                $.each(result, function (key, item) {
-                    //xu ly check box
-                    $checked = "";
-                    if (item.isPublished) {
-                        $checked = "checked"
-                    }
-                    else {
-                        $checked = "";
-                    }
-                    html += '<tr>';
-                    html += '<td>' + item.title + '</td>';
-                    html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.content + '" alt="' + item.content + '" /></td>';
-                    html += '<td>' + new Date(item.dateCreated) + '</td>';
-                    html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
-                    html += '<td>' + item.likesNo + '</td>';
-                    html += '<td>' + item.viewNo + '</td>';
-                    html += '<td>' + item.rateNo + '</td>';
-                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
-                    html += '<a class="btn btn-success btn-xs" href="/admin/cards/details/' + item.id + '" ><i class="fa fa-eye"></i></a> ';
-                    html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
-                    html += '</td></tr>';
-                })
-                $('#data').html(html);
-            },
-            error: function (e) {
-                alertify.error("Something wrong");
-            }
-        }
-        );
-};
 //sua
 function _put(id) {
     var obj = {
@@ -162,6 +125,7 @@ function btnCreate()
     }
     else {
         _put(_id);
+        _resetForm();
     }
 }
 //them
@@ -212,7 +176,7 @@ function _delete(id) {
     });
 }
 //xu ly up anh
-$("#txtUploadFile").click(function (evt) {
+$("#txtUploadFile").off('click').on('click',(function (evt) {
     evt.preventDefault();
     var fileUpload = $("#files").get(0);
     var files = fileUpload.files;
@@ -236,14 +200,56 @@ $("#txtUploadFile").click(function (evt) {
             alertify.error("There was error uploading files!");
         }
     });
+}));
+$("#btnSearch").off('click').on('click', function (e) {
+    e.preventDefault();
+    if ($("#txtSearch").val().trim() == '') {
+        alertify.error("You must enter any string in this field!");
+        return;
+    }
+    $.ajax(
+        {
+            url: "/api/cardapi/search/" + document.getElementById("txtSearch").value,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    //xu ly check box
+                    $checked = "";
+                    if (item.isPublished) {
+                        $checked = "checked"
+                    }
+                    else {
+                        $checked = "";
+                    }
+                    html += '<tr>';
+                    html += '<td>' + item.title + '</td>';
+                    html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.content + '" alt="' + item.content + '" /></td>';
+                    html += '<td>' + new Date(item.dateCreated) + '</td>';
+                    html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
+                    html += '<td>' + item.likesNo + '</td>';
+                    html += '<td>' + item.viewNo + '</td>';
+                    html += '<td>' + item.rateNo + '</td>';
+                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
+                    html += '<a class="btn btn-success btn-xs" href="/admin/cards/details/' + item.id + '" ><i class="fa fa-eye"></i></a> ';
+                    html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
+                    html += '</td></tr>';
+                })
+                $('#data').html(html);
+            },
+            error: function (e) {
+                alertify.error("Something wrong");
+            }
+        }
+        );
 });
-
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $_totalPages=1;
     $_totalCount=1;
     $_count=1;
-    $_page=1;
+    $_page = 1;
     $.ajax(
         {
             async:false,
@@ -270,4 +276,7 @@ $(document).ready(function () {
     });
     $("#_totalItemId").html($_totalCount);
     $("#_totalPageId").html($_totalPages);
+
+
+    
 });

@@ -1,5 +1,6 @@
 import
 {
+    enableProdMode,
     Component,
     OnInit,
     AfterViewInit,
@@ -9,6 +10,10 @@ import {CateService} from './services/cate.service';
 import {CardService} from './services/card.service';
 import {AccountService} from './services/account.service';
 import {Cate} from './models/models';
+
+
+
+enableProdMode();
 
 declare var $: JQueryStatic;
 

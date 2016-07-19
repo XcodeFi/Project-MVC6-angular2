@@ -29,11 +29,12 @@ namespace Graduation.Controllers
             _signInManager = signInManager;
             _viewRepo = viewRepo;
             _logRepo = loggRepo;
-            UpdateView();
+            
         }
 
         public IActionResult Index()
         {
+            UpdateView();
             return View();
         }
 

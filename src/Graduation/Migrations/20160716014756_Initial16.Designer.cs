@@ -8,8 +8,8 @@ using Graduation.Infrastructure;
 namespace Graduation.Migrations
 {
     [DbContext(typeof(GraduationDbContext))]
-    [Migration("20160712020637_Ininital")]
-    partial class Ininital
+    [Migration("20160716014756_Initial16")]
+    partial class Initial16
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,6 +135,9 @@ namespace Graduation.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 300);
+
+                    b.Property<string>("Icon")
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -291,6 +294,26 @@ namespace Graduation.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sliders");
+                });
+
+            modelBuilder.Entity("Graduation.Entities.View", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Key");
+
+                    b.Property<DateTime>("TimeView");
+
+                    b.Property<int>("TotalViewIsMember");
+
+                    b.Property<int>("TotalViewings");
+
+                    b.Property<int>("TotalViews");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Views");
                 });
 
             modelBuilder.Entity("Graduation.Models.ApplicationUser", b =>

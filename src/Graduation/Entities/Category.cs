@@ -11,7 +11,6 @@ namespace Graduation.Entities
         public int Id { get; set; }
         [StringLength(100)]
         public string Icon { get; set; }
-
         public int? ParentId { get; set; }
         [Required]
         public byte Level { get; set; }
@@ -50,6 +49,7 @@ namespace Graduation.Entities
             IsDeleted = false;
             Status = false;
             IsMainMenu = true;
+            ImageUrl = "holder.js/300x120";
 
             Cards = new HashSet<Card>();
         }

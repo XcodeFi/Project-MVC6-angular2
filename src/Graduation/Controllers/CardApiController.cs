@@ -145,7 +145,8 @@ namespace Graduation.Controllers
                 IsPublished = card.IsPublished,
                 TextSearch = card.TextSearch,
                 ImageUrl = card.ImageUrl,
-                CateId = card.CateId
+                CateId = card.CateId,
+                UrlSlug = Common.ConvertToUrlString(card.Title)
             };
             _cardRepo.Add(_card);
 

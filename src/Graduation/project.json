@@ -47,7 +47,8 @@
     },
     "Microsoft.AspNetCore.Session": "1.0.0",
     "System.Linq.Queryable": "4.0.1",
-    "System.Runtime.WindowsRuntime": "4.0.10"
+    "System.Runtime.WindowsRuntime": "4.0.10",
+    "Microsoft.IdentityModel.Protocols": "2.0.0"
   },
 
   "tools": {

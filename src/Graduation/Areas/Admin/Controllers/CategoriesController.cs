@@ -9,24 +9,31 @@ using Graduation.Entities;
 using Graduation.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Graduation.Infrastructure.Repositories.Abstract;
+using Graduation.Areas.Admin.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Net.Http.Headers;
+using System.IO;
+using Graduation.Infrastructure.Core;
 
 namespace Graduation.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize("Manager")]
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseController
     {
-
         private ICateRepository _cateRepo;
-        private readonly GraduationDbContext _context;
-
+        
         public CategoriesController(
+            ILoggingRepository logging,
             GraduationDbContext context,
-            ICateRepository cateRepo
-            )
+            ICateRepository cateRepo,
+            IHostingEnvironment env
+            ):base(logging,context,env)
         {
-            _context = context;
+        
             _cateRepo = cateRepo;
+            AllowedExtensions = new string[] { ".jpg", ".png", ".gif", ".PNG" };
+            UploadDestination = env.WebRootPath + "/images/cms/cates";
         }
 
         // GET: Categories
@@ -65,16 +72,33 @@ namespace Graduation.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateCreated,Description,ImageUrl,IsDeleted,IsMainMenu,IsPublished,Level,Name,ParentId,Status,UrlSlug")] Category category)
+        public async Task<IActionResult> Create([Bind("Name,Level,IsMainMenu,IsPublished,UrlSlug,Description,ImageUrl,Icon,ParentId")] CateViewModels cateVM)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                if (cateVM.Level == 0)
+                {
+                    cateVM.ParentId = null;
+                }
+
+                Category _cate = new Category()
+                {
+                    Name = cateVM.Name,
+                    Level = cateVM.Level,
+                    IsPublished = cateVM.IsPublished,
+                    IsMainMenu = cateVM.IsMainMenu,
+                    Description = cateVM.Description,
+                    Icon = cateVM.Icon,
+                    ParentId = cateVM.ParentId,
+                    ImageUrl = cateVM.ImageUrl,
+                    UrlSlug = Common.ConvertToUrlString(cateVM.Name)
+                };
+                _context.Add(_cate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View("Index");
             }
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Description", category.ParentId);
-            return View(category);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", cateVM.ParentId);
+            return View(cateVM);
         }
 
         // GET: Categories/Edit/5
@@ -99,7 +123,7 @@ namespace Graduation.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateCreated,Description,ImageUrl,IsDeleted,IsMainMenu,IsPublished,Level,Name,ParentId,Status,UrlSlug")] Category category)
+        public async Task<IActionResult> Edit(int id, Category category)
         {
             if (id != category.Id)
             {
@@ -126,7 +150,7 @@ namespace Graduation.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Description", category.ParentId);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", category.ParentId);
             return View(category);
         }
 
