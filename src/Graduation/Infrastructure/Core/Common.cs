@@ -85,37 +85,37 @@ namespace Graduation.Infrastructure.Core
         }
 
 
-        public static void SendMail(string toList, string ccList, string subject, string body, string site)
-        {
-            MailMessage message = new MailMessage();
-            HttpClient smtpClient = new SmtpClient();
-            //string msg = string.Empty;
-            try
-            {
-                MailAddress fromAddress = new MailAddress(ConfigurationManager.AppSettings["smtp_username"], site);
-                message.From = fromAddress;
-                message.To.Add(toList);
+        //public static void SendMail(string toList, string ccList, string subject, string body, string site)
+        //{
+        //    MailMessage message = new MailMessage();
+        //    HttpClient smtpClient = new SmtpClient();
+        //    //string msg = string.Empty;
+        //    try
+        //    {
+        //        MailAddress fromAddress = new MailAddress(ConfigurationManager.AppSettings["smtp_username"], site);
+        //        message.From = fromAddress;
+        //        message.To.Add(toList);
 
-                if (ccList != null && ccList != string.Empty)
-                    message.CC.Add(ccList);
+        //        if (ccList != null && ccList != string.Empty)
+        //            message.CC.Add(ccList);
 
-                message.Subject = subject;
-                message.IsBodyHtml = true;
-                message.Body = body;
-                smtpClient.Host = ConfigurationManager.AppSettings["smtp_host"];   // We use gmail as our smtp client
-                smtpClient.Port = int.Parse(ConfigurationManager.AppSettings["port"]);
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = true;
-                smtpClient.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtp_username"], ConfigurationManager.AppSettings["smtp_password"]);
-                smtpClient.Send(message);
+        //        message.Subject = subject;
+        //        message.IsBodyHtml = true;
+        //        message.Body = body;
+        //        smtpClient.Host = ConfigurationManager.AppSettings["smtp_host"];   // We use gmail as our smtp client
+        //        smtpClient.Port = int.Parse(ConfigurationManager.AppSettings["port"]);
+        //        smtpClient.EnableSsl = true;
+        //        smtpClient.UseDefaultCredentials = true;
+        //        smtpClient.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtp_username"], ConfigurationManager.AppSettings["smtp_password"]);
+        //        smtpClient.Send(message);
 
-                new CommonLog(HttpContext.Current.Server.MapPath("/log"), "sendemail").ErrorLog("send sucess to email " + toList);
-            }
-            catch (Exception ex)
-            {
-                new CommonLog(HttpContext.Current.Server.MapPath("/log"), "send-error-email").ErrorLog(ex.ToString());
-            }
-        }
+        //        new CommonLog(HttpContext.Current.Server.MapPath("/log"), "sendemail").ErrorLog("send sucess to email " + toList);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        new CommonLog(HttpContext.Current.Server.MapPath("/log"), "send-error-email").ErrorLog(ex.ToString());
+        //    }
+        //}
 
         /// <summary>
         /// đổi thời gian thành chuỗi thời gian hh:mm:ss

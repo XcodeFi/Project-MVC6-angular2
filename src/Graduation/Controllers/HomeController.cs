@@ -16,20 +16,17 @@ namespace Graduation.Controllers
         public UserManager<ApplicationUser> _userManager { get; }
         public SignInManager<ApplicationUser> _signInManager { get; }
         private readonly IViewRepository _viewRepo;
-        private readonly ILoggingRepository _logRepo;
 
         public HomeController(
             IViewRepository viewRepo,
             ILoggingRepository loggRepo,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager
-            )
+            ):base(loggRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _viewRepo = viewRepo;
-            _logRepo = loggRepo;
-            
         }
 
         public IActionResult Index()

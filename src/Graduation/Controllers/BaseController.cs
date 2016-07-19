@@ -12,9 +12,11 @@ namespace Graduation.Controllers
 {
     public class BaseController : Controller
     {
-        
+        protected ILoggingRepository _logRepo;
 
-        
-
+        public BaseController(ILoggingRepository logRepo)
+        {
+            _logRepo = logRepo;
+        }
     }
 }

@@ -20,10 +20,9 @@ namespace Graduation.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Authorize]
-    public class CardApiController : Controller
+    public class CardApiController : BaseController
     {
         #region Declare repo and varible
-        private readonly ILoggingRepository _logRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private ICardRepository _cardRepo;
@@ -34,14 +33,12 @@ namespace Graduation.Controllers
             ICardRepository cardRepo,
             UserManager<ApplicationUser> userManager,
             ILoggingRepository logRepo,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager):base(logRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _cardRepo = cardRepo;
             _cateRepo = cateRepo;
-
-            _logRepo = logRepo;
         }
 
         // GET: api/values

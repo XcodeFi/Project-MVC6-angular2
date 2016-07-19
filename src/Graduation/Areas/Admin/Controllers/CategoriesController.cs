@@ -37,10 +37,10 @@ namespace Graduation.Areas.Admin.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var graduationDbContext = _cateRepo.AllIncludingAsync(c => c.CateParent);
-            return View(await graduationDbContext);
+            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c => c.Level == 0), "Id", "Name");
+            return View();
         }
 
         // GET: Categories/Details/5
@@ -70,36 +70,6 @@ namespace Graduation.Areas.Admin.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Level,IsMainMenu,IsPublished,UrlSlug,Description,ImageUrl,Icon,ParentId")] CateViewModels cateVM)
-        {
-            if (ModelState.IsValid)
-            {
-                if (cateVM.Level == 0)
-                {
-                    cateVM.ParentId = null;
-                }
-
-                Category _cate = new Category()
-                {
-                    Name = cateVM.Name,
-                    Level = cateVM.Level,
-                    IsPublished = cateVM.IsPublished,
-                    IsMainMenu = cateVM.IsMainMenu,
-                    Description = cateVM.Description,
-                    Icon = cateVM.Icon,
-                    ParentId = cateVM.ParentId,
-                    ImageUrl = cateVM.ImageUrl,
-                    UrlSlug = Common.ConvertToUrlString(cateVM.Name)
-                };
-                _context.Add(_cate);
-                await _context.SaveChangesAsync();
-                return View("Index");
-            }
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", cateVM.ParentId);
-            return View(cateVM);
-        }
 
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)

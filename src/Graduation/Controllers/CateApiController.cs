@@ -10,6 +10,7 @@ using Graduation.Infrastructure.Core;
 using Graduation.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,14 +18,14 @@ namespace Graduation.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    public class CateApiController : Controller
+    public class CateApiController : BaseController
     {
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
         private Expression<Func<Category, object>>[] includeProperties;
         private int page = 1;
         private int pageSize = 10;
-        public CateApiController(ICardRepository cardRepo,ICateRepository cateRepo)
+        public CateApiController(ICardRepository cardRepo,ICateRepository cateRepo,ILoggingRepository log):base(log)
         {
             _cateRepo = cateRepo;
             _cardRepo = cardRepo;
@@ -74,6 +75,20 @@ namespace Graduation.Controllers
             return new OkObjectResult(_cateRe);
         }
 
+
+        [Authorize(Policy ="Manager")]
+        [HttpGet("getall")]
+        public IActionResult GetAll()
+        {
+            //lay cate cha
+            IEnumerable<Category> cateParent = _cateRepo
+           .FindBy(c => c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true)
+           .OrderBy(u => u.DateCreated)
+           .ToList();
+
+            return new OkObjectResult(cateParent);
+        }
+
         /// <summary>
         /// Tra ve loai con
         /// </summary>
@@ -96,7 +111,7 @@ namespace Graduation.Controllers
 
         [AllowAnonymous]
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetCate")]
         public IActionResult Get(int id)
         {
             Category _cate = _cateRepo
@@ -112,34 +127,60 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
+
+
+        
         [Authorize(Policy ="Manager")]
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]CateViewModel value)
+        public IActionResult Post([FromBody]CateCreateViewModel cateVM)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-
             //Category _newCate = Mapper.Map<CardViewModel, Card>(cardVm);
             Category _newCate = new Category {
-                Description = value.Description,
-                ImageUrl = value.ImageUrl,
-                UrlSlug=value.UrlSlug,
-                Level=value.Level
+                Name = cateVM.Name,
+                Level = cateVM.Level,
+                IsPublished = cateVM.IsPublished,
+                IsMainMenu = cateVM.IsMainMenu,
+                Description = cateVM.Description,
+                Icon = cateVM.Icon,
+                ParentId = cateVM.ParentId,
+                ImageUrl = cateVM.ImageUrl,
+                UrlSlug = Common.ConvertToUrlString(cateVM.Name)
             };
             _cateRepo.Add(_newCate);
-            _cateRepo.Commit();
-
+            try
+            {
+                    _cateRepo.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (CateExists(_newCate.UrlSlug))
+                {
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
+                else
+                {
+                    _logRepo.Add(new Error
+                    {
+                        DateCreated = DateTime.UtcNow,
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace
+                    });
+                    _logRepo.Commit();
+                }
+            }
             //CreatedAtRouteResult result = CreatedAtRoute("GetSchedule", new { controller = "", id = cardVm.Id }, cardVm);
-            return new NoContentResult();
+            return CreatedAtAction("GetCate", new { id = _newCate.Id }, _newCate);
         }
         [AllowAnonymous]
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Category value)
+        public IActionResult Put(int id, [FromBody]CateCreateViewModel cateVM)
         {
             if (!ModelState.IsValid)
             {
@@ -154,14 +195,13 @@ namespace Graduation.Controllers
             }
             else
             {
-                _cate.Name = value.Name;
-                _cate.Status = value.Status;
-                _cate.Description = value.Description;
-
-                _cate.ImageUrl = value.ImageUrl;
-                _cate.Status = value.Status;
-                _cate.IsMainMenu = value.IsMainMenu;
-                _cate.UrlSlug = value.UrlSlug;
+                _cate.Name = cateVM.Name;
+                _cate.Icon = cateVM.Icon;
+                _cate.Description = cateVM.Description;
+                _cate.IsPublished = cateVM.IsPublished;
+                _cate.ImageUrl = cateVM.ImageUrl;
+                _cate.IsMainMenu = cateVM.IsMainMenu;
+                _cate.UrlSlug = Common.ConvertToUrlString(cateVM.Name);
 
                 _cateRepo.Edit(_cate);
                 _cateRepo.Commit();
@@ -169,7 +209,7 @@ namespace Graduation.Controllers
 
             return new NoContentResult();
         }
-        [AllowAnonymous]
+        [Authorize(Policy ="Manager")]
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -182,12 +222,19 @@ namespace Graduation.Controllers
             }
             else
             {
-                _cate.IsDeleted = false;
+                _cate.IsDeleted = true;
                 _cateRepo.Edit(_cate);
                 _cateRepo.Commit();
 
                 return new NoContentResult();
             }
         }
+
+        #region Help
+        private bool CateExists(string urlSlug)
+        {
+            return _cateRepo.GetAll().Any(e => e.UrlSlug.Equals(urlSlug) );
+        }
+        #endregion
     }
 }
