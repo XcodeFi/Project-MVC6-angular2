@@ -70,6 +70,34 @@ function _add() {
     });
 }
 
+
+function _edit(id) {
+    _id = id;
+    $('#modalCreate').modal('show');
+    $.ajax(
+        {
+            url: "/api/cardapi/" + id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                document.getElementById("Title").value = result.title;
+                document.getElementById("imgId").src = $host + path + result.imageUrl;
+                document.getElementById("ImageUrl").value = result.imageUrl;
+                document.getElementById("IsPublished").checked = result.isPublished;
+                document.getElementById("CateId").value = result.cateId;
+                document.getElementById("Content").value = result.content;
+                var _tag = "";
+                for (var t in result.tag) {
+                    _tag += result.tag[t] + ",";
+                }
+                document.getElementById("TextSearch").value = _tag.substring(0, _tag.length - 1);
+            },
+            error: function (e) {
+                alertify.error("Something wrong");
+            }
+        }
+        );
+};
 function _put(id) {
     var obj = {
         CateId: $("#CateId").val(),

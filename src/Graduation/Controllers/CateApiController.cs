@@ -88,7 +88,6 @@ namespace Graduation.Controllers
 
             return new OkObjectResult(cateParent);
         }
-
         /// <summary>
         /// Tra ve loai con
         /// </summary>
@@ -128,7 +127,24 @@ namespace Graduation.Controllers
             }
         }
 
+        [Authorize(Policy ="Manager")]
+        // GET api/values/5
+        [HttpGet("get/{id}", Name = "GetCate")]
+        public IActionResult GetAmin(int id)
+        {
+            Category _cate = _cateRepo
+            .GetSingle(c => c.Id == id, includeProperties);
 
+            if (_cate != null)
+            {
+                //CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
+                return new OkObjectResult(_cate);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         [Authorize(Policy = "Manager")]
         // POST api/values
@@ -251,8 +267,6 @@ namespace Graduation.Controllers
         {
             return _cateRepo.GetAll().Any(e => e.UrlSlug.Equals(urlSlug));
         }
-
-
         private bool IsHasCard(int id)
         {
             return _cardRepo.FindBy(c => c.CateId == id).Any();
