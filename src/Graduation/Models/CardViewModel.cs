@@ -16,6 +16,7 @@ namespace Graduation.Models
         public byte? RateNo { get; set; }
         public bool IsPublished { get; set; }
         public DateTime DateCreated { get; set; }
+        public DateTime DateEdited { get; set; }
         public string[] Tag { get; set; }//text search
         public string ApplycationUserId { get; set; }
     }
@@ -44,5 +45,12 @@ namespace Graduation.Models
         public bool IsPublished { get; set; }
         [StringLength(250)]
         public string TextSearch { get; set; }
+    }
+
+    public class CardChartVM
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int ViewNo { get; set; }
     }
 }

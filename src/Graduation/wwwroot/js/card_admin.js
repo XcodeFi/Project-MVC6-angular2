@@ -10,8 +10,14 @@ function _resetForm()
     document.getElementById("Content").value="";
     document.getElementById("ImageUrl").value="";
     document.getElementById("TextSearch").value = "";
-    document.getElementById("imgId").src = "holder.js/330x190";
+    document.getElementById("imgId").src = "/images/logo/image_default.png";
 }
+
+
+$("#btnCreate").off('click').on('click', function () {
+    _id = -1;
+    _resetForm();
+});
 
 function _getAll(page,itemPerpage) {
     $.ajax(
@@ -39,7 +45,7 @@ function _getAll(page,itemPerpage) {
                     html += '<tr>';
                     html += '<td>' + item.title + '</td>';
                     html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="'+item.content+'" alt="' + item.content + '" /></td>';
-                    html += '<td>' + new Date(item.dateCreated) + '</td>';
+                    html += '<td>' + new Date(item.dateCreated) + '<br/>' + new Date(item.dateEdited) + '</td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
                     html += '<td>' + item.likesNo + '</td>';
                     html += '<td>' + item.viewNo + '</td>';
@@ -112,7 +118,7 @@ function _put(id) {
 
             },
             error: function (e) {
-                alertify.error("Something wrong");
+                alertify.error(e);
             }
         }
         );
@@ -125,7 +131,6 @@ function btnCreate()
     }
     else {
         _put(_id);
-        _resetForm();
     }
 }
 //them
@@ -226,7 +231,7 @@ $("#btnSearch").off('click').on('click', function (e) {
                     html += '<tr>';
                     html += '<td>' + item.title + '</td>';
                     html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.content + '" alt="' + item.content + '" /></td>';
-                    html += '<td>' + new Date(item.dateCreated) + '</td>';
+                    html += '<td>' + new Date(item.dateCreated)+'/n'+ new Date(item.dateEdited)+ '</td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
                     html += '<td>' + item.likesNo + '</td>';
                     html += '<td>' + item.viewNo + '</td>';

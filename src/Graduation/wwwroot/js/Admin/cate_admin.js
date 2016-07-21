@@ -1,6 +1,18 @@
 ﻿
 var _id = -1;
 
+
+function _resetForm() {
+    $("#Name").val("");
+    $("#Icon").val("");
+    $("#Level").val(1);
+    $("#ImageUrl").val("");
+    $("#IsPublished").val("");
+    $("#IsMainMenu").val(false);
+    $("#IsPublished").val(false);
+    $("#Description").val("");
+    $("#imgId").attr("src", "/images/logo/image_default.png");
+}
 var path = "/images/cms/cates/";
 $("#txtUploadFile").click(function (evt) {
     evt.preventDefault();
@@ -28,15 +40,12 @@ $("#txtUploadFile").click(function (evt) {
     });
 });
 
-
-
 $("#btnSave").off('click').on('click', function () {
     if (_id === -1) {
         _add();
     }
     else {
         _put(_id);
-        _resetForm();
     }
 });
 
@@ -70,27 +79,29 @@ function _add() {
     });
 }
 
+$("#btnCreate").off('click').on('click', function () {
+    _id = -1;
+    _resetForm();
+});
 
-function _edit(id) {
+function _get(id) {
     _id = id;
     $('#modalCreate').modal('show');
     $.ajax(
         {
-            url: "/api/cardapi/" + id,
+            url: "/api/cateapi/adminget/" + id,
             type: "GET",
             contentType: "application/json;charset=utf-8",
             success: function (result) {
-                document.getElementById("Title").value = result.title;
-                document.getElementById("imgId").src = $host + path + result.imageUrl;
+                document.getElementById("Icon").value =  result.icon;
+                document.getElementById("Name").value = result.name;
+                document.getElementById("Level").value = result.level;
+                document.getElementById("imgId").src = location.origin + path + result.imageUrl;
                 document.getElementById("ImageUrl").value = result.imageUrl;
                 document.getElementById("IsPublished").checked = result.isPublished;
-                document.getElementById("CateId").value = result.cateId;
-                document.getElementById("Content").value = result.content;
-                var _tag = "";
-                for (var t in result.tag) {
-                    _tag += result.tag[t] + ",";
-                }
-                document.getElementById("TextSearch").value = _tag.substring(0, _tag.length - 1);
+                document.getElementById("IsMainMenu").checked = result.isMainMenu;
+                document.getElementById("Description").value = result.description;
+                document.getElementById("ParentId").value = result.parentId;
             },
             error: function (e) {
                 alertify.error("Something wrong");
@@ -100,12 +111,14 @@ function _edit(id) {
 };
 function _put(id) {
     var obj = {
-        CateId: $("#CateId").val(),
-        Title: $("#Title").val(),
-        Content: $("#Content").val(),
+        ParentId: $("#ParentId").val(),
+        Name: $("#Name").val(),
+        Description: $("#Description").val(),
         ImageUrl: document.getElementById("ImageUrl").value,
         IsPublished: document.getElementById("IsPublished").checked,
-        TextSearch: $("#TextSearch").val()
+        IsMainMenu: document.getElementById("IsMainMenu").checked,
+        Level: $("#Level").val(),
+        Icon:$("#Icon").val()
     };
     $.ajax(
         {
@@ -117,7 +130,6 @@ function _put(id) {
                 $('#modalCreate').modal('hide');
                 _getAll();
                 alertify.success("This card was edit!");
-                _id = -1;//gan lai gia tri ban dau 
                 //resetForm();
             },
             error: function (e) {
@@ -152,7 +164,7 @@ function _getAll() {
                     html += '<td><img class="img-responsive" style="width:100px;" src="' + location.origin + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.description + '" alt="' + item.urlSlug + '" /></td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $_isPublished + '>' + '</td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $_isMainMenu + '>' + '</td>';
-                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _edit(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
+                    html += '<td align="center"><button class="btn btn-info btn-xs" onclick="return _get(' + item.id + ')" ><i class="fa fa-edit"></i></button> ';
                     html += '<a class="btn btn-success btn-xs" href="/admin/categories/details/' + item.id + '" ><i class="fa fa-eye"></i></a> ';
                     html += '<a class="btn btn-danger btn-xs" onclick="return _delete(' + item.id + ')"><i class="fa fa-trash"></i></a>';
                     html += '</td></tr>';

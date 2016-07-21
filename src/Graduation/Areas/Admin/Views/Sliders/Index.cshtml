@@ -5,11 +5,9 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<br />
+<h2>Slide manager</h2>
+<div class="col-md-2 pull-right"><a class="btn btn-primary" asp-action="Create" id="btnCreate"><b>+</b>Create New</a></div>
 <table class="table">
     <thead>
         <tr>
@@ -29,7 +27,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                 <img class="img-responsive" width="100px" src="/images/cms/slides/@Html.DisplayFor(modelItem => item.ImageUrl)"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -39,7 +37,6 @@
             </td>
             <td>
                 <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> |
-                <a class="btn btn-success btn-xs"  asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a> |
                 <a class="btn btn-danger btn-xs"  asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
             </td>
         </tr>

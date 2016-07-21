@@ -9,9 +9,8 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import {CateService} from './services/cate.service';
 import {CardService} from './services/card.service';
 import {AccountService} from './services/account.service';
+import {SlideService} from './services/slide.service';
 import {Cate} from './models/models';
-
-
 
 enableProdMode();
 
@@ -21,7 +20,7 @@ declare var $: JQueryStatic;
     selector: 'my-app',
     templateUrl:'app/app.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [CateService, CardService, AccountService]
+    providers: [CateService, CardService, AccountService, SlideService]
 })
 export class AppComponent implements OnInit, AfterViewInit {
 

@@ -33,7 +33,7 @@ namespace Graduation.Controllers
             ICardRepository cardRepo,
             UserManager<ApplicationUser> userManager,
             ILoggingRepository logRepo,
-            SignInManager<ApplicationUser> signInManager):base(logRepo)
+            SignInManager<ApplicationUser> signInManager) : base(logRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -55,37 +55,7 @@ namespace Graduation.Controllers
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
             return new OkObjectResult(_cardVM);
         }
-        [Authorize(Policy = "Manager")]
-        [HttpGet("admin/{page:int=0}/{pageSize}")]
-        public IActionResult GetAdmin(int? page, int? pageSize = 12)
-        {
-            int currentPage = page.Value;
-            int currentPageSize = pageSize.Value;
-            PaginationSet<CardViewModel> pagedSet = new PaginationSet<CardViewModel>();
 
-            //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
-
-            IEnumerable<Card> _cards = _cardRepo
-           .FindBy(c => c.IsDeleted == false)
-           .OrderByDescending(u => u.DateCreated)
-           .Skip(currentPage * currentPageSize)
-           .Take(currentPageSize)
-           .ToList();
-
-            int _totalCard = _cardRepo.FindBy(c => c.IsDeleted == false).Count();
-
-            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
-            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
-
-            pagedSet = new PaginationSet<CardViewModel>()
-            {
-                Page = currentPage,
-                TotalCount = _totalCard,
-                TotalPages = (int)Math.Ceiling((decimal)_totalCard / currentPageSize),
-                Items = _cardVM
-            };
-            return new OkObjectResult(pagedSet);
-        }
         [AllowAnonymous]
         [HttpGet("search/{key}")]
         public IActionResult Search(string key = "")
@@ -125,7 +95,7 @@ namespace Graduation.Controllers
         }
         //POST api/values
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CardCreateEditViewModel card)
+        public async Task<IActionResult> Post([FromBody] CardCreateEditViewModel card)
         {
             if (!ModelState.IsValid)
             {
@@ -149,16 +119,15 @@ namespace Graduation.Controllers
 
             try
             {
+                if (IsCardNameExists(_card.UrlSlug,_card.Id))
+                {
+                    return new NotFoundObjectResult("This name has exists!");
+                }
                 _cardRepo.Commit();
             }
             catch (DbUpdateException ex)
             {
-                if (CardExists(_card.Id))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
+               
                     _logRepo.Add(new Error
                     {
                         DateCreated = DateTime.UtcNow,
@@ -166,7 +135,7 @@ namespace Graduation.Controllers
                         StackTrace = ex.StackTrace
                     });
                     _logRepo.Commit();
-                }
+                
             }
             //Card _cardResult=_cardRepo.f
             return CreatedAtAction("GetCard", new { id = _card.Id }, _card);
@@ -193,11 +162,29 @@ namespace Graduation.Controllers
                 _card.CateId = card.CateId;
                 _card.Content = card.Content;
                 _card.DateEdited = DateTime.UtcNow;
+                _card.UrlSlug = Common.ConvertToUrlString(card.Title);
 
                 _cardRepo.Edit(_card);
 
+                try
+                {
+                    if (IsCardNameExists(_card.UrlSlug,_card.Id))
+                    {
+                        return new NotFoundObjectResult("Name of card was exists!");
+                    }
+                    _cardRepo.Commit();
+                }
+                catch (DbUpdateException ex)
+                {
+                    _logRepo.Add(new Error
+                    {
+                        DateCreated = DateTime.UtcNow,
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace
+                    });
+                    _logRepo.Commit();
 
-                _cardRepo.Commit();
+                }
             }
 
             return CreatedAtRoute("GetCard", new { id = _card.Id }, _card);
@@ -226,6 +213,61 @@ namespace Graduation.Controllers
                 return Ok(_card);
             }
         }
+        #region Admin
+        [Authorize(Policy = "Manager")]
+        [HttpGet("admin/{page:int=0}/{pageSize}")]
+        public IActionResult GetAdmin(int? page, int? pageSize = 12)
+        {
+            int currentPage = page.Value;
+            int currentPageSize = pageSize.Value;
+            PaginationSet<CardViewModel> pagedSet = new PaginationSet<CardViewModel>();
+
+            //var totalPages = (int)Math.Ceiling((double)totalSchedules / pageSize);
+
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false)
+           .OrderByDescending(u => u.DateCreated)
+           .Skip(currentPage * currentPageSize)
+           .Take(currentPageSize)
+           .ToList();
+
+            int _totalCard = _cardRepo.FindBy(c => c.IsDeleted == false).Count();
+
+            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
+            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
+
+            pagedSet = new PaginationSet<CardViewModel>()
+            {
+                Page = currentPage,
+                TotalCount = _totalCard,
+                TotalPages = (int)Math.Ceiling((decimal)_totalCard / currentPageSize),
+                Items = _cardVM
+            };
+            return new OkObjectResult(pagedSet);
+        }
+
+        [Authorize(Policy = "Manager")]
+        [HttpGet("chart")]
+        public IActionResult CardChart()
+        {
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false)
+           .OrderByDescending(u => u.ViewNo)
+           .Take(10)
+           .ToList();
+
+            int _totalCard = _cardRepo.FindBy(c => c.IsDeleted == false).Count();
+
+            //IEnumerable<CardViewModel> _cardVM=Mapper.Map<IEnumerable<Card>,IEnumerable<CardViewModel>>(_cards);
+            IEnumerable<CardChartVM> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardChartVM>>(_cards);
+
+            return new OkObjectResult(_cardVM);
+        }
+
+
+
+        #endregion
+
         #region Component
         /// <summary>
         /// Auto update view when user or anyone get card from page
@@ -250,7 +292,7 @@ namespace Graduation.Controllers
                 }
                 catch (DbUpdateException ex)
                 {
-                    if (CardExists(_card.Id))
+                    if (!IsCardExist(_card.Id))
                     {
                         return new StatusCodeResult(StatusCodes.Status409Conflict);
                     }
@@ -274,10 +316,29 @@ namespace Graduation.Controllers
         {
             return _userManager.GetUserAsync(HttpContext.User);
         }
-        private bool CardExists(int id)
+
+
+        /// <summary>
+        /// phuong thuc ktra su ton tai cua ten
+        /// su dung cho phuong thuc them, sua moi mot anh
+        /// </summary>
+        /// <param name="urlSlug"></param>
+        /// <returns>true if exist</returns>
+        private bool IsCardNameExists(string urlSlug, int id)
         {
-            return _cardRepo.GetAll().Any(e => e.Id == id);
+            IEnumerable<Card> listTmp=  _cardRepo.FindBy(e => e.UrlSlug.Equals(urlSlug) && e.Id!=id&&e.IsDeleted==false);
+            return listTmp.Count() == 1 ? true : false;
         }
+        /// <summary>
+        /// tra ve gia tri true neu id ton tai
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private bool IsCardExist(int id)
+        {
+            return _cardRepo.GetAll().Any(e =>e.Id == id);
+        }
+
         #endregion
     }
 }

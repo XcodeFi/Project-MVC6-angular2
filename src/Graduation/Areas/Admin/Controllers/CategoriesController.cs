@@ -40,6 +40,14 @@ namespace Graduation.Areas.Admin.Controllers
         public IActionResult Index()
         {
             ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c => c.Level == 0), "Id", "Name");
+
+            IEnumerable<Level> _level = new List<Level>()
+            {
+                new Level { Id=0,Value=0},
+                new Level { Id=1,Value=1}
+            };
+
+            ViewData["Level"] = new SelectList(_level, "Id", "Value");
             return View();
         }
 
@@ -60,101 +68,14 @@ namespace Graduation.Areas.Admin.Controllers
             return View(category);
         }
 
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name");
-            return View();
-        }
-
-        // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", category.ParentId);
-            return View(category);
-        }
-
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Category category)
-        {
-            if (id != category.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            ViewData["ParentId"] = new SelectList(_cateRepo.FindBy(c=>c.Level==0), "Id", "Name", category.ParentId);
-            return View(category);
-        }
-
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.Id == id);
         }
+    }
+    class Level
+    {
+        public int Id { get; set; }
+        public int Value { get; set; }
     }
 }

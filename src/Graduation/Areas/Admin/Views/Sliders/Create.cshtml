@@ -11,40 +11,64 @@
     <div class="form-horizontal">
         <h4>Slider</h4>
         <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label  asp-for="ImageUrl" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger" />
+        <div class="col-sm-12">
+            <div class="row">
+                <section class="col-sm-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </section>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger" />
+        <div class="col-sm-3">
+            <div class="row">
+                <section class="col-sm-12">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" style="display:none;" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <img src="holder.js/340x150" alt="image" id="imgId" class="img-responsive img-radio" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button id="txtUploadFile" class="btn btn-success">
+                                <i class="fa fa-upload"></i>
+                            </button>
+                        </span>
+                        <input type="file" id="files" name="UploadFile" class="form-control" />
+                    </div>
+                </section>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="UrlSlug" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UrlSlug" class="form-control" />
-                <span asp-validation-for="UrlSlug" class="text-danger" />
+        <div class="col-sm-9">
+            <div class="row">
+                <section class="col-sm-12">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger" />
+                    </div>
+                </section>
+                <section class="col-sm-12">
+                    <div class="form-group">
+                        <label asp-for="UrlSlug" class="control-label"></label>
+                        <input asp-for="UrlSlug" class="form-control" />
+                        <span asp-validation-for="UrlSlug" class="text-danger" />
+                    </div>
+                </section>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <div class="col-sm-12">
+            <div class="row">
+                <section class="col-sm-12">
+                    <button type="submit" value="Create" class="btn btn-success pull-right"><i class="fa fa-save"></i> Create</button>>
+                </section>
             </div>
         </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="col-sm-12">
+    <a asp-action="Index"><i class="fa fa-mail-reply"></i>Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Admin/slide_admin.js"></script>
+
 }

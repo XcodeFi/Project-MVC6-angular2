@@ -40,3 +40,13 @@ export class Account {
         public name: string
     ) { }
 }
+
+export class Slide {
+    constructor(
+        public id: number,
+        public name: string,
+        public imageUrl: string,
+        public urlSlug:string
+    ) { }
+}
+

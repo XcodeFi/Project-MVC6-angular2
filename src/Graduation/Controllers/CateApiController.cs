@@ -75,26 +75,13 @@ namespace Graduation.Controllers
             return new OkObjectResult(_cateRe);
         }
 
-
-        [Authorize(Policy = "Manager")]
-        [HttpGet("getall")]
-        public IActionResult GetAll()
-        {
-            //lay cate cha
-            IEnumerable<Category> cateParent = _cateRepo
-           .FindBy(c => c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true)
-           .OrderBy(u => u.DateCreated)
-           .ToList();
-
-            return new OkObjectResult(cateParent);
-        }
         /// <summary>
         /// Tra ve loai con
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
         // GET: api/values
-        [HttpGet("/api/cateapi/getChild")]
+        [HttpGet("getChild")]
         public IActionResult GetChild()
         {
             //lay cate con
@@ -127,25 +114,116 @@ namespace Graduation.Controllers
             }
         }
 
-        [Authorize(Policy ="Manager")]
-        // GET api/values/5
-        [HttpGet("get/{id}", Name = "GetCate")]
-        public IActionResult GetAmin(int id)
+        [AllowAnonymous]
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]CateCreateViewModel cateVM)
         {
-            Category _cate = _cateRepo
-            .GetSingle(c => c.Id == id, includeProperties);
-
-            if (_cate != null)
+            if (!ModelState.IsValid)
             {
-                //CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
-                return new OkObjectResult(_cate);
+                return BadRequest(ModelState);
             }
-            else
+
+            Category _cate = _cateRepo.GetSingle(id);
+
+            if (cateVM.Level == 0)
+            {
+                cateVM.ParentId = null;
+            }
+
+            if (_cate == null)
             {
                 return NotFound();
             }
+            else
+            {
+                _cate.Name = cateVM.Name;
+                _cate.Icon = cateVM.Icon;
+                _cate.Description = cateVM.Description;
+                _cate.IsPublished = cateVM.IsPublished;
+                _cate.ImageUrl = cateVM.ImageUrl;
+                _cate.Level = cateVM.Level;
+                _cate.IsMainMenu = cateVM.IsMainMenu;
+                _cate.UrlSlug = Common.ConvertToUrlString(cateVM.Name);
+                _cateRepo.Edit(_cate);
+
+                if (IsCateExists(_cate.UrlSlug, _cate.Id))
+                {
+                    return new NotFoundObjectResult("Can not change this name like that./n Because the name was exists!");
+                }
+                try
+                {
+                    _cateRepo.Commit();
+                }
+                catch (Exception ex)
+                {
+                    _logRepo.Add(new Error
+                    {
+                        DateCreated = DateTime.UtcNow,
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace
+                    });
+                    _logRepo.Commit();
+                }
+            }
+            return CreatedAtAction("GetCate", new { id = _cate.Id }, _cate);
         }
 
+        #region Admin
+        [Authorize(Policy = "Manager")]
+        // GET: api/values
+        [HttpGet("cateChart")]
+        public IActionResult CateChart()
+        {
+            //lay cate con
+            IEnumerable<Category> cateChild = _cateRepo
+           .FindBy(c => c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true && c.Level == 1)
+           .OrderBy(u => u.DateCreated)
+           .Take(10)
+           .ToList();
+
+            IEnumerable<CateViewModel> _cateC = Mapper.Map<IEnumerable<Category>, IEnumerable<CateViewModel>>(cateChild);
+
+            return new OkObjectResult(_cateC);
+        }
+
+        [Authorize(Policy = "Manager")]
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            Category _cate = _cateRepo.FindBy(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true).FirstOrDefault();
+
+            if (_cate == null)
+            {
+                return new NotFoundResult();
+            }
+            else
+            {
+                if (!IsHasCard(_cate.Id))
+                {
+                    return new NotFoundObjectResult("Can not delete this cate, because it has card!");
+                }
+                _cate.IsDeleted = true;
+                _cateRepo.Edit(_cate);
+
+                try
+                {
+                    _cateRepo.Commit();
+                }
+                catch (Exception ex)
+                {
+                    _logRepo.Add(new Error
+                    {
+                        DateCreated = DateTime.UtcNow,
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace
+                    });
+                    _logRepo.Commit();
+                }
+                return new NoContentResult();
+            }
+        }
         [Authorize(Policy = "Manager")]
         // POST api/values
         [HttpPost]
@@ -182,7 +260,7 @@ namespace Graduation.Controllers
             _cateRepo.Add(_newCate);
             try
             {
-                if (CateExists(_newCate.UrlSlug))
+                if (IsCateExists(_newCate.UrlSlug, _newCate.Id))
                 {
                     return new NotFoundObjectResult("Can not insert this cate, because the name has been exists!");
                 }
@@ -203,69 +281,60 @@ namespace Graduation.Controllers
             //CreatedAtRouteResult result = CreatedAtRoute("GetSchedule", new { controller = "", id = cardVm.Id }, cardVm);
             return CreatedAtAction("GetCate", new { id = _newCate.Id }, _newCate);
         }
-        [AllowAnonymous]
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]CateCreateViewModel cateVM)
+
+        [Authorize(Policy = "Manager")]
+        // GET api/values/5
+        [HttpGet("adminget/{id}", Name = "GetCateAdmin")]
+        public IActionResult GetAmin(int id)
         {
-            if (!ModelState.IsValid)
+            Category _cate = _cateRepo
+            .GetSingle(c => c.Id == id, includeProperties);
+
+            if (_cate != null)
             {
-                return BadRequest(ModelState);
+                //CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
+                return new OkObjectResult(_cate);
             }
-
-            Category _cate = _cateRepo.GetSingle(id);
-
-            if (_cate == null)
+            else
             {
                 return NotFound();
             }
-            else
-            {
-                _cate.Name = cateVM.Name;
-                _cate.Icon = cateVM.Icon;
-                _cate.Description = cateVM.Description;
-                _cate.IsPublished = cateVM.IsPublished;
-                _cate.ImageUrl = cateVM.ImageUrl;
-                _cate.IsMainMenu = cateVM.IsMainMenu;
-                _cate.UrlSlug = Common.ConvertToUrlString(cateVM.Name);
-
-                _cateRepo.Edit(_cate);
-                _cateRepo.Commit();
-            }
-
-            return new NoContentResult();
         }
+
         [Authorize(Policy = "Manager")]
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
-            Category _cate = _cateRepo.FindBy(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true).FirstOrDefault();
+            //lay cate cha
+            IEnumerable<Category> cateParent = _cateRepo
+           .FindBy(c => c.IsDeleted == false)
+           .OrderBy(u => u.Level)
+           .ToList();
 
-            if (_cate == null)
-            {
-                return new NotFoundResult();
-            }
-            else
-            {
-
-
-                if (IsHasCard(_cate.Id))
-                {
-                    return new NotFoundObjectResult("Can not delete this cate, because it has card!");
-                }
-                _cate.IsDeleted = true;
-                _cateRepo.Edit(_cate);
-                _cateRepo.Commit();
-
-                return new NoContentResult();
-            }
+            return new OkObjectResult(cateParent);
         }
+        #endregion
 
         #region Help
-        private bool CateExists(string urlSlug)
+        private bool IsCateExists(string urlSlug, int id)
         {
-            return _cateRepo.GetAll().Any(e => e.UrlSlug.Equals(urlSlug));
+            try
+            {
+                return _cateRepo.GetAll().Any(e => e.UrlSlug.Equals(urlSlug) && e.Id != id && e.IsDeleted == false);
+            }
+            catch (Exception ex)
+            {
+
+                _logRepo.Add(new Error
+                {
+                    DateCreated = DateTime.UtcNow,
+                    Message = ex.Message,
+                    StackTrace = ex.StackTrace
+                });
+                _logRepo.Commit();
+            }
+            return true;
+            
         }
         private bool IsHasCard(int id)
         {

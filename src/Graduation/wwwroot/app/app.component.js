@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var cate_service_1 = require('./services/cate.service');
 var card_service_1 = require('./services/card.service');
 var account_service_1 = require('./services/account.service');
+var slide_service_1 = require('./services/slide.service');
 core_1.enableProdMode();
 var AppComponent = (function () {
     function AppComponent(_cateService, _accountService) {
@@ -51,7 +52,7 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [cate_service_1.CateService, card_service_1.CardService, account_service_1.AccountService]
+            providers: [cate_service_1.CateService, card_service_1.CardService, account_service_1.AccountService, slide_service_1.SlideService]
         }), 
         __metadata('design:paramtypes', [cate_service_1.CateService, account_service_1.AccountService])
     ], AppComponent);

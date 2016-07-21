@@ -46,4 +46,14 @@ var Account = (function () {
     return Account;
 }());
 exports.Account = Account;
+var Slide = (function () {
+    function Slide(id, name, imageUrl, urlSlug) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.urlSlug = urlSlug;
+    }
+    return Slide;
+}());
+exports.Slide = Slide;
 //# sourceMappingURL=models.js.map

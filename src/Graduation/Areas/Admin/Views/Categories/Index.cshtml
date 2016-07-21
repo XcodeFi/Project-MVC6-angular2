@@ -20,7 +20,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-2 pull-right"><a class="btn btn-primary" asp-action="Create" data-toggle="modal" data-target="#modalCreate" id="btnCreate"><b>+</b>Create New</a></div>
+            <div class="col-md-2 pull-right"><a class="btn btn-primary" data-toggle="modal" data-target="#modalCreate" id="btnCreate"><b>+</b>Create New</a></div>
         </div>
     </div>
     <div class="panel-body">
@@ -111,7 +111,7 @@
                             <section class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label" asp-for="Icon"></label>
-                                    <input asp-for="Icon" class="form-control" />
+                                    <input asp-for="Icon" class="form-control"/>
                                     <span asp-validation-for="Icon" class="text-danger" />
                                 </div>
                             </section>
@@ -127,7 +127,7 @@
                             <section class="col-sm-6">
                                 <div class="form-group">
                                     <label asp-for="Level" class="control-label"></label>
-                                    <input asp-for="Level" class="form-control" />
+                                    <select asp-for="Level" class="form-control" asp-items="ViewBag.Level"></select>
                                     <span asp-validation-for="Level" class="text-danger" />
                                 </div>
                             </section>

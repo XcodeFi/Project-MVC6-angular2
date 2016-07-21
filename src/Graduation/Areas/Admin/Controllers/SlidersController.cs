@@ -8,18 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using Graduation.Entities;
 using Graduation.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using Graduation.Infrastructure.Repositories.Abstract;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Graduation.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize("Manager")]
-    public class SlidersController : Controller
+    public class SlidersController : BaseController
     {
-        private readonly GraduationDbContext _context;
-
-        public SlidersController(GraduationDbContext context)
+        public SlidersController(
+            GraduationDbContext context, 
+            ILoggingRepository logg, 
+            IHostingEnvironment env) :base(logg,context,env)
         {
-            _context = context;    
+            AllowedExtensions = new string[] { ".jpg", ".png", ".gif", ".PNG" };
+            UploadDestination = env.WebRootPath + "/images/cms/slides";
         }
 
         // GET: Sliders
