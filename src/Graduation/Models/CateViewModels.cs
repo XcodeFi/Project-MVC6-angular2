@@ -36,6 +36,7 @@ namespace Graduation.Models
         //[Required]
         //[StringLength(450)]
         //public string UrlSlug { get; set; }
+        [Required]
         [StringLength(250)]
         public string ImageUrl { get; set; }
         [Required]

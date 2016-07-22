@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default ccards-navbar margin-bottom-small accelerate" style="border-bottom: 1px solid #ccc; z-index: 9999;">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" [routerLink]="['/']">
+                <a class="navbar-brand" [routerLink]="['home']">
                     <img class="img-responsive img-logo" style="width:150px;height:25px;" src="../images/logo/eCardsLogo.png" alt="Greetingcards.vn" />
                 </a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -19,9 +19,9 @@
                             Thiệp online <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ><a [routerLink]="['/cates']" routerLinkActive="active">Tất cả</a></li>
+                            <li ><a [routerLink]="['Cates']" routerLinkActive="active">Tất cả</a></li>
                             <li class="divider"></li>
-                            <li *ngFor="let child of cates"><a [routerLink]="['/card']" routerLinkActive="active">{{child.name}}</a></li>
+                            <li *ngFor="let child of cates"><a routerLinkActive="active">{{child.name}}</a></li>
                         </ul>
                     </li>
                     <li>
@@ -38,7 +38,7 @@
                         <a href="blog">Bài viết</a>
                     </li>
                     <li>
-                        <a [routerLink]="['/help']">Trợ giúp</a>
+                        <a [routerLink]="['Help']">Trợ giúp</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -4,14 +4,14 @@ import {disableDeprecatedForms, provideForms} from '@angular/forms';
 // The usual bootstrapping imports
 import { bootstrap }    from '@angular/platform-browser-dynamic';
 import { AppComponent } from './app.component';
-import {APP_ROUTER_PROVIDERS} from './app.routes'
-import {Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
+import {Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 import { HTTP_PROVIDERS } from '@angular/http';
 
 bootstrap(AppComponent,
-    [APP_ROUTER_PROVIDERS, HTTP_PROVIDERS,
+    [ROUTER_PROVIDERS, HTTP_PROVIDERS,
         disableDeprecatedForms(),
         provideForms(),
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        { provide: LocationStrategy, useClass: PathLocationStrategy }
     ]).catch(err => console.log(err));

@@ -5,16 +5,21 @@ import
     OnInit,
     AfterViewInit,
 } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import {CateService} from './services/cate.service';
 import {CardService} from './services/card.service';
 import {AccountService} from './services/account.service';
+
+import {APP_ROUTER_PROVIDERS} from './app.routes';
+
 import {SlideService} from './services/slide.service';
 import {Cate} from './models/models';
 
 enableProdMode();
 
 declare var $: JQueryStatic;
+
+@RouteConfig(APP_ROUTER_PROVIDERS)
 
 @Component({
     selector: 'my-app',

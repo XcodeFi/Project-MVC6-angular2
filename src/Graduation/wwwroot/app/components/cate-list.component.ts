@@ -7,7 +7,7 @@ import {Cate} from '../models/models';
     styleUrls:['css/cate-list.component.css']
 })
 
-export class CateListComponent implements OnInit {
+export class CateListComponent implements OnInit {  
 
     errorMessage: string;
     cates: Cate[] = [];

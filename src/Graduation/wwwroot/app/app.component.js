@@ -9,10 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var router_deprecated_1 = require('@angular/router-deprecated');
 var cate_service_1 = require('./services/cate.service');
 var card_service_1 = require('./services/card.service');
 var account_service_1 = require('./services/account.service');
+var app_routes_1 = require('./app.routes');
 var slide_service_1 = require('./services/slide.service');
 core_1.enableProdMode();
 var AppComponent = (function () {
@@ -48,10 +49,11 @@ var AppComponent = (function () {
         });
     };
     AppComponent = __decorate([
+        router_deprecated_1.RouteConfig(app_routes_1.APP_ROUTER_PROVIDERS),
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES],
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES],
             providers: [cate_service_1.CateService, card_service_1.CardService, account_service_1.AccountService, slide_service_1.SlideService]
         }), 
         __metadata('design:paramtypes', [cate_service_1.CateService, account_service_1.AccountService])
