@@ -1,54 +1,59 @@
-import
-{
-    enableProdMode,
-    Component,
-    OnInit,
-    AfterViewInit,
-} from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
-import {CateService} from './services/cate.service';
-import {CardService} from './services/card.service';
-import {AccountService} from './services/account.service';
 
-import {APP_ROUTER_PROVIDERS} from './app.routes';
+import { Component, AfterViewInit, enableProdMode, OnInit} from '@angular/core';
+import { Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {NotifyService} from './utility/notify.service';
+import {NgForm} from '@angular/common';
 
-import {SlideService} from './services/slide.service';
+
+import {CateService} from './cards/cards.service';
 import {Cate} from './models/models';
+import {UserLogin} from './models/account';
+import {AccountService} from './account/account.service';
 
-enableProdMode();
-
-declare var $: JQueryStatic;
-
-@RouteConfig(APP_ROUTER_PROVIDERS)
+//enableProdMode()
 
 @Component({
     selector: 'my-app',
-    templateUrl:'app/app.component.html',
+    templateUrl: 'app/app.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [CateService, CardService, AccountService, SlideService]
+    providers: [CateService, NotifyService, AccountService],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit { 
+    private cates: Cate[];
+    private _user : UserLogin;
 
-    errorMessage: string;
-    cates: Cate[] = [];
+
     constructor(private _cateService: CateService,
-        private _accountService: AccountService
+        private _notify: NotifyService,
+        public _accountService: AccountService
     ) {
     }
-
     ngOnInit() {
-        this.getCate();
-    }
-    getCate() {
-        this._cateService.getChildCates()
-            .subscribe(
-            cates => this.cates = cates,
-            error => this.errorMessage = <any>error);
+        this._user = new UserLogin('', '', false);
+        this.getAllCate();
     }
 
-    logOff(): void {
-        this._accountService.Logoff();
-        console.log('Logout');
+    onSubmit() {
+        this._accountService.doLogin(this._user).subscribe(res => {
+            if (res) {
+                let user = res;
+                localStorage.setItem('user', JSON.stringify(res));
+                this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
+            }
+            else {
+                this._notify.printErrorMessage('User name or password not truely');
+            }
+        })
+    }
+
+    public logout() {
+        localStorage.removeItem('user');
+
+    }
+
+    getAllCate() {
+
+        this._cateService.getChildCates().subscribe(cate => this.cates = cate);
     }
 
     ngAfterViewInit() {

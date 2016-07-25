@@ -168,7 +168,7 @@ namespace Graduation
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            //SampleData.InitializeDatabaseAsync(app.ApplicationServices).Wait();
+            SampleData.InitializeDatabaseAsync(app.ApplicationServices).Wait();
         }
     }
 }

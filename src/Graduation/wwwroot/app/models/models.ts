@@ -31,15 +31,29 @@ export class Cate {
         public description: string,
         public status: boolean,
         public cateChilds: Cate[]
+        
     ) { }
 }
 
-export class Account {
+export class CateDetail {
     constructor(
+        public icon: string,
         public id: number,
-        public name: string
+        public parentId: number,
+        public level: number,
+        public name: string,
+        public urlSlug: string,
+        public imageUrl: string,
+        public dateCreated: Date,
+        public description: string,
+        public status: boolean,
+        public cateParent: CateDetail,
+        public cards:Card[]
     ) { }
 }
+
+
+
 
 export class Slide {
     constructor(

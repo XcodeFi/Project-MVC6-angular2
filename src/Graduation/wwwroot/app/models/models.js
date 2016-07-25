@@ -38,14 +38,24 @@ var Cate = (function () {
     return Cate;
 }());
 exports.Cate = Cate;
-var Account = (function () {
-    function Account(id, name) {
+var CateDetail = (function () {
+    function CateDetail(icon, id, parentId, level, name, urlSlug, imageUrl, dateCreated, description, status, cateParent, cards) {
+        this.icon = icon;
         this.id = id;
+        this.parentId = parentId;
+        this.level = level;
         this.name = name;
+        this.urlSlug = urlSlug;
+        this.imageUrl = imageUrl;
+        this.dateCreated = dateCreated;
+        this.description = description;
+        this.status = status;
+        this.cateParent = cateParent;
+        this.cards = cards;
     }
-    return Account;
+    return CateDetail;
 }());
-exports.Account = Account;
+exports.CateDetail = CateDetail;
 var Slide = (function () {
     function Slide(id, name, imageUrl, urlSlug) {
         this.id = id;

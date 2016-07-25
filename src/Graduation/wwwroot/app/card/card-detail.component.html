@@ -1,0 +1,438 @@
+﻿<div *ngIf="card">
+    <div id="title">
+        <div class="row">
+            <div id="breadcrumbs" class="margin-bottom-small">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/#/home/">Trang chủ</a></li>
+                            <li><a href="/#/cards/">Tất cả các thiệp</a></li>
+                            <li><a href="#">Thiệp sinh nhật</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 padding-bottom-small">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1 class="margin-top-medium">{{card.title}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row margin-bottom-large">
+            <div class="col-md-8">
+                <div id="content-container">
+                    <div class="row margin-top-medium">
+                        <div class="col-md-12">
+                            <img class="img-responsive center-block" src="/images/cms/news/{{card.imageUrl}}" alt="{{card.content}}">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-top-bottom-medium" style="font-size: 20px;">
+                    <div class="col-xs-12 col-md-12 margin-bottom-small">
+                    </div>
+                </div>
+                <div class="row margin-bottom-medium margin-top-medium">
+                    <div class="col-md-12">
+                        <div class="border-gray">
+                            <div class="row social-container hidden-print margin-bottom-medium">
+                                <div class="col-md-12"><a class="btn btn-crosscards-primary btn-lg btn-block text-left margin-bottom-medium" href="#email-form"><strong><span class="fa fa-envelope-o"></span>&nbsp;Gửi</strong></a></div> <div class="col-xs-4">
+                                    <a class="btn btn-facebook btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" href="javascript:void(0);">
+                                        <strong>
+                                            <span class="fa fa-facebook"></span>
+                                        </strong>
+                                    </a>
+                                </div> <div class="col-xs-4">
+                                    <a class="btn btn-twitter btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" data-share-description="Belated" href="javascript:void(0);">
+                                        <strong>
+                                            <span class="fa fa-twitter">
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </div> <div class="col-xs-4">
+                                    <a class="btn btn-pinterest btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" data-share-description="Belated" data-share-image="http://media.salemwebnetwork.com/cms/CROSSCARDS/17520-belated-800x400.jpg" href="javascript:void(0);">
+                                        <strong>
+                                            <span class="fa fa-pinterest"></span>
+                                        </strong>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row email-container hidden-print margin-bottom-large">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-info margin-bottom-medium">
+                                    <strong>
+                                        <a href="javascript:void(0);" class="apSignUpBtn" data-app="cc" contenteditable="false">Đăng ký ngay!</a>
+                                    </strong>
+                                    Nhận được nhiều hơn những thông điệp ý nghĩa từ bạn bè và tạo riêng cho mình những tấm thiệp ý nghĩa!
+                                </div>
+
+                                <form id="email-form" action="#" method="POST" data-toggle="validator" data-delay="1000" role="form" novalidate="true">
+                                    <input type="hidden" id="eRootPublicationId" name="eRootPublicationId" value="34378">
+                                    <input type="hidden" id="eArticleId" name="eArticleId" value="11735176">
+                                    <input type="hidden" id="eIsDraft" name="eIsDraft" value="false">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="eFromName">Tên của bạn</label>
+                                                <input type="text" class="form-control" id="eFromName" value="" name="eFromName" placeholder="Tên bạn" required="">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="eFromEmail">Mail của bạn</label>
+                                                <input type="email" class="form-control" id="eFromEmail" value="" name="eFromEmail" placeholder="Mail của bạn" required="">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="well well-sm" style="background: #eaeaea;">
+                                                <div class="row padding-bottom-medium">
+                                                    <div class="col-md-12">
+                                                        <label class="control-label" for="eToName1">Người nhận</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="eToName1" name="eToName1" placeholder="Tên bạn bè" required="" value="">
+                                                            <div class="help-block with-errors"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <input type="email" class="form-control" id="eToEmail1" name="eToEmail1" placeholder="Mail của bạn bè" required="" value="">
+                                                            <div class="help-block with-errors"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="recipients-container">
+                                                </div>
+                                                <div class="row margin-bottom-large">
+                                                    <div class="col-md-6">
+                                                        <a class="btn btn-success btn-sm btn-block text-left email-add-recipient margin-bottom-medium"><strong><span class="fa fa-plus"></span> Thêm người nhận</strong></a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a class="btn btn-danger btn-sm btn-block text-left margin-bottom-medium" data-toggle="modal" data-target="#removeRecipientModal"><strong><span class="fa fa-minus"></span>Xóa người nhận</strong></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label" for="eSendDate">Khi nào bạn muốn gửi thiệp này (MM/DD/YYYY)?</label>
+                                        <input id="eSendDate" name="eSendDate" type="text" class="form-control" placeholder="MM/DD/YYYY" value="3/20/2016 12:00:00 AM" required="">
+                                        <div class="help-block with-errors"></div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="eSubject">Tiêu đề thiệp</label>
+                                        <input type="text" class="form-control" id="eSubject" name="eSubject" value="Chúc mừng sinh nhật bạn...!" required="">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="eMessage">Lời nhắn của bạn (<span id="message-count">1000</span> characters remains)</label>
+                                        <textarea class="form-control" id="eMessage" name="eMessage" maxlength="1000" required=""></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="eSpecialAlerts" name="eSpecialAlerts" type="checkbox" value="true" checked=""> Gửi cho tôi những điều thú vị từ greetingcard.vn
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a class="btn btn-crosscards-primary btn-md btn-block text-center email-send margin-bottom-medium" href="#content-container"><strong>Gửi</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ob_holder" style="display: none;"><iframe id="ob_iframe" src="about:blank" style="display: none; width: 1px; height: 1px;"></iframe></div><div class="OUTBRAIN" data-src="/cards/birthdays/belated.html" data-widget-id="AR_1" data-ob-template="Crosscards" data-ob-mark="true" data-browser="chrome" data-os="win32" data-dynload="" id="outbrain_widget_0"></div>
+
+                <div id="suggestions" class="row margin-bottom-large">
+                    <div class="col-md-12">
+                        <h2 class="margin-none margin-bottom-medium">Thiệp sinh nhật ấn tượng khác</h2>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30815-cc_HelloSpring_2016.500w.tn.jpg" data-src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30815-cc_HelloSpring_2016.500w.tn.jpg" alt="Give Thank in All Seasons">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html">
+                                <span class="center-block">
+                                    Give Thank in All Seasons
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html" data-share-description="Give Thank in All Seasons" href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html" data-share-description="Give Thank in All Seasons" data-share-image="http://media.salemwebnetwork.com/cms/CROSSCARDS/30815-cc_HelloSpring_2016.500w.tn.jpg" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/holidays/spring/give-thank-in-all-seasons.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/IB/30533-easter-1.500w.tn.jpg" data-src="http://media.salemwebnetwork.com/cms/IB/30533-easter-1.500w.tn.jpg" alt="Happy Easter! ">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html">
+                                <span class="center-block">
+                                    Happy Easter!
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html" data-share-description="Happy Easter! " href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html" data-share-description="Happy Easter! " data-share-image="http://media.salemwebnetwork.com/cms/IB/30533-easter-1.500w.tn.jpg" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/holidays/easter/happy-easter-2.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <a class="label label-primary" href="http://www.crosscards.com/topics/easter-sunday">Easter Sunday</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/IB/30545-easter-3.500w.tn.jpg" data-src="http://media.salemwebnetwork.com/cms/IB/30545-easter-3.500w.tn.jpg" alt="Happy Easter">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html">
+                                <span class="center-block">
+                                    Happy Easter
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html" data-share-description="Happy Easter" href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html" data-share-description="Happy Easter" data-share-image="http://media.salemwebnetwork.com/cms/IB/30545-easter-3.500w.tn.jpg" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/holidays/easter/happy-easter-john-3-16.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <a class="label label-primary" href="http://www.crosscards.com/topics/easter-sunday">Easter Sunday</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/IB/30548-easter-5.500w.tn.jpg" data-src="http://media.salemwebnetwork.com/cms/IB/30548-easter-5.500w.tn.jpg" alt="Easter's Eternal Promise">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html">
+                                <span class="center-block">
+                                    Easter's Eternal Promise
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html" data-share-description="Easter's Eternal Promise" href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html" data-share-description="Easter's Eternal Promise" data-share-image="http://media.salemwebnetwork.com/cms/IB/30548-easter-5.500w.tn.jpg" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/holidays/easter/easter-s-eternal-promise.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <a class="label label-primary" href="http://www.crosscards.com/topics/easter-sunday">Easter Sunday</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30498-cm-taste-see-Lord-Good-trusts-Him-social.500w.tn.png" data-src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30498-cm-taste-see-Lord-Good-trusts-Him-social.500w.tn.png" alt="TRUST HIM! - Psalm 34:8">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html">
+                                <span class="center-block">
+                                    TRUST HIM! - Psalm 34:8
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html" data-share-description="TRUST HIM! - Psalm 34:8" href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html" data-share-description="TRUST HIM! - Psalm 34:8" data-share-image="http://media.salemwebnetwork.com/cms/CROSSCARDS/30498-cm-taste-see-Lord-Good-trusts-Him-social.500w.tn.png" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/facebook-ecards/cm-taste-see-lord-good-trusts-him-social.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12 col-sm-6 margin-bottom-large">
+                        <div class="item-contents">
+                            <a href="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html">
+                                <img class="suggestions img-responsive" src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30693-cc_Tulips_BeAmazing.500w.tn.jpg" data-src="http://media.salemwebnetwork.com/cms/CROSSCARDS/30693-cc_Tulips_BeAmazing.500w.tn.jpg" alt="Be Amazing - Matthew 5:13-16">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <a class="black-text" href="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html">
+                                <span class="center-block">
+                                    Be Amazing - Matthew 5:13-16
+                                </span>
+                            </a>
+                            <div class="row social-button-row margin-bottom-small " role="group" style="display:none;">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook" data-share-url="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html" href="javascript:void(0);"><strong><i class="fa fa-facebook fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-twitter" data-share-url="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html" data-share-description="Be Amazing - Matthew 5:13-16" href="javascript:void(0);"><strong><i class="fa fa-twitter fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-pinterest" data-share-url="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html" data-share-description="Be Amazing - Matthew 5:13-16" data-share-image="http://media.salemwebnetwork.com/cms/CROSSCARDS/30693-cc_Tulips_BeAmazing.500w.tn.jpg" href="javascript:void(0);"><strong><i class="fa fa-pinterest fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-email" href="http://www.crosscards.com/cards/care-and-encouragement/be-amazing-matthew-5-13-16.html?sendEmail=true"><strong><i class="fa fa-envelope-o fa-lg"></i></strong></a>
+                                    <a class="btn btn-default btn-block btn-close toggle-social-buttons" href="javascript:void(0)"><strong><i class="fa fa-times fa-lg"></i></strong></a>
+                                </div>
+                            </div>
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading-container alert alert-default text-center hidden">
+                    <h1><i class="fa fa-spin fa-circle-o-notch"></i> <small>Loading ...</small></h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Bình luận</h2>
+                        <span>Chia sẻ cảm nhận của bạn</span>
+                        <div id="fb-root"></div>
+                        <script>
+                            (function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=467222143374291";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-comments" data-href="http://vitbien.vn/san-pham/" data-width="100%" data-numposts="5">
+
+                        </div>
+                        <!-- blogpost end -->
+                    </div>
+                </div>
+            </div>
+
+            <!--share component widget-->
+            <widget>
+            </widget>
+        </div>
+    </div>
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="removeRecipientModal" tabindex="-1" role="dialog" aria-labelledby="removeRecipientModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="removeRecipientModalLabel">Select Recipient to Remove</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="messagesModal" tabindex="-1" role="dialog" aria-labelledby="messagesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="messagesModalLabel">Message</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert">
+                        <ul class="list-group"></ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template -->
+    <script id="social-template" type="text/ractive">
+        <div class="col-md-12">
+            <a class="btn btn-crosscards-primary btn-lg btn-block text-left margin-bottom-medium" href="#email-form"><strong><span class="fa fa-envelope-o"></span> Send Now</strong></a>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-facebook btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" href="javascript:void(0);"><strong><span class="fa fa-facebook"></span></strong></a>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-twitter btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" data-share-description="Belated" href="javascript:void(0);"><strong><span class="fa fa-twitter"></span></strong></a>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-pinterest btn-lg btn-block text-left margin-bottom-medium" data-share-url="http://www.crosscards.com/cards/birthdays/belated.html" data-share-description="Belated" data-share-image="http://media.salemwebnetwork.com/cms/CROSSCARDS/17520-belated-800x400.jpg" href="javascript:void(0);"><strong><span class="fa fa-pinterest"></span></strong></a>
+        </div>
+        <div class="col-xs-12">
+            <div class="center-block">
+                <div class="fb-like" data-href="http://www.crosscards.com/cards/birthdays/belated.html" data-layout="standard" data-action="like" data-show-faces="true" data-share="false"></div>
+            </div>
+        </div>
+    </script>
+</div>

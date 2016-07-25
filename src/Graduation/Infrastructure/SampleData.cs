@@ -1,4 +1,5 @@
 ﻿using Graduation.Entities;
+using Graduation.Infrastructure.Core;
 using Graduation.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -157,9 +158,9 @@ namespace Graduation.Infrastructure
                 {
                     var catesList = new Category[]
                     {
-                        new Category {Name="Thiệp mới",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Ngày lễ",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp nhiều người gửi",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
+                        new Category {Name="Thiệp mới",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug=Common.ConvertToUrlString("Thiệp mới")},
+                        new Category {Name="Ngày lễ",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug=Common.ConvertToUrlString("Ngày lễ")},
+                        new Category {Name="Thiệp nhiều người gửi",Level=0, ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug=Common.ConvertToUrlString("Thiệp nhiều người gửi")},
                     };
                     cates = new Dictionary<string, Category>();
 
@@ -180,27 +181,28 @@ namespace Graduation.Infrastructure
         {
             var catesList = new Category[]
             {
-                        new Category {Name="Thiệp cưới",Icon="fa fa-glass fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp cảm ơn",Icon="fa fa-mail-reply-all fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp chúc mừng",Icon="fa fa-star-o fa-fw", CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp mừng thành viên mới",Icon="fa fa-child fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 06",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 07",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Mùng 10/3",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Quốc tế lao động 1/5",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Ngày quốc tế phụ nữ",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Phụ nữ Việt Nam",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 15",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp sinh nhật",Icon="fa fa-birthday-cake fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Lễ tình yêu 14/2",Icon="fa fa-heart fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp chúc mừng tốt nghiệp",Icon="fa fa-graduation-cap fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Thiệp chúc mừng 1",Icon="fa fa-star-o fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 25",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"},
-                        new Category {Name="Cate 26",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description",UrlSlug="Na"}
+                        new Category {Name="Thiệp cưới",Icon="fa fa-glass fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp cảm ơn",Icon="fa fa-mail-reply-all fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp chúc mừng",Icon="fa fa-star-o fa-fw", CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp mừng thành viên mới",Icon="fa fa-child fa-fw",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Cate 06",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Cate 07",CateParent=cates["Thiệp mới"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Mùng 10/3",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Quốc tế lao động 1/5",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Ngày quốc tế phụ nữ",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Phụ nữ Việt Nam",Icon="fa fa-calendar fa-fw",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Cate 15",CateParent=cates["Ngày lễ"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp sinh nhật",Icon="fa fa-birthday-cake fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Lễ tình yêu 14/2",Icon="fa fa-heart fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp chúc mừng tốt nghiệp",Icon="fa fa-graduation-cap fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Thiệp chúc mừng 1",Icon="fa fa-star-o fa-fw",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Cate 25",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"},
+                        new Category {Name="Cate 26",CateParent=cates["Thiệp nhiều người gửi"],ImageUrl="15049-great-job.jpg",Description="No description description description description"}
             };
             foreach (var cate in catesList)
             {
                 cate.ParentId = cate.CateParent.Id;
+                cate.UrlSlug = Common.ConvertToUrlString(cate.Name);
             }
             return catesList;
         }
@@ -275,6 +277,7 @@ namespace Graduation.Infrastructure
             foreach (var card in cards)
             {
                 card.CateId = card.Category.Id;
+                card.UrlSlug = Common.ConvertToUrlString(card.Title);
             }
             return cards;
         }

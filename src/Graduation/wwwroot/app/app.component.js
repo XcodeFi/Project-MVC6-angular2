@@ -9,30 +9,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_deprecated_1 = require('@angular/router-deprecated');
-var cate_service_1 = require('./services/cate.service');
-var card_service_1 = require('./services/card.service');
-var account_service_1 = require('./services/account.service');
-var app_routes_1 = require('./app.routes');
-var slide_service_1 = require('./services/slide.service');
-core_1.enableProdMode();
+var router_1 = require('@angular/router');
+var notify_service_1 = require('./utility/notify.service');
+var cards_service_1 = require('./cards/cards.service');
+var account_1 = require('./models/account');
+var account_service_1 = require('./account/account.service');
+//enableProdMode()
 var AppComponent = (function () {
-    function AppComponent(_cateService, _accountService) {
+    function AppComponent(_cateService, _notify, _accountService) {
         this._cateService = _cateService;
+        this._notify = _notify;
         this._accountService = _accountService;
-        this.cates = [];
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.getCate();
+        this._user = new account_1.UserLogin('', '', false);
+        this.getAllCate();
     };
-    AppComponent.prototype.getCate = function () {
+    AppComponent.prototype.onSubmit = function () {
         var _this = this;
-        this._cateService.getChildCates()
-            .subscribe(function (cates) { return _this.cates = cates; }, function (error) { return _this.errorMessage = error; });
+        this._accountService.doLogin(this._user).subscribe(function (res) {
+            if (res) {
+                var user = res;
+                localStorage.setItem('user', JSON.stringify(res));
+                _this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
+            }
+            else {
+                _this._notify.printErrorMessage('User name or password not truely');
+            }
+        });
     };
-    AppComponent.prototype.logOff = function () {
-        this._accountService.Logoff();
-        console.log('Logout');
+    AppComponent.prototype.logout = function () {
+        localStorage.removeItem('user');
+    };
+    AppComponent.prototype.getAllCate = function () {
+        var _this = this;
+        this._cateService.getChildCates().subscribe(function (cate) { return _this.cates = cate; });
     };
     AppComponent.prototype.ngAfterViewInit = function () {
         $(document).ready(function () {
@@ -49,14 +60,13 @@ var AppComponent = (function () {
         });
     };
     AppComponent = __decorate([
-        router_deprecated_1.RouteConfig(app_routes_1.APP_ROUTER_PROVIDERS),
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES],
-            providers: [cate_service_1.CateService, card_service_1.CardService, account_service_1.AccountService, slide_service_1.SlideService]
+            directives: [router_1.ROUTER_DIRECTIVES],
+            providers: [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService],
         }), 
-        __metadata('design:paramtypes', [cate_service_1.CateService, account_service_1.AccountService])
+        __metadata('design:paramtypes', [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService])
     ], AppComponent);
     return AppComponent;
 }());

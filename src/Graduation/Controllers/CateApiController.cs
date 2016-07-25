@@ -115,6 +115,27 @@ namespace Graduation.Controllers
         }
 
         [AllowAnonymous]
+        // GET api/values/5
+        [HttpGet("urlSlug/{urlSlug}", Name = "GetCateUrl")]
+        public IActionResult GetFromUrl(string urlSlug)
+        {
+            Category _cate = _cateRepo
+            .GetSingle(c => c.UrlSlug==urlSlug && c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true, includeProperties);
+
+            if (_cate != null)
+            {
+                //CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
+                return new OkObjectResult(_cate);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+
+        [AllowAnonymous]
         // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]CateCreateViewModel cateVM)
