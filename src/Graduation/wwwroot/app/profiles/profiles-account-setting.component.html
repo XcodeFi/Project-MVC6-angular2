@@ -1,0 +1,41 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <form #changePassForm="ngForm" (ngSubmit)="onSubmit()">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Change your password
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Current password</label>
+                                <input type="password" class="form-control" [(ngModel)]="model.oldPassword" ngControl="oldPassword" #oldPassword="ngForm" name="oldPassword" placeholder="Current Password" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group has-error">
+                                <label>New password</label>
+                                <input type="password" class="form-control" [(ngModel)]="model.newPassword" ngControl="newPassword" #newPassword="ngForm" name="newPassword" placeholder="New password" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Confirm New password</label>
+                                <input type="password" class="form-control" [(ngModel)]="model.confirmPassword" ngControl="confirmPassword" #confirmPassword="ngForm" name="confirmPassword" placeholder="Confirm password" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 margin-top-large">
+                            <div class="text-right">
+                                <button [disabled]="!changePassForm.form.valid" type="submit"
+                                        class="btn btn-success password-button" value="Save">
+                                    <i class="fa fa-save fa-fw"></i>Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

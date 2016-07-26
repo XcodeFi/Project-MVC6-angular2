@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var notify_service_1 = require('./utility/notify.service');
+var common_1 = require('@angular/common');
 var cards_service_1 = require('./cards/cards.service');
 var account_1 = require('./models/account');
 var account_service_1 = require('./account/account.service');
@@ -25,10 +26,13 @@ var AppComponent = (function () {
         this._user = new account_1.UserLogin('', '', false);
         this.getAllCate();
     };
+    AppComponent.prototype.isLogin = function () {
+        return this._accountService.isUserAuthenticated();
+    };
     AppComponent.prototype.onSubmit = function () {
         var _this = this;
         this._accountService.doLogin(this._user).subscribe(function (res) {
-            if (res) {
+            if (res != 3) {
                 var user = res;
                 localStorage.setItem('user', JSON.stringify(res));
                 _this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
@@ -38,8 +42,18 @@ var AppComponent = (function () {
             }
         });
     };
-    AppComponent.prototype.logout = function () {
-        localStorage.removeItem('user');
+    AppComponent.prototype.logOut = function (event) {
+        var _this = this;
+        event.preventDefault();
+        this._accountService.doLogout().subscribe(function (res) {
+            if (res == 1) {
+                localStorage.removeItem('user');
+                _this._notify.printSuccessMessage('Logout Success!');
+            }
+            else {
+                _this._notify.printErrorMessage('Something not truely!');
+            }
+        });
     };
     AppComponent.prototype.getAllCate = function () {
         var _this = this;
@@ -63,8 +77,9 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.FORM_DIRECTIVES],
             providers: [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService],
+            styleUrls: ["css/validate.css"]
         }), 
         __metadata('design:paramtypes', [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService])
     ], AppComponent);

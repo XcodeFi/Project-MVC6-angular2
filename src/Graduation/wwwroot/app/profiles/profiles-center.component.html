@@ -1,0 +1,48 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Trang cá nhân</h1>
+        </div>
+    </div>
+    <div class="dashboard">
+        <!--<div class="row">
+            <div id="bar-output" class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+                <button type="button" class="btn btn-default dashboard-refresh" data-toggle="tooltip" title="Refresh">
+                    <span class="fa fa-refresh"></span>
+                </button>  <div class="pull-right">
+                    <span class="text-muted"><b>1</b> – <b>2</b> of <b>2</b></span>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-default paging-prev paging-disabled">
+                            <span class="fa fa-chevron-left"></span>
+                        </button>
+                        <button type="button" class="btn btn-default paging-next paging-disabled">
+                            <span class="fa fa-chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <hr>
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <ul class="nav nav-pills nav-stacked dashboard-nav">
+                    <li routerLinkActive="active">
+                        <a [routerLink]="['cards']" data-partial="3">
+                            Inbox
+                        </a>
+                    </li>
+                    <li routerLinkActive="active"><a href="#" data-url="me/sent-messages" data-partial="4">Thiệp đã gửi</a></li>
+                    <li routerLinkActive="active"><a href="#" data-url="me/drafts" data-partial="5">Lưu trữ</a></li>
+                    <li class="nav-divider"></li>
+                    <li routerLinkActive="active"><a data-url="me/contacts" data-partial="0" href="#"><span class="pull-right"><i class="fa fa-user text-muted"></i></span>Bạn bè</a></li>
+                    <li routerLinkActive="active"><a data-url="me/favorites" data-partial="1" href="#"><span class="pull-right"><i class="fa fa-star text-muted"></i></span>Yêu thích</a></li>
+                    <li routerLinkActive="active"><a data-url="me/reminders" data-partial="2" href="#"><span class="pull-right"><i class="fa fa-clock-o text-muted"></i></span>Nhắc nhở</a></li>
+                    <li routerLinkActive="active"><a [routerLink]="['account-setting']"><span class="pull-right"><i class="fa fa-key text-muted"></i></span>Cài đặt tài khoản</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-md-10">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

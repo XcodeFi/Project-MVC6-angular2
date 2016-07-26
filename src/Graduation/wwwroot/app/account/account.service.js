@@ -21,11 +21,19 @@ var AccountService = (function () {
         this._accountRegisterAPI = 'api/account/register/';
         this._accountLoginAPI = 'http://localhost:16174/api/accountapi/login';
         this._accountLogoutAPI = 'http://localhost:16174/api/accountapi/logoff';
+        this._accountChangePassAPI = 'http://localhost:16174/api/accountapi/changePassword';
     }
     //register(newUser: Registration) {
     //    this.accountService.set(this._accountRegisterAPI);
     //    return this.accountService.post(JSON.stringify(newUser));
     //}
+    AccountService.prototype.changePassword = function (value) {
+        var body = JSON.stringify(value);
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        return this.http.post(this._accountChangePassAPI, body, options)
+            .map(this.extractData);
+    };
     AccountService.prototype.isUserAuthenticated = function () {
         var _user = localStorage.getItem('user');
         if (_user != null)
@@ -42,7 +50,7 @@ var AccountService = (function () {
         return _user;
     };
     AccountService.prototype.doLogin = function (value) {
-        var body = JSON.stringify({ value: value });
+        var body = JSON.stringify(value);
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this._accountLoginAPI, body, options)

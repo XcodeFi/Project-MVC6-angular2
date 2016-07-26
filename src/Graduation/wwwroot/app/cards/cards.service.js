@@ -36,7 +36,7 @@ var CateService = (function () {
             .catch(this.handleError);
     };
     CateService.prototype.addCate = function (value) {
-        var body = JSON.stringify({ value: value });
+        var body = JSON.stringify(value);
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this.cateApiUrl, body, options)

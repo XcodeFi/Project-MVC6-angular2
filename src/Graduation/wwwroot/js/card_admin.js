@@ -231,7 +231,7 @@ $("#btnSearch").off('click').on('click', function (e) {
                     html += '<tr>';
                     html += '<td>' + item.title + '</td>';
                     html += '<td><img class="img-responsive" style="width:100px;" src="' + $host + path + item.imageUrl + '" data-toggle="tooltip" title="' + item.content + '" alt="' + item.content + '" /></td>';
-                    html += '<td>' + new Date(item.dateCreated)+'/n'+ new Date(item.dateEdited)+ '</td>';
+                    html += '<td>' + new Date(item.dateCreated)+'<br/>'+ new Date(item.dateEdited)+ '</td>';
                     html += '<td align="center">' + '<input type="checkbox"' + $checked + '>' + '</td>';
                     html += '<td>' + item.likesNo + '</td>';
                     html += '<td>' + item.viewNo + '</td>';

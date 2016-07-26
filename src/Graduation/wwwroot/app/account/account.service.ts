@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { UserLogin } from '../models/account';
+import { UserLogin, ChangePassword } from '../models/account';
 
 
 import { Http, Response } from '@angular/http';
@@ -14,6 +14,7 @@ export class AccountService {
     private _accountRegisterAPI: string = 'api/account/register/';
     private _accountLoginAPI: string = 'http://localhost:16174/api/accountapi/login';
     private _accountLogoutAPI: string = 'http://localhost:16174/api/accountapi/logoff';
+    private _accountChangePassAPI: string = 'http://localhost:16174/api/accountapi/changePassword';
 
     constructor(private http: Http) { }
 
@@ -23,6 +24,15 @@ export class AccountService {
 
     //    return this.accountService.post(JSON.stringify(newUser));
     //}
+
+    changePassword(value: ChangePassword) {
+        let body = JSON.stringify(value);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this._accountChangePassAPI, body, options)
+            .map(this.extractData);
+    }
 
     isUserAuthenticated(): boolean {
         var _user: UserLogin = localStorage.getItem('user');
@@ -42,8 +52,8 @@ export class AccountService {
 
         return _user;
     }
-    doLogin(value: UserLogin): Observable<UserLogin> {
-        let body = JSON.stringify({ value });
+    doLogin(value: UserLogin) {
+        let body = JSON.stringify(value);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
@@ -52,11 +62,11 @@ export class AccountService {
             .catch(this.handleError);
     }
 
-    doLogout(): Observable<string> {
+    doLogout() {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this._accountLogoutAPI,null, options)
+        return this.http.post(this._accountLogoutAPI, null, options)
             .map(this.extractData)
             .catch(this.handleError);
     }

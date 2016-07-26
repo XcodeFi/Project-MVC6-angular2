@@ -2,8 +2,7 @@
 import { Component, AfterViewInit, enableProdMode, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NotifyService} from './utility/notify.service';
-import {NgForm} from '@angular/common';
-
+import {NgForm, FORM_DIRECTIVES} from '@angular/common';
 
 import {CateService} from './cards/cards.service';
 import {Cate} from './models/models';
@@ -15,8 +14,9 @@ import {AccountService} from './account/account.service';
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES],
     providers: [CateService, NotifyService, AccountService],
+    styleUrls:[`css/validate.css`]
 })
 export class AppComponent implements OnInit, AfterViewInit { 
     private cates: Cate[];
@@ -31,11 +31,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this._user = new UserLogin('', '', false);
         this.getAllCate();
+
+    }
+
+    isLogin(): boolean {
+        return this._accountService.isUserAuthenticated();
     }
 
     onSubmit() {
         this._accountService.doLogin(this._user).subscribe(res => {
-            if (res) {
+            if (res != 3) {
                 let user = res;
                 localStorage.setItem('user', JSON.stringify(res));
                 this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
@@ -46,9 +51,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         })
     }
 
-    public logout() {
-        localStorage.removeItem('user');
-
+    logOut(event: any) {
+        event.preventDefault();
+        this._accountService.doLogout().subscribe(res => {
+            if (res == 1) {
+                localStorage.removeItem('user');
+                this._notify.printSuccessMessage('Logout Success!');
+            }
+            else {
+                this._notify.printErrorMessage('Something not truely!');
+            }
+        });
     }
 
     getAllCate() {

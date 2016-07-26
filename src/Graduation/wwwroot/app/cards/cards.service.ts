@@ -35,7 +35,7 @@ export class CateService {
 
     
     addCate(value: Cate): Observable<Cate> {
-        let body = JSON.stringify({ value });
+        let body = JSON.stringify(value);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 

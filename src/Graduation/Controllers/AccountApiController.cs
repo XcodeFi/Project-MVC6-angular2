@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Graduation.Models.AccountViewModels;
 using Graduation.Infrastructure;
 using Graduation.Infrastructure.Core;
+using Graduation.Models.ManageViewModels;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,7 +21,7 @@ namespace Graduation.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    public class AccountApiController : Controller
+    public class AccountApiController : BaseController
     {
         #region Declare variable
         private readonly UserManager<ApplicationUser> _userManager;
@@ -39,8 +40,9 @@ namespace Graduation.Controllers
                     ISmsSender smsSender,
                     ILoggerFactory loggerFactory,
                     ILoggingRepository _errorRepository,
-                    GraduationDbContext context
-                    )
+                    GraduationDbContext context,
+                    ILoggingRepository logging
+                    ):base(logging)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -149,12 +151,46 @@ namespace Graduation.Controllers
             return new OkObjectResult(result);//logout success
         }
 
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            GenericResult _result = null;
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User changed their password successfully.");
+                    _result = new GenericResult()
+                    {
+                        Message= "User changed their password successfully.",
+                        Succeeded=true
+                    };
+
+                    return new OkObjectResult(_result);
+                }
+                AddErrors(result);
+            }
+            _result = new GenericResult()
+            {
+                Message = "Something wrong!",
+                Succeeded = false
+            };
+            return new OkObjectResult(_result);
+        }
+
         /// <summary>
         /// update last logout
         /// </summary>
         /// <param name="id"></param>
         /// <param name="value"></param>
-        // PUT api/values/5
 
         [HttpGet("UpdateLogoff")]
         public async Task<IActionResult> UpdateLogoff()
