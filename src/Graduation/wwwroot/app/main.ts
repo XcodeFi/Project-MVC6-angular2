@@ -1,6 +1,6 @@
 /// <reference path="../../typings/index.d.ts" />
 
-import {disableDeprecatedForms, /*provideForms*/} from '@angular/forms';
+import {disableDeprecatedForms, provideForms} from '@angular/forms';
 
 import { bootstrap }        from '@angular/platform-browser-dynamic';
 import { appRouterProviders } from './app.routes';

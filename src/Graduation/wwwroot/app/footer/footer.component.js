@@ -9,19 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var coming_day_shared_component_1 = require('../shared-Components/coming-day.shared.component');
-var slider_shared_component_1 = require('../shared-components/slider.shared.component');
-var HomeComponent = (function () {
-    function HomeComponent() {
+var FooterComponent = (function () {
+    function FooterComponent() {
     }
-    HomeComponent = __decorate([
+    FooterComponent.prototype.ngOnInit = function () { };
+    FooterComponent = __decorate([
         core_1.Component({
-            templateUrl: 'app/home/home.component.html',
-            directives: [coming_day_shared_component_1.ComingdaySharedComponent, slider_shared_component_1.SliderComponent]
+            selector: 'footer-main',
+            templateUrl: 'app/footer/footer.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], HomeComponent);
-    return HomeComponent;
+    ], FooterComponent);
+    return FooterComponent;
 }());
-exports.HomeComponent = HomeComponent;
-//# sourceMappingURL=home.component.js.map
+exports.FooterComponent = FooterComponent;
+//# sourceMappingURL=footer.component.js.map

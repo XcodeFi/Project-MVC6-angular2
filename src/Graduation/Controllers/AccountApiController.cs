@@ -176,7 +176,17 @@ namespace Graduation.Controllers
 
                     return new OkObjectResult(_result);
                 }
-                AddErrors(result);
+                else
+                {
+                    _result = new GenericResult()
+                    {
+                        Message = "Old password not trully!",
+                        Succeeded = false
+                    };
+                    return new OkObjectResult(_result);
+
+                }
+                //AddErrors(result);
             }
             _result = new GenericResult()
             {

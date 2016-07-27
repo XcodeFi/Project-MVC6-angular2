@@ -9,19 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var coming_day_shared_component_1 = require('../shared-Components/coming-day.shared.component');
-var slider_shared_component_1 = require('../shared-components/slider.shared.component');
-var HomeComponent = (function () {
-    function HomeComponent() {
+var SliderComponent = (function () {
+    function SliderComponent() {
     }
-    HomeComponent = __decorate([
+    SliderComponent.prototype.ngOnInit = function () { };
+    SliderComponent = __decorate([
         core_1.Component({
-            templateUrl: 'app/home/home.component.html',
-            directives: [coming_day_shared_component_1.ComingdaySharedComponent, slider_shared_component_1.SliderComponent]
+            selector: 'slider-shared',
+            templateUrl: 'app/shared-components/slider.shared.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], HomeComponent);
-    return HomeComponent;
+    ], SliderComponent);
+    return SliderComponent;
 }());
-exports.HomeComponent = HomeComponent;
-//# sourceMappingURL=home.component.js.map
+exports.SliderComponent = SliderComponent;
+//# sourceMappingURL=slider.shared.component.js.map

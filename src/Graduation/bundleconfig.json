@@ -3,7 +3,9 @@
     "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
       "wwwroot/css/site.css"
-    ]
+    ],
+    "sourceMap": false,
+    "sourceMapRootPath": null
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
@@ -13,12 +15,16 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    }
+    },
+    "sourceMap": false,
+    "sourceMapRootPath": null
   },
   {
-    "outputFileName": "wwwroot/app/app.component.min.html",
+    "outputFileName": "wwwroot/app/profiles/profiles-cards.component.min.html",
     "inputFiles": [
-      "wwwroot/app/app.component.html"
-    ]
+      "wwwroot/app/profiles/profiles-cards.component.html"
+    ],
+    "sourceMap": false,
+    "sourceMapRootPath": null
   }
 ]

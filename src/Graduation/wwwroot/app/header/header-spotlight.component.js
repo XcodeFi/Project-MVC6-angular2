@@ -9,19 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var coming_day_shared_component_1 = require('../shared-Components/coming-day.shared.component');
-var slider_shared_component_1 = require('../shared-components/slider.shared.component');
-var HomeComponent = (function () {
-    function HomeComponent() {
+var SpotLightComponent = (function () {
+    function SpotLightComponent() {
     }
-    HomeComponent = __decorate([
+    SpotLightComponent.prototype.ngOnInit = function () { };
+    SpotLightComponent = __decorate([
         core_1.Component({
-            templateUrl: 'app/home/home.component.html',
-            directives: [coming_day_shared_component_1.ComingdaySharedComponent, slider_shared_component_1.SliderComponent]
+            selector: 'header-splotlight',
+            templateUrl: 'app/header/header-spotlight.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], HomeComponent);
-    return HomeComponent;
+    ], SpotLightComponent);
+    return SpotLightComponent;
 }());
-exports.HomeComponent = HomeComponent;
-//# sourceMappingURL=home.component.js.map
+exports.SpotLightComponent = SpotLightComponent;
+//# sourceMappingURL=header-spotlight.component.js.map
