@@ -16,13 +16,17 @@
                         <div class="col-md-6">
                             <div class="form-group has-error">
                                 <label>New password</label>
-                                <input type="password" class="form-control" [(ngModel)]="model.newPassword" ngControl="newPassword" #newPassword="ngForm" name="newPassword" placeholder="New password" required>
+                                <input type="password" class="form-control" [(ngModel)]="model.newPassword" ngControl="newPassword" #newPassword="ngForm" name="newPassword" placeholder="New password" required
+                                       validateEqual="confirmPassword" reverse="true"
+                                       >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Confirm New password</label>
-                                <input type="password" class="form-control" [(ngModel)]="model.confirmPassword" ngControl="confirmPassword" #confirmPassword="ngForm" name="confirmPassword" placeholder="Confirm password" required>
+                                <input type="password" class="form-control" [(ngModel)]="model.confirmPassword" ngControl="confirmPassword" #confirmPassword="ngForm" name="confirmPassword" placeholder="Confirm password"
+                                       validateEqual="newPassword" reverse="false"
+                                        required>
                             </div>
                         </div>
                         <div class="col-md-12 margin-top-large">

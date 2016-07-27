@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var notify_service_1 = require('../utility/notify.service');
 var account_1 = require('../models/account');
 var account_service_1 = require('../account/account.service');
+var equal_validator_directive_1 = require('../utility/equal-validator.directive');
 var ProfileAccountSettingComponent = (function () {
     function ProfileAccountSettingComponent(router, _notify, _accountService) {
         this.router = router;
@@ -34,7 +35,7 @@ var ProfileAccountSettingComponent = (function () {
             }
         }, function (error) {
             if (error.status == 400) {
-                var data = error._body;
+                var data = error.json().message;
                 _this._notify.printErrorMessage(data);
             }
         });
@@ -44,7 +45,8 @@ var ProfileAccountSettingComponent = (function () {
     ProfileAccountSettingComponent = __decorate([
         core_1.Component({
             templateUrl: 'app/profiles/profiles-account-setting.component.html',
-            directives: [router_1.RouterOutlet, router_1.ROUTER_DIRECTIVES],
+            //templateUrl: 'account/login',
+            directives: [router_1.RouterOutlet, router_1.ROUTER_DIRECTIVES, equal_validator_directive_1.EqualValidator],
             styleUrls: ['css/validate.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, notify_service_1.NotifyService, account_service_1.AccountService])

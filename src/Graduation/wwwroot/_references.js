@@ -21,6 +21,7 @@
 /// <reference path="app/profiles/profiles-center.component.js" />
 /// <reference path="app/shared-components/coming-day.shared.component.js" />
 /// <reference path="app/slides/slide.service.js" />
+/// <reference path="app/utility/equal-validator.directive.js" />
 /// <reference path="app/utility/notify.service.js" />
 /// <reference path="bower_components/datatables/media/js/dataTables.bootstrap.js" />
 /// <reference path="bower_components/datatables/media/js/dataTables.foundation.js" />
