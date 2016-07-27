@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var notify_service_1 = require('./utility/notify.service');
-var common_1 = require('@angular/common');
 //header
 var header_component_1 = require('./header/header.component');
 //spotlight
@@ -27,7 +26,8 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.FORM_DIRECTIVES, common_1.CORE_DIRECTIVES, header_component_1.HeaderComponent,
+            directives: [router_1.ROUTER_DIRECTIVES,
+                header_component_1.HeaderComponent,
                 header_spotlight_component_1.SpotLightComponent,
                 footer_component_1.FooterComponent
             ],

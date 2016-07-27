@@ -10,6 +10,7 @@ platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     app_routes_1.appRouterProviders,
     http_1.HTTP_PROVIDERS,
     forms_1.disableDeprecatedForms(),
+    forms_1.provideForms(),
     { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy } //for router
 ]).catch(function (err) { return console.log(err); });
 //# sourceMappingURL=main.js.map

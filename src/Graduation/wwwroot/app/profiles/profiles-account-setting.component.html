@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <form #changePassForm="ngForm" (ngSubmit)="onSubmit()">
+        <form #changePassForm="ngForm" novalidate (ngSubmit)="onSubmit()">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Change your password
@@ -17,8 +17,7 @@
                             <div class="form-group has-error">
                                 <label>New password</label>
                                 <input type="password" class="form-control" [(ngModel)]="model.newPassword" ngControl="newPassword" #newPassword="ngForm" name="newPassword" placeholder="New password" required
-                                       validateEqual="confirmPassword" reverse="true"
-                                       >
+                                       validateEqual="confirmPassword" reverse="true">
                             </div>
                         </div>
                         <div class="col-md-6">

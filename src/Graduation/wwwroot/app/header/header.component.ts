@@ -2,7 +2,7 @@
 import { Component, AfterViewInit, enableProdMode, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NotifyService} from '../utility/notify.service';
-import {NgForm, FORM_DIRECTIVES, CORE_DIRECTIVES} from '@angular/common';
+import {FORM_DIRECTIVES, CORE_DIRECTIVES} from '@angular/common';
 
 
 

@@ -4,14 +4,15 @@ import {NotifyService} from '../utility/notify.service';
 import {ChangePassword} from '../models/account';
 import {AccountService} from '../account/account.service';
 import {EqualValidator} from '../utility/equal-validator.directive';
+import {FORM_DIRECTIVES, NgForm, CORE_DIRECTIVES} from '@angular/common';
 
-import {NgForm} from '@angular/common';
+
 declare var $: JQueryStatic;
 
 @Component({
     templateUrl: 'app/profiles/profiles-account-setting.component.html',
     //templateUrl: 'account/login',
-    directives: [RouterOutlet, ROUTER_DIRECTIVES, EqualValidator],
+    directives: [RouterOutlet, ROUTER_DIRECTIVES, EqualValidator, FORM_DIRECTIVES, CORE_DIRECTIVES],
     styleUrls: ['css/validate.css']
 })
 export class ProfileAccountSettingComponent implements OnInit, AfterViewInit {

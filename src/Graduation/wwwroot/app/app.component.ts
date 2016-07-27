@@ -2,7 +2,6 @@
 import { Component, AfterViewInit, enableProdMode, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NotifyService} from './utility/notify.service';
-import {NgForm, FORM_DIRECTIVES, CORE_DIRECTIVES} from '@angular/common';
 
 //header
 import {HeaderComponent} from './header/header.component';
@@ -23,7 +22,8 @@ import {AccountService} from './account/account.service';
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, HeaderComponent,
+    directives: [ROUTER_DIRECTIVES,
+        HeaderComponent,
         SpotLightComponent,
         FooterComponent
     ],

@@ -13,6 +13,7 @@ bootstrap(AppComponent, [
     appRouterProviders,//for router
     HTTP_PROVIDERS,//for service 
     disableDeprecatedForms(),
+    provideForms(),
      { provide: LocationStrategy, useClass: HashLocationStrategy }//for router
 ]).catch(err => console.log(err));
 
