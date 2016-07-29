@@ -2,7 +2,9 @@
 import {ProfilesCenterComponent} from './profiles-center.component';
 import {ProfilesCardsComponent} from './profiles-cards.component';
 import {ProfileAccountSettingComponent } from './profiles-account-setting.component';
+import {AuthGuard} from './auth.guard';
 
+import {AccountService} from '../account/account.service';
 
 export const profilesRoutes: RouterConfig = [
     
@@ -26,3 +28,4 @@ export const profilesRoutes: RouterConfig = [
         ]
     }
 ];
+

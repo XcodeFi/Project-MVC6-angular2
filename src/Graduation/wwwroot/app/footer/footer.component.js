@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var FooterComponent = (function () {
     function FooterComponent() {
     }
@@ -16,7 +17,8 @@ var FooterComponent = (function () {
     FooterComponent = __decorate([
         core_1.Component({
             selector: 'footer-main',
-            templateUrl: 'app/footer/footer.component.html'
+            templateUrl: 'app/footer/footer.component.html',
+            directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [])
     ], FooterComponent);

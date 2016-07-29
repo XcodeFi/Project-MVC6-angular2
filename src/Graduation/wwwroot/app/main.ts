@@ -10,10 +10,11 @@ import { HTTP_PROVIDERS } from '@angular/http';
 import { AppComponent }     from './app.component';
 
 bootstrap(AppComponent, [
-    appRouterProviders,//for router
     HTTP_PROVIDERS,//for service 
     disableDeprecatedForms(),
     provideForms(),
+    appRouterProviders,//for router
      { provide: LocationStrategy, useClass: HashLocationStrategy }//for router
-]).catch(err => console.log(err));
+]).then(success => console.log(`Bootstrap success`))
+    .catch(error => console.log(error));
 

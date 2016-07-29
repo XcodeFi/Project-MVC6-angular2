@@ -2,6 +2,7 @@
 var cards_detail_component_1 = require('./cards-detail.component');
 var cards_list_Component_1 = require('./cards-list.Component');
 var cards_center_Component_1 = require('./cards-center.Component');
+var card_detail_component_1 = require('../card/card-detail.component');
 exports.cardsRoutes = [
     {
         path: '',
@@ -14,7 +15,16 @@ exports.cardsRoutes = [
         children: [
             {
                 path: ':id',
-                component: cards_detail_component_1.CardsDetailComponent,
+                children: [
+                    {
+                        path: ':id',
+                        component: card_detail_component_1.CardDetailComponent
+                    },
+                    {
+                        path: '',
+                        component: cards_detail_component_1.CardsDetailComponent,
+                    }
+                ]
             },
             {
                 path: '',

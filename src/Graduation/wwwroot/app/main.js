@@ -7,10 +7,11 @@ var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
-    app_routes_1.appRouterProviders,
     http_1.HTTP_PROVIDERS,
     forms_1.disableDeprecatedForms(),
     forms_1.provideForms(),
+    app_routes_1.appRouterProviders,
     { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy } //for router
-]).catch(function (err) { return console.log(err); });
+]).then(function (success) { return console.log("Bootstrap success"); })
+    .catch(function (error) { return console.log(error); });
 //# sourceMappingURL=main.js.map

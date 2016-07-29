@@ -18,6 +18,7 @@
 /// <reference path="app/models/account.js" />
 /// <reference path="app/models/models.js" />
 /// <reference path="app/pagenotfound/page-not-found.component.js" />
+/// <reference path="app/profiles/auth.guard.js" />
 /// <reference path="app/profiles/profiles.routes.js" />
 /// <reference path="app/profiles/profiles-account-setting.component.js" />
 /// <reference path="app/profiles/profiles-cards.component.js" />

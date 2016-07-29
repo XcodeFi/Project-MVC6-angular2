@@ -1,23 +1,18 @@
 ﻿
-import { Component, AfterViewInit, enableProdMode, OnInit} from '@angular/core';
+import { Component, AfterViewInit, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NotifyService} from '../utility/notify.service';
-import {FORM_DIRECTIVES, CORE_DIRECTIVES} from '@angular/common';
-
-
 
 import {CateService} from '../cards/cards.service';
 import {Cate} from '../models/models';
 import {UserLogin} from '../models/account';
 import {AccountService} from '../account/account.service';
 
-//enableProdMode()
-
 @Component({
     selector: 'header-main',
     templateUrl: 'app/header/header.component.html',
-    directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
-    styleUrls: [`css/validate.css`]
+    styleUrls: [`css/validate.css`],
+    directives: [ROUTER_DIRECTIVES]
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
     private cates: Cate[];
@@ -32,7 +27,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this._user = new UserLogin('', '', false);
         this.getAllCate();
-
     }
 
     isLogin(): boolean {

@@ -5,6 +5,8 @@ import { CardsListComponent } from './cards-list.Component';
 import { CardsCenterComponent } from './cards-center.Component';
 import { CardDetailComponent } from '../card/card-detail.component';
 
+
+
 export const cardsRoutes: RouterConfig = [
     {
         path: '',
@@ -17,7 +19,17 @@ export const cardsRoutes: RouterConfig = [
         children: [
             {
                 path: ':id',
-                component: CardsDetailComponent,
+                children: [
+                    {
+                        path: ':id',
+                        component: CardDetailComponent
+                    }
+                    ,
+                    {
+                        path: '',
+                        component: CardsDetailComponent,
+                    }
+                ]
             },
             {
                 path: '',

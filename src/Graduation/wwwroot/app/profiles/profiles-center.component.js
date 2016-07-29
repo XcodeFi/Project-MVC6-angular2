@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var card_service_1 = require('../card/card.service');
+var auth_guard_1 = require('./auth.guard');
 var ProfilesCenterComponent = (function () {
     function ProfilesCenterComponent(router) {
         this.router = router;
@@ -24,7 +25,7 @@ var ProfilesCenterComponent = (function () {
         core_1.Component({
             templateUrl: 'app/profiles/profiles-center.component.html',
             directives: [router_1.RouterOutlet, router_1.ROUTER_DIRECTIVES],
-            providers: [card_service_1.CardService],
+            providers: [card_service_1.CardService, auth_guard_1.AuthGuard],
         }), 
         __metadata('design:paramtypes', [router_1.Router])
     ], ProfilesCenterComponent);

@@ -8,7 +8,7 @@ import {HeaderComponent} from './header/header.component';
 
 //spotlight
 import {SpotLightComponent} from './header/header-spotlight.component';
-
+//footer
 import {FooterComponent} from './footer/footer.component';
 
 
@@ -25,7 +25,7 @@ import {AccountService} from './account/account.service';
     directives: [ROUTER_DIRECTIVES,
         HeaderComponent,
         SpotLightComponent,
-        FooterComponent
+        FooterComponent,
     ],
     providers: [CateService, NotifyService, AccountService],
 })

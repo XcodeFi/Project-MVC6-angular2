@@ -15,6 +15,7 @@ var notify_service_1 = require('./utility/notify.service');
 var header_component_1 = require('./header/header.component');
 //spotlight
 var header_spotlight_component_1 = require('./header/header-spotlight.component');
+//footer
 var footer_component_1 = require('./footer/footer.component');
 var cards_service_1 = require('./cards/cards.service');
 var account_service_1 = require('./account/account.service');
@@ -29,7 +30,7 @@ var AppComponent = (function () {
             directives: [router_1.ROUTER_DIRECTIVES,
                 header_component_1.HeaderComponent,
                 header_spotlight_component_1.SpotLightComponent,
-                footer_component_1.FooterComponent
+                footer_component_1.FooterComponent,
             ],
             providers: [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService],
         }), 

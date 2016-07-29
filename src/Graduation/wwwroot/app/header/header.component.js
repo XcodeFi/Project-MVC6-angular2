@@ -11,11 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var notify_service_1 = require('../utility/notify.service');
-var common_1 = require('@angular/common');
 var cards_service_1 = require('../cards/cards.service');
 var account_1 = require('../models/account');
 var account_service_1 = require('../account/account.service');
-//enableProdMode()
 var HeaderComponent = (function () {
     function HeaderComponent(_cateService, _notify, _accountService) {
         this._cateService = _cateService;
@@ -77,8 +75,8 @@ var HeaderComponent = (function () {
         core_1.Component({
             selector: 'header-main',
             templateUrl: 'app/header/header.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.FORM_DIRECTIVES, common_1.CORE_DIRECTIVES],
-            styleUrls: ["css/validate.css"]
+            styleUrls: ["css/validate.css"],
+            directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService])
     ], HeaderComponent);
