@@ -18,5 +18,16 @@ namespace Graduation.Infrastructure.Core
 
             return _navigations;
         }
+
+        public static Expression<Func<Category, object>>[] LoadCardNavigations()
+        {
+            Expression<Func<Category, object>>[] _navigations = {
+                         a => a.Name,
+                         a=>a.UrlSlug,
+                         a=>a.Id
+             };
+
+            return _navigations;
+        }
     }
 }

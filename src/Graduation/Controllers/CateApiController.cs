@@ -101,7 +101,7 @@ namespace Graduation.Controllers
         public IActionResult Get(int id)
         {
             Category _cate = _cateRepo
-            .GetSingle(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true, includeProperties);
+            .GetSingle(c => c.Id == id && c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true);
 
             if (_cate != null)
             {
@@ -115,12 +115,11 @@ namespace Graduation.Controllers
         }
 
         [AllowAnonymous]
-        // GET api/values/5
-        [HttpGet("urlSlug/{urlSlug}", Name = "GetCateUrl")]
-        public IActionResult GetFromUrl(string urlSlug)
+        [HttpGet("geturl/{url}")]
+        public IActionResult GetUrl(string url)
         {
             Category _cate = _cateRepo
-            .GetSingle(c => c.UrlSlug==urlSlug && c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true, includeProperties);
+            .GetSingle(c => c.UrlSlug == url && c.IsDeleted == false && c.IsPublished == true && c.IsMainMenu == true, includeProperties);
 
             if (_cate != null)
             {
@@ -132,8 +131,6 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
-
-
 
         [AllowAnonymous]
         // PUT api/values/5

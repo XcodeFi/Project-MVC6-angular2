@@ -21,7 +21,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a routerLink="/cards">Tất cả</a></li>
                             <li class="divider"></li>
-                            <li *ngFor="let cate of cates"><a href="/#/cards/{{cate.id}}">{{cate.name}}</a></li>
+                            <li *ngFor="let cate of cates"><a href="/#/cards/{{cate.urlSlug}}">{{cate.name}}</a></li>
                         </ul>
                     </li>
                     <li>
@@ -79,33 +79,33 @@
                     <li *ngIf="!isLogin()" class="dropdown search-collapse">
                         <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">Đăng nhập<strong class="caret"></strong></a>
                         <div class="dropdown-menu" style="padding:20px;min-width:300px;">
-                            <!--<form (ngSubmit)="onSubmit()" autocomplete="off" #loginForm="ngForm">
+                            <form (submit)="onSubmit()" autocomplete="off" [formGroup]="loginForm">
                                 <div class="form-group">
-                                    <input class="form-control" [(ngModel)]="_user.email" type="email" 
+                                    <input class="form-control" formControlName="email" type="email" 
                                            required placeholder="Tên đăng nhập"
                                            pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
                                            minlength="5" maxlength="30"
-                                           name="email" ngControl="email" #email="ngModel" />
+                                           name="email"/>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" [(ngModel)]="_user.password" type="password" placeholder="Mật khẩu"
-                                            required name="password" #password="ngModel" />
+                                    <input class="form-control" formControlName="password" type="password" placeholder="Mật khẩu"
+                                            required name="password"/>
                                 </div>
                                 <div class="checkbox-inline">
-                                    <input [(ngModel)]="_user.rememberMe" class="cSheckbox" type="checkbox" />
-                                    <label for="ckRemember">Nhớ mật khẩu</label>
+                                    <input formControlName="rememberMe" class="cSheckbox" type="checkbox" id="rememberMe" />
+                                    <label for="rememberMe">Nhớ mật khẩu</label>
                                 </div>
-                                <button [disabled]="!loginForm.form.valid" type="submit" class="apSignInBtn btn btn-crosscards-primary btn-block text-left">
+                                <button [disabled]="!loginForm.valid" type="submit" class="apSignInBtn btn btn-crosscards-primary btn-block text-left">
                                     <i class="fa fa-sign-in margin-right-small"></i>Đăng nhập
                                 </button>
-                                <hr />-->
+                                <hr />
                                 <!--<a class="btn btn-block btn-social btn-google-plus">
                                     <i class="fa fa-google-plus"></i> Sign in with Google
                                 </a>-->
-                                <!--<a class="btn btn-block btn-social btn-facebook">
+                                <a class="btn btn-block btn-social btn-facebook">
                                     <i class="fa fa-facebook"></i> Sign in with Facebook
                                 </a>
-                            </form>-->
+                            </form>
                         </div>
                     </li>
                     <li *ngIf="isLogin()" class="dropdown search-collapse">

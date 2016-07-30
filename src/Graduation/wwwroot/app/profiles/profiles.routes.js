@@ -18,7 +18,7 @@ exports.profilesRoutes = [
             },
             {
                 path: 'account-setting',
-                component: profiles_account_setting_component_1.ProfileAccountSettingComponent
+                component: profiles_account_setting_component_1.ProfileAccountSettingComponent,
             }
         ]
     }

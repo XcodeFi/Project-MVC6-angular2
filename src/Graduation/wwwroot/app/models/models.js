@@ -1,6 +1,6 @@
 "use strict";
 var Card = (function () {
-    function Card(id, cateId, title, urlSlug, content, viewNo, likesNo, cardSize, cardType, isDeleted, imageUrl, rateNo, dateCreated, isPublished, tag, applycationUserId) {
+    function Card(id, cateId, title, urlSlug, content, viewNo, likesNo, cardSize, cardType, isDeleted, imageUrl, rateNo, dateCreated, isPublished, tag, cate, applycationUserId) {
         this.id = id;
         this.cateId = cateId;
         this.title = title;
@@ -16,6 +16,7 @@ var Card = (function () {
         this.dateCreated = dateCreated;
         this.isPublished = isPublished;
         this.tag = tag;
+        this.cate = cate;
         this.applycationUserId = applycationUserId;
     }
     return Card;

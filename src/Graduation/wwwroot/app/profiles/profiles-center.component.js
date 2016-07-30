@@ -11,13 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var card_service_1 = require('../card/card.service');
-var auth_guard_1 = require('./auth.guard');
+var account_service_1 = require('../account/account.service');
 var ProfilesCenterComponent = (function () {
-    function ProfilesCenterComponent(router) {
+    function ProfilesCenterComponent(router, _accountService) {
         this.router = router;
+        this._accountService = _accountService;
         this.cates = [];
     }
     ProfilesCenterComponent.prototype.ngOnInit = function () {
+        if (!this._accountService.isUserAuthenticated()) {
+            this.router.navigate(['/home']);
+        }
     };
     ProfilesCenterComponent.prototype.ngAfterViewInit = function () {
     };
@@ -25,9 +29,9 @@ var ProfilesCenterComponent = (function () {
         core_1.Component({
             templateUrl: 'app/profiles/profiles-center.component.html',
             directives: [router_1.RouterOutlet, router_1.ROUTER_DIRECTIVES],
-            providers: [card_service_1.CardService, auth_guard_1.AuthGuard],
+            providers: [card_service_1.CardService],
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, account_service_1.AccountService])
     ], ProfilesCenterComponent);
     return ProfilesCenterComponent;
 }());

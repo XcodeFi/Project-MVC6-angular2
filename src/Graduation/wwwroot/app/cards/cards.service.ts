@@ -33,6 +33,12 @@ export class CateService {
     }
 
 
+    getCateUrl(url: string): Observable<CateDetail> {
+        return this.http.get(this.cateApiUrl + "/geturl/" + url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     
     addCate(value: Cate): Observable<Cate> {
         let body = JSON.stringify(value);

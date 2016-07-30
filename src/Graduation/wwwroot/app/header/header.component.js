@@ -11,17 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var notify_service_1 = require('../utility/notify.service');
+var forms_1 = require('@angular/forms');
 var cards_service_1 = require('../cards/cards.service');
-var account_1 = require('../models/account');
 var account_service_1 = require('../account/account.service');
 var HeaderComponent = (function () {
-    function HeaderComponent(_cateService, _notify, _accountService) {
+    function HeaderComponent(_cateService, _notify, formBuilder, router, _accountService) {
         this._cateService = _cateService;
         this._notify = _notify;
+        this.formBuilder = formBuilder;
+        this.router = router;
         this._accountService = _accountService;
+        this.loginForm = this.formBuilder.group({
+            email: ['', [forms_1.Validators.required]],
+            password: ['', [forms_1.Validators.required]],
+            rememberMe: [false, [forms_1.Validators.required]]
+        });
     }
     HeaderComponent.prototype.ngOnInit = function () {
-        this._user = new account_1.UserLogin('', '', false);
         this.getAllCate();
     };
     HeaderComponent.prototype.isLogin = function () {
@@ -29,11 +35,12 @@ var HeaderComponent = (function () {
     };
     HeaderComponent.prototype.onSubmit = function () {
         var _this = this;
-        this._accountService.doLogin(this._user).subscribe(function (res) {
+        this._accountService.doLogin(this.loginForm.value).subscribe(function (res) {
             if (res != 3) {
                 var user = res;
                 localStorage.setItem('user', JSON.stringify(res));
                 _this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
+                _this.router.navigate(['/profiles-center']);
             }
             else {
                 _this._notify.printErrorMessage('User name or password not truely');
@@ -47,11 +54,13 @@ var HeaderComponent = (function () {
             if (res == 1) {
                 localStorage.removeItem('user');
                 _this._notify.printSuccessMessage('Logout Success!');
+                _this.router.navigate(['/home']);
             }
             else {
                 _this._notify.printErrorMessage('Something not truely!');
             }
         });
+        //localStorage.removeItem('user');
     };
     HeaderComponent.prototype.getAllCate = function () {
         var _this = this;
@@ -76,9 +85,9 @@ var HeaderComponent = (function () {
             selector: 'header-main',
             templateUrl: 'app/header/header.component.html',
             styleUrls: ["css/validate.css"],
-            directives: [router_1.ROUTER_DIRECTIVES]
+            directives: [router_1.ROUTER_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [cards_service_1.CateService, notify_service_1.NotifyService, account_service_1.AccountService])
+        __metadata('design:paramtypes', [cards_service_1.CateService, notify_service_1.NotifyService, forms_1.FormBuilder, router_1.Router, account_service_1.AccountService])
     ], HeaderComponent);
     return HeaderComponent;
 }());

@@ -2,6 +2,8 @@
 import { Component, AfterViewInit, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NotifyService} from '../utility/notify.service';
+import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@angular/forms';  
+
 
 import {CateService} from '../cards/cards.service';
 import {Cate} from '../models/models';
@@ -12,20 +14,27 @@ import {AccountService} from '../account/account.service';
     selector: 'header-main',
     templateUrl: 'app/header/header.component.html',
     styleUrls: [`css/validate.css`],
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
     private cates: Cate[];
-    private _user: UserLogin;
+    loginForm: any;
 
-
+    
     constructor(private _cateService: CateService,
         private _notify: NotifyService,
+        private formBuilder: FormBuilder,
+        private router: Router,
         public _accountService: AccountService
     ) {
+        this.loginForm = this.formBuilder.group({
+            email: ['', [Validators.required]],
+            password: ['', [Validators.required]],
+            rememberMe: [false, [Validators.required]]
+        });
     }
     ngOnInit() {
-        this._user = new UserLogin('', '', false);
+        
         this.getAllCate();
     }
 
@@ -34,11 +43,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
 
     onSubmit() {
-        this._accountService.doLogin(this._user).subscribe(res => {
+        this._accountService.doLogin(this.loginForm.value).subscribe(res => {
             if (res != 3) {
                 let user = res;
                 localStorage.setItem('user', JSON.stringify(res));
                 this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
+                this.router.navigate(['/profiles-center']);
             }
             else {
                 this._notify.printErrorMessage('User name or password not truely');
@@ -52,11 +62,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             if (res == 1) {
                 localStorage.removeItem('user');
                 this._notify.printSuccessMessage('Logout Success!');
+                this.router.navigate(['/home']);
             }
             else {
                 this._notify.printErrorMessage('Something not truely!');
             }
         });
+        //localStorage.removeItem('user');
     }
 
     getAllCate() {

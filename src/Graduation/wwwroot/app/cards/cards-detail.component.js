@@ -25,15 +25,15 @@ var CardsDetailComponent = (function () {
         this.sub = this.route
             .params
             .subscribe(function (params) {
-            var id = +params['id'];
-            _this._id = id;
-            _this._cateService.getCate(id).subscribe(function (cate) {
+            var url = params['url'];
+            _this._id = url;
+            _this._cateService.getCateUrl(url).subscribe(function (cate) {
                 if (cate) {
                     _this.cateName = cate.name;
                     _this.cards = cate.cards;
                 }
                 else {
-                    console.log('not found');
+                    _this._router.navigate(['/**']);
                 }
             });
         });

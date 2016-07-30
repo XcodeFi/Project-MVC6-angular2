@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <form #changePassForm="ngForm" (ngSubmit)="onSubmit()">
+        <form #changePassForm="ngForm" (submit)="onSubmit()">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Change your password
@@ -11,27 +11,39 @@
                             <div class="form-group">
                                 <label>Current password</label>
                                 <input type="password" class="form-control" 
-                                       [(ngModel)]="model.oldPassword" ngControl="oldPassword" 
-                                       #oldPassword="ngForm" name="oldPassword" placeholder="Current Password" required>
+                                       [(ngModel)]="model.oldPassword"
+                                       pattern="^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$"
+                                       #oldPassword="ngModel" name="oldPassword" placeholder="Current Password" required>
+                                <small [hidden]="oldPassword.valid || (oldPassword.pristine && !changePassForm.submitted)" class="text-danger">
+                                    <i class="glyphicon glyphicon-exclamation-sign"></i> Password is required
+                                </small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-error">
                                 <label>New password</label>
                                 <input type="password" class="form-control" [(ngModel)]="model.newPassword"
-                                        ngControl="newPassword" #newPassword="ngForm" name="newPassword"
+                                       pattern="^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$"
+                                        #newPassword="ngModel" name="newPassword"
                                         placeholder="New password" required
                                        validateEqual="confirmPassword" reverse="true">
+                                <small [hidden]="newPassword.valid || (newPassword.pristine && !changePassForm.submitted)" class="text-danger">
+                                    <i class="glyphicon glyphicon-exclamation-sign"></i> Password is required
+                                </small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Confirm New password</label>
                                 <input type="password" class="form-control" 
-                                       [(ngModel)]="model.confirmPassword" ngControl="confirmPassword" 
-                                       #confirmPassword="ngForm" name="confirmPassword" placeholder="Confirm password"
+                                       [(ngModel)]="model.confirmPassword"
+                                       pattern="^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$"
+                                       #confirmPassword="ngModel" name="confirmPassword" placeholder="Confirm password"
                                        validateEqual="newPassword" reverse="false"
                                         required>
+                                <small [hidden]="confirmPassword.valid || (confirmPassword.pristine && !changePassForm.submitted)" class="text-danger">
+                                    <i class="glyphicon glyphicon-exclamation-sign"></i>  Password mismatch
+                                </small>
                             </div>
                         </div>
                         <div class="col-md-12 margin-top-large">

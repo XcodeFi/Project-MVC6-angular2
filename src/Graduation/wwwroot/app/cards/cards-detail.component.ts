@@ -14,7 +14,7 @@ export class CardsDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     cards: Card[] = [];
     errorMessage: string;
     cateName: string;
-    _id: number;
+    _id: string;
     private sub: any;
 
     constructor(
@@ -28,14 +28,14 @@ export class CardsDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sub = this.route
             .params
             .subscribe(params => {
-                let id = +params['id'];
-                this._id = id;
-                this._cateService.getCate(id).subscribe(cate => {
+                let url = params['url'];
+                this._id = url;
+                this._cateService.getCateUrl(url).subscribe(cate => {
                     if (cate) {
                         this.cateName = cate.name;
                         this.cards = cate.cards;
                     } else { // id not found
-                        console.log('not found');
+                        this._router.navigate(['/**']);
                     }
                 });
             })

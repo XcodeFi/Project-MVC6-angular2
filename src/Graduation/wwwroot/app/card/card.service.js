@@ -20,12 +20,17 @@ var CardService = (function () {
         this.cardApiUrl = 'http://localhost:16174/api/cardapi'; // URL to web API
     }
     CardService.prototype.getCards = function () {
-        return this.http.get(this.cardApiUrl)
+        return this.http.get(this.cardApiUrl + "/getNative")
             .map(this.extractData)
             .catch(this.handleError);
     };
     CardService.prototype.getCard = function (id) {
         return this.http.get(this.cardApiUrl + "/" + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    CardService.prototype.getCardUrl = function (urlSlug) {
+        return this.http.get(this.cardApiUrl + "/geturl/" + urlSlug)
             .map(this.extractData)
             .catch(this.handleError);
     };

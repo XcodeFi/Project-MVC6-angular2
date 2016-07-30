@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Graduation.Infrastructure.Core;
+using System.Linq.Expressions;
+using Graduation.Infrastructure;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +27,10 @@ namespace Graduation.Controllers
         #region Declare repo and varible
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+
+
+        private readonly GraduationDbContext _context;
+        private Expression<Func<Category, object>>[] includeProperties;
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
         #endregion
@@ -33,10 +39,13 @@ namespace Graduation.Controllers
             ICardRepository cardRepo,
             UserManager<ApplicationUser> userManager,
             ILoggingRepository logRepo,
+            GraduationDbContext context,
             SignInManager<ApplicationUser> signInManager) : base(logRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
+            includeProperties = Expressions.LoadCardNavigations();
             _cardRepo = cardRepo;
             _cateRepo = cateRepo;
         }
@@ -54,6 +63,28 @@ namespace Graduation.Controllers
            .ToList();
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
             return new OkObjectResult(_cardVM);
+        }
+
+
+        // GET: api/values
+        [HttpGet("getNative")]
+        [AllowAnonymous]
+        public IActionResult GetNative()
+        {
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false && c.IsPublished == true)
+           .OrderByDescending(u => u.DateCreated)
+           //.Skip((currentPage - 1) * currentPageSize)
+           //.Take(currentPageSize)
+           .ToList();
+
+            foreach (var item in _cards)
+            {
+                item.Category = _cateRepo.GetSingle(c => c.Id == item.CateId);
+            }
+
+            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
+            return new OkObjectResult(_cards);
         }
 
         [AllowAnonymous]
@@ -93,6 +124,27 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
+
+
+        [HttpGet("geturl/{url}", Name = "GetCardUrl")]
+        [AllowAnonymous]
+        public IActionResult GetUrl(string url)
+        {
+            Card _card = _cardRepo
+            .GetSingle(c => c.UrlSlug == url && c.IsDeleted == false);
+
+            if (_card != null)
+            {
+                CardViewModel _cardVM = Mapper.Map<Card, CardViewModel>(_card);
+                UpdateView(_card.Id);
+                return new OkObjectResult(_cardVM);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         //POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CardCreateEditViewModel card)

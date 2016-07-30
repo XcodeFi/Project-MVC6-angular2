@@ -11,7 +11,6 @@ import {SpotLightComponent} from './header/header-spotlight.component';
 //footer
 import {FooterComponent} from './footer/footer.component';
 
-
 import {CateService} from './cards/cards.service';
 import {Cate} from './models/models';
 import {UserLogin} from './models/account';

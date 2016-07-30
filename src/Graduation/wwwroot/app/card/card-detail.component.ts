@@ -4,8 +4,7 @@
     OnInit,
     OnDestroy} from '@angular/core';
 import {Router, RouterLink, ActivatedRoute} from '@angular/router';
-import {Card} from '../models/models';
-import {Cate} from '../models/models';
+import {Card, CateDetail} from '../models/models';
 import {CardService} from './card.service';
 
 import {CateService} from '../cards/cards.service';
@@ -21,11 +20,12 @@ declare var $: JQueryStatic;
 })
 
 export class CardDetailComponent implements OnInit, AfterViewInit {
-
     card: Card;
     error: any;
     navigated = false; // true if navigated here
-    public cate: Cate;
+    cateUrl: string;
+    cateName: string;
+
     constructor(private _cardService: CardService,
         private _cateService: CateService,
         private route: ActivatedRoute,
@@ -34,12 +34,18 @@ export class CardDetailComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            let id = +params['id'];
-            if (id !== undefined) {
+            let url = params['url'];
+            if (url !== undefined) {
                 this.navigated = true;
-                this._cardService.getCard(id).subscribe
+                this._cardService.getCardUrl(url).subscribe
                     (card => {
                         this.card = card;
+                        this._cateService.getCate(card.cateId).subscribe(
+                            cate => {
+                                this.cateUrl = cate.urlSlug;
+                                this.cateName = cate.name;
+                            }
+                        );
                     });
             } else {
                 this.navigated = false;

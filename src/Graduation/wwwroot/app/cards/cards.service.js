@@ -35,6 +35,11 @@ var CateService = (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
+    CateService.prototype.getCateUrl = function (url) {
+        return this.http.get(this.cateApiUrl + "/geturl/" + url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
     CateService.prototype.addCate = function (value) {
         var body = JSON.stringify(value);
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });

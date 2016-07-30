@@ -14,13 +14,19 @@ export class CardService {
     private cardApiUrl = 'http://localhost:16174/api/cardapi';  // URL to web API
 
     getCards(): Observable<Card[]> {
-        return this.http.get(this.cardApiUrl)
+        return this.http.get(this.cardApiUrl+"/getNative")
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     getCard(id: number): Observable<Card> {
         return this.http.get(this.cardApiUrl + "/" + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getCardUrl(urlSlug: string): Observable<Card> {
+        return this.http.get(this.cardApiUrl + "/geturl/" + urlSlug)
             .map(this.extractData)
             .catch(this.handleError);
     }

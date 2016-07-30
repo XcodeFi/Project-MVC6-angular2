@@ -18,10 +18,10 @@ export const cardsRoutes: RouterConfig = [
         component: CardsCenterComponent,
         children: [
             {
-                path: ':id',
+                path: ':url',
                 children: [
                     {
-                        path: ':id',
+                        path: ':url',
                         component: CardDetailComponent
                     }
                     ,

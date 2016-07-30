@@ -14,10 +14,10 @@ exports.cardsRoutes = [
         component: cards_center_Component_1.CardsCenterComponent,
         children: [
             {
-                path: ':id',
+                path: ':url',
                 children: [
                     {
-                        path: ':id',
+                        path: ':url',
                         component: card_detail_component_1.CardDetailComponent
                     },
                     {

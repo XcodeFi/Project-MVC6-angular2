@@ -23,11 +23,15 @@ var CardDetailComponent = (function () {
     CardDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
-            var id = +params['id'];
-            if (id !== undefined) {
+            var url = params['url'];
+            if (url !== undefined) {
                 _this.navigated = true;
-                _this._cardService.getCard(id).subscribe(function (card) {
+                _this._cardService.getCardUrl(url).subscribe(function (card) {
                     _this.card = card;
+                    _this._cateService.getCate(card.cateId).subscribe(function (cate) {
+                        _this.cateUrl = cate.urlSlug;
+                        _this.cateName = cate.name;
+                    });
                 });
             }
             else {

@@ -15,6 +15,7 @@
         public dateCreated: Date,
         public isPublished: boolean,
         public tag: string[],
+        public cate: Cate,
         public applycationUserId: string) { }
 }
 

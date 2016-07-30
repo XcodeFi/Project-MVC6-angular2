@@ -1,14 +1,14 @@
 ﻿import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, RouterOutlet, ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
 import {CardService} from '../card/card.service';
-import {AuthGuard} from './auth.guard';
 import {Cate} from '../models/models';
+import {AccountService} from '../account/account.service';
 declare var $: JQueryStatic;
 
 @Component({
     templateUrl: 'app/profiles/profiles-center.component.html',
     directives: [RouterOutlet, ROUTER_DIRECTIVES],
-    providers: [CardService, AuthGuard],
+    providers: [CardService],
 })
 export class ProfilesCenterComponent implements OnInit, AfterViewInit {
 
@@ -16,10 +16,16 @@ export class ProfilesCenterComponent implements OnInit, AfterViewInit {
     cates: Cate[] = [];
 
     constructor(
-        private router: Router
+        private router: Router,
+        private _accountService: AccountService
+    
     ) { }
 
     ngOnInit() {
+        if (!this._accountService.isUserAuthenticated())
+        {
+            this.router.navigate(['/home']);
+        }
     }
 
     ngAfterViewInit() {
