@@ -19,8 +19,15 @@ var CardService = (function () {
         this.http = http;
         this.cardApiUrl = 'http://localhost:16174/api/cardapi'; // URL to web API
     }
+    //for anyone can get
     CardService.prototype.getCards = function () {
         return this.http.get(this.cardApiUrl + "/getNative")
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    //for user
+    CardService.prototype.getCardsForUser = function (id) {
+        return this.http.get(this.cardApiUrl + "/getMyCard/" + id)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -31,6 +38,11 @@ var CardService = (function () {
     };
     CardService.prototype.getCardUrl = function (urlSlug) {
         return this.http.get(this.cardApiUrl + "/geturl/" + urlSlug)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    CardService.prototype.deleteCard = function (id, userId) {
+        return this.http.delete(this.cardApiUrl + "/user/" + id + "/" + userId)
             .map(this.extractData)
             .catch(this.handleError);
     };

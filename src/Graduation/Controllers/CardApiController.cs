@@ -27,12 +27,11 @@ namespace Graduation.Controllers
         #region Declare repo and varible
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-
-
         private readonly GraduationDbContext _context;
         private Expression<Func<Category, object>>[] includeProperties;
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
+
         #endregion
         public CardApiController(
             ICateRepository cateRepo,
@@ -65,8 +64,7 @@ namespace Graduation.Controllers
             return new OkObjectResult(_cardVM);
         }
 
-
-        // GET: api/values
+        // GET: api/cardapi/getnative
         [HttpGet("getNative")]
         [AllowAnonymous]
         public IActionResult GetNative()
@@ -84,8 +82,29 @@ namespace Graduation.Controllers
             }
 
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
-            return new OkObjectResult(_cards);
+            return new OkObjectResult(_cardVM);
         }
+
+
+        [HttpGet("getMycard/{id}")]
+        public IActionResult GetMyCard(string id)
+        {
+            IEnumerable<Card> _cards = _cardRepo
+           .FindBy(c => c.IsDeleted == false&&id==c.ApplycationUserId)
+           .OrderByDescending(u => u.DateCreated)
+           //.Skip((currentPage - 1) * currentPageSize)
+           //.Take(currentPageSize)
+           .ToList();
+
+            foreach (var item in _cards)
+            {
+                item.Category = _cateRepo.GetSingle(c => c.Id == item.CateId);
+            }
+
+            IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(_cards);
+            return new OkObjectResult(_cardVM);
+        }
+
 
         [AllowAnonymous]
         [HttpGet("search/{key}")]
@@ -105,7 +124,8 @@ namespace Graduation.Controllers
             IEnumerable<CardViewModel> _cardVM = Mapper.Map<IEnumerable<Card>, IEnumerable<CardViewModel>>(cardTmp);
             return new OkObjectResult(_cardVM);
         }
-        // GET api/values/5
+
+        // GET api/cardapi/4
         [HttpGet("{id}", Name = "GetCard")]
         [AllowAnonymous]
         public IActionResult Get(int id)
@@ -144,6 +164,8 @@ namespace Graduation.Controllers
                 return NotFound();
             }
         }
+
+
 
         //POST api/values
         [HttpPost]
@@ -244,6 +266,7 @@ namespace Graduation.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
+        [Authorize(Policy ="Manager")]
         public IActionResult Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -265,6 +288,41 @@ namespace Graduation.Controllers
                 return Ok(_card);
             }
         }
+        /// <summary>
+        /// Delete method for all meber
+        /// allow member can be deleet theme card
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpDelete("user/{id}/{userId}")]
+        public IActionResult DeleteMember([FromRoute] int id,string userId)
+        {
+            GenericResult result = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Card _card = _cardRepo.FindBy(c => c.Id == id && c.IsDeleted == false&&c.ApplycationUserId==userId).FirstOrDefault();
+            if (_card == null)
+            {
+                return new NotFoundResult();
+            }
+            else
+            {
+                _card.IsDeleted = true;
+                _cardRepo.Edit(_card);
+                _cardRepo.Commit();
+                result = new GenericResult()
+                {
+                    Message = "Thiệp đã xóa thành công",
+                    Succeeded = true
+                };
+                return Ok(result);
+            }
+        }
+
+
         #region Admin
         [Authorize(Policy = "Manager")]
         [HttpGet("admin/{page:int=0}/{pageSize}")]

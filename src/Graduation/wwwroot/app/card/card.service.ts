@@ -1,20 +1,29 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
-
+import {AccountService} from '../account/account.service';
 import { Card }           from '../models/models';
+import {UserLogin} from '../models/account';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class CardService {
-    constructor(private http: Http) { }
+    constructor(private http: Http
+    ) { }
 
     private cardApiUrl = 'http://localhost:16174/api/cardapi';  // URL to web API
-
+    //for anyone can get
     getCards(): Observable<Card[]> {
         return this.http.get(this.cardApiUrl+"/getNative")
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    //for user
+    getCardsForUser(id:string): Observable<Card[]> {
+        return this.http.get(this.cardApiUrl + "/getMyCard/" +id)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -27,6 +36,12 @@ export class CardService {
 
     getCardUrl(urlSlug: string): Observable<Card> {
         return this.http.get(this.cardApiUrl + "/geturl/" + urlSlug)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    deleteCard(id: number, userId: string) {
+        return this.http.delete(this.cardApiUrl + "/user/" + id + "/" + userId)
             .map(this.extractData)
             .catch(this.handleError);
     }

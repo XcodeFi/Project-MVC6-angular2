@@ -1,17 +1,61 @@
 ﻿<div id="layout-output" class="list-group">
     <div class="row list-group-item">
         <div class="col-md-12">
-            <a href="http://www.crosscards.com/me/messages-view?m=K777GLYU" class="black-text"><div class="row"><div class="col-md-3">Luky</div> <div class="col-md-7">You have a card waiting for you!</div> <div class="col-md-2 text-muted">07/27/2016</div> <div class="col-md-12 small-text">huhuhuhuhuhuhhuhuhuhuhuh</div></div></a>
-        </div>
-    </div>
-    <div class="row list-group-item">
-        <div class="col-md-12">
-            <a href="http://www.crosscards.com/me/messages-view?m=7G67YPDU" class="black-text">
-                <div class="row">
-                    <div class="col-md-3">asd</div> <div class="col-md-7">You have a card waiting for </div>
-                    <div class="col-md-2 text-muted">03/21/2016</div> <div class="col-md-12 small-text">astseat</div>
+            <div class="row">
+                <h2 *ngIf="cards.length==0">Không có thiệp nào</h2>
+                <div id="message-output" class="col-md-3 col-lg-3 col-sm-6 col-xs-12" style="position:relative;"
+                     *ngFor="let card of cards">
+                    <div class="item margin-bottom-small">
+                        <!--images-->
+                        <div class="item-contents">
+                            <a>
+                                <img class="content img-responsive" alt="{{card.content}}" src="images/cms/news/{{card.imageUrl}}">
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <!--title card and link-->
+                            <a>
+                                <span class="center-block">
+                                    {{card.title}}
+                                </span>
+                            </a>
+                            <!--Social button-->
+                            <div class="row social-button-row hidden" role="group">
+                                <div class="col-xs-12 btn-group btn-group-justified">
+                                    <a class="btn btn-default btn-block btn-facebook"
+                                       href="javascript:void(0);">
+                                        <strong>
+                                            <i class="fa fa-edit fa-lg"></i>
+                                        </strong>
+                                    </a>
+                                    <a class="btn btn-default btn-block btn-email">
+                                        <strong>
+                                            <i class="fa fa-envelope-o fa-lg"></i>
+                                        </strong>
+                                    </a>
+                                    <a (click)="delete(card.id,card.title)" class="btn btn-danger btn-block" style="background:red;" href="javascript:void(0)">
+                                        <strong><i class="fa fa-trash fa-lg"></i></strong>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--Tags name-->
+                            <div class="row share-button-row">
+                                <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
+                                    <a class="btn btn-default btn-block btn-facebook"
+                                       href="javascript:void(0);">
+                                        <strong>
+                                            <i class="fa fa-edit fa-lg"></i>
+                                        </strong>
+                                    </a>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <a *ngFor="let tag of card.tag" class="label label-primary" href="#/video.html">{{tag}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 </div>

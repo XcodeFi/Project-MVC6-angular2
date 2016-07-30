@@ -18,7 +18,8 @@ require('rxjs/add/operator/catch');
 var AccountService = (function () {
     function AccountService(http) {
         this.http = http;
-        this._accountRegisterAPI = 'api/account/register/';
+        this._accountApi = 'http://localhost:16174/api/accountapi/';
+        this._accountUserInfo = 'http://localhost:16174/api/accountapi/CurrentUserInfo';
         this._accountLoginAPI = 'http://localhost:16174/api/accountapi/login';
         this._accountLogoutAPI = 'http://localhost:16174/api/accountapi/logoff';
         this._accountChangePassAPI = 'http://localhost:16174/api/accountapi/changePassword';
@@ -27,6 +28,11 @@ var AccountService = (function () {
     //    this.accountService.set(this._accountRegisterAPI);
     //    return this.accountService.post(JSON.stringify(newUser));
     //}
+    //get user info
+    AccountService.prototype.getUserInfo = function () {
+        return this.http.get(this._accountUserInfo).map(this.extractData)
+            .catch(this.handleError);
+    };
     AccountService.prototype.changePassword = function (value) {
         var body = JSON.stringify(value);
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
@@ -34,9 +40,20 @@ var AccountService = (function () {
         return this.http.post(this._accountChangePassAPI, body, options)
             .map(this.extractData);
     };
+    AccountService.prototype.isSignIn = function () {
+        var result;
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        this.http.post(this._accountApi + "isSignIn", null, options)
+            .map(result = this.extractData).catch(this.handleError);
+        if (result) {
+            return true;
+        }
+        return false;
+    };
     AccountService.prototype.isUserAuthenticated = function () {
         var _user = localStorage.getItem('user');
-        if (_user != null)
+        if (_user != null && this.isSignIn())
             return true;
         else
             return false;

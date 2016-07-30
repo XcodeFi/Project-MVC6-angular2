@@ -18,13 +18,5 @@
     },
     "sourceMap": false,
     "sourceMapRootPath": null
-  },
-  {
-    "outputFileName": "wwwroot/app/profiles/profiles-cards.component.min.html",
-    "inputFiles": [
-      "wwwroot/app/profiles/profiles-cards.component.html"
-    ],
-    "sourceMap": false,
-    "sourceMapRootPath": null
   }
 ]

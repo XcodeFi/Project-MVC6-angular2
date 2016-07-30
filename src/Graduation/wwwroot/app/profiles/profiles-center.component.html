@@ -27,8 +27,8 @@
             <div class="col-sm-3 col-md-2">
                 <ul class="nav nav-pills nav-stacked dashboard-nav">
                     <li routerLinkActive="active">
-                        <a [routerLink]="['cards']" data-partial="3">
-                            Inbox
+                        <a routerLink="/profiles-center/cards" data-partial="3">
+                            Thiệp của tôi
                         </a>
                     </li>
                     <li routerLinkActive="active"><a href="#" data-url="me/sent-messages" data-partial="4">Thiệp đã gửi</a></li>
@@ -41,7 +41,9 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-md-10">
-                <router-outlet></router-outlet>
+                <router-outlet>
+                    
+                </router-outlet>
             </div>
         </div>
     </div>

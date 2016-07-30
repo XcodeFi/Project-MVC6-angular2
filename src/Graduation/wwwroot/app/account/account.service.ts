@@ -8,10 +8,13 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+
+
+
 @Injectable()
 export class AccountService {
-
-    private _accountRegisterAPI: string = 'api/account/register/';
+    private _accountApi: string = 'http://localhost:16174/api/accountapi/';
+    private _accountUserInfo: string = 'http://localhost:16174/api/accountapi/CurrentUserInfo';
     private _accountLoginAPI: string = 'http://localhost:16174/api/accountapi/login';
     private _accountLogoutAPI: string = 'http://localhost:16174/api/accountapi/logoff';
     private _accountChangePassAPI: string = 'http://localhost:16174/api/accountapi/changePassword';
@@ -24,19 +27,35 @@ export class AccountService {
 
     //    return this.accountService.post(JSON.stringify(newUser));
     //}
+    //get user info
+    getUserInfo() {
+        return this.http.get(this._accountUserInfo).map(this.extractData)
+            .catch(this.handleError);
+    }
 
     changePassword(value: ChangePassword) {
         let body = JSON.stringify(value);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-
         return this.http.post(this._accountChangePassAPI, body, options)
             .map(this.extractData);
     }
 
+    isSignIn(): boolean {
+        let result: any;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        this.http.post(this._accountApi + "isSignIn", null, options)
+            .map(result = this.extractData).catch(this.handleError);
+        if (result) {
+            return true;
+        }
+        return false;
+    }
+
     isUserAuthenticated(): boolean {
         var _user: UserLogin = localStorage.getItem('user');
-        if (_user != null)
+        if (_user != null && this.isSignIn())
             return true;
         else
             return false;
@@ -52,6 +71,8 @@ export class AccountService {
 
         return _user;
     }
+
+
     doLogin(value: UserLogin) {
         let body = JSON.stringify(value);
         let headers = new Headers({ 'Content-Type': 'application/json' });

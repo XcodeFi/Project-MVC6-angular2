@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Graduation.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 namespace Graduation.Models
 {
@@ -19,6 +20,7 @@ namespace Graduation.Models
         public DateTime DateEdited { get; set; }
         public string[] Tag { get; set; }//text search
         public string ApplycationUserId { get; set; }
+        public Category Category { get; set; }
     }
     /// <summary>
     /// Props:
