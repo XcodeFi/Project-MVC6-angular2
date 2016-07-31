@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var account_1 = require('../models/account');
 var http_1 = require('@angular/http');
 var http_2 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
@@ -38,33 +37,28 @@ var AccountService = (function () {
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this._accountChangePassAPI, body, options)
-            .map(this.extractData);
+            .map(this.extractData).catch(this.handleError);
     };
     AccountService.prototype.isSignIn = function () {
-        var result;
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
-        this.http.post(this._accountApi + "isSignIn", null, options)
-            .map(result = this.extractData).catch(this.handleError);
-        if (result) {
-            return true;
-        }
-        return false;
+        return this.http.post(this._accountApi + "isSignIn", null, options)
+            .map(this.extractData).catch(this.handleError);
     };
     AccountService.prototype.isUserAuthenticated = function () {
-        var _user = localStorage.getItem('user');
-        if (_user != null && this.isSignIn())
-            return true;
-        else
-            return false;
+        return this.isSignIn().subscribe(function (res) {
+            return res;
+        });
     };
-    AccountService.prototype.getLoggedInUser = function () {
-        var _user;
+    AccountService.prototype.getLogInUser = function () {
         if (this.isUserAuthenticated()) {
-            var _userData = JSON.parse(localStorage.getItem('user'));
-            _user = new account_1.UserLogin(_userData.email, _userData.password, _userData.remember);
+            return this.getUserInfo().subscribe(function (res) {
+                return JSON.stringify(res.id, res.email, res.usename);
+            });
         }
-        return _user;
+        else {
+            return null;
+        }
     };
     AccountService.prototype.doLogin = function (value) {
         var body = JSON.stringify(value);

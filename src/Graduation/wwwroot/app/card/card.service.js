@@ -20,8 +20,8 @@ var CardService = (function () {
         this.cardApiUrl = 'http://localhost:16174/api/cardapi'; // URL to web API
     }
     //for anyone can get
-    CardService.prototype.getCards = function () {
-        return this.http.get(this.cardApiUrl + "/getNative")
+    CardService.prototype.getCards = function (page) {
+        return this.http.get(this.cardApiUrl + "/getNative/" + page)
             .map(this.extractData)
             .catch(this.handleError);
     };

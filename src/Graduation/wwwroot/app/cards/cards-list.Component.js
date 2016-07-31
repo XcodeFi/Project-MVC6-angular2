@@ -11,23 +11,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var card_service_1 = require('../card/card.service');
+var angular2_infinite_scroll_1 = require('angular2-infinite-scroll');
 var CardsListComponent = (function () {
     function CardsListComponent(_cardService, _router) {
         this._cardService = _cardService;
         this._router = _router;
         this.cards = [];
+        this.sum = 0;
     }
     CardsListComponent.prototype.ngOnInit = function () {
         this.getCard();
     };
     CardsListComponent.prototype.getCard = function () {
         var _this = this;
-        this._cardService.getCards()
+        this._cardService.getCards(0)
             .subscribe(function (cards) { return _this.cards = cards; }, function (err) { return _this.errorMessage = err; });
+    };
+    CardsListComponent.prototype.onScrollDown = function () {
+        var _this = this;
+        console.log('scrolled!!');
+        this.sum += 1;
+        this._cardService.getCards(this.sum)
+            .subscribe(function (cards) {
+            if (cards.length == 0) {
+                return;
+            }
+            for (var _i = 0, cards_1 = cards; _i < cards_1.length; _i++) {
+                var item = cards_1[_i];
+                _this.cards.push(item);
+            }
+        }, function (err) { return _this.errorMessage = err; });
     };
     CardsListComponent.prototype.ngAfterViewInit = function () {
         $(document).ready(function () {
-            $(".toggle-social-buttons").click(function () {
+            //$(".toggle-social-buttons").click(function () {
+            $("#shared").click(function () {
+                console.log('click');
                 var shareButtonRow = $(this).closest(".caption").find(".share-button-row");
                 var socialButtonRow = $(this).closest(".caption").find(".social-button-row");
                 if ($(shareButtonRow).hasClass("hidden")) {
@@ -47,7 +66,11 @@ var CardsListComponent = (function () {
     };
     CardsListComponent = __decorate([
         core_1.Component({
-            templateUrl: 'app/cards/cards-list.component.html'
+            templateUrl: 'app/cards/cards-list.component.html',
+            directives: [angular2_infinite_scroll_1.InfiniteScroll],
+            styles: [
+                ".search-results {\n            height: 270px;\n            //overflow: scroll;\n        }"
+            ],
         }), 
         __metadata('design:paramtypes', [card_service_1.CardService, router_1.Router])
     ], CardsListComponent);

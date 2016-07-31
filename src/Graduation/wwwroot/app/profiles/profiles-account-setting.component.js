@@ -36,7 +36,7 @@ var ProfileAccountSettingComponent = (function () {
             }
         }, function (error) {
             if (error.status == 400) {
-                var data = error.json().message;
+                var data = error.json();
                 _this._notify.printErrorMessage(data);
             }
         });

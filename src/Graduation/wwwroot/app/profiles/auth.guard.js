@@ -19,7 +19,8 @@ var AuthGuard = (function () {
     AuthGuard.prototype.canActivate = function (
         // Not using but worth knowing about
         next, state) {
-        if (this.authService.isUserAuthenticated) {
+        this.authService.isUserAuthenticated();
+        if (this.authService.isUserAuthenticated()) {
             return true;
         }
         this.router.navigate(['/home']);

@@ -32,6 +32,11 @@ namespace Graduation.Controllers
         private ICardRepository _cardRepo;
         private ICateRepository _cateRepo;
 
+
+
+        private int itemsPerPage;
+        private int pageInit;
+
         #endregion
         public CardApiController(
             ICateRepository cateRepo,
@@ -47,6 +52,9 @@ namespace Graduation.Controllers
             includeProperties = Expressions.LoadCardNavigations();
             _cardRepo = cardRepo;
             _cateRepo = cateRepo;
+
+            itemsPerPage = 3;
+            pageInit = 6;
         }
 
         // GET: api/values
@@ -65,15 +73,17 @@ namespace Graduation.Controllers
         }
 
         // GET: api/cardapi/getnative
-        [HttpGet("getNative")]
+        [HttpGet("getNative/{currentPage}")]
         [AllowAnonymous]
-        public IActionResult GetNative()
+        public IActionResult GetNative(int currentPage = 0)
         {
+            
+
             IEnumerable<Card> _cards = _cardRepo
            .FindBy(c => c.IsDeleted == false && c.IsPublished == true)
            .OrderByDescending(u => u.DateCreated)
-           //.Skip((currentPage - 1) * currentPageSize)
-           //.Take(currentPageSize)
+           .Skip(currentPage * itemsPerPage)
+           .Take(currentPage==0?6:itemsPerPage)
            .ToList();
 
             foreach (var item in _cards)

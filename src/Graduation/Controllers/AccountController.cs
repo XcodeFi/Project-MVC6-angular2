@@ -153,8 +153,11 @@ namespace Graduation.Controllers
         // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string remoteError = null)
         {
+
+
+            returnUrl = "/#/home";
             if (remoteError != null)
             {
                 ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
@@ -171,7 +174,8 @@ namespace Graduation.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
+                //return RedirectToLocal(returnUrl);
+                return Redirect(returnUrl);
             }
             if (result.RequiresTwoFactor)
             {

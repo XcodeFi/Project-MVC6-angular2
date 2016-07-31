@@ -21,6 +21,8 @@ var HeaderComponent = (function () {
         this.formBuilder = formBuilder;
         this.router = router;
         this._accountService = _accountService;
+        this.statusLogin = true;
+        this.statusLogin = this.isLogin();
         this.loginForm = this.formBuilder.group({
             email: ['', [forms_1.Validators.required]],
             password: ['', [forms_1.Validators.required]],
@@ -37,8 +39,8 @@ var HeaderComponent = (function () {
         var _this = this;
         this._accountService.doLogin(this.loginForm.value).subscribe(function (res) {
             if (res != 3) {
-                var user = res;
-                localStorage.setItem('user', JSON.stringify(res));
+                _this.statusLogin = true;
+                localStorage.setItem('user', _this._accountService.getLogInUser());
                 _this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
                 _this.router.navigate(['/profiles-center']);
             }
@@ -53,6 +55,7 @@ var HeaderComponent = (function () {
         this._accountService.doLogout().subscribe(function (res) {
             if (res == 1) {
                 localStorage.removeItem('user');
+                _this.statusLogin = false;
                 _this._notify.printSuccessMessage('Logout Success!');
                 _this.router.navigate(['/home']);
             }
@@ -60,7 +63,6 @@ var HeaderComponent = (function () {
                 _this._notify.printErrorMessage('Something not truely!');
             }
         });
-        //localStorage.removeItem('user');
     };
     HeaderComponent.prototype.getAllCate = function () {
         var _this = this;

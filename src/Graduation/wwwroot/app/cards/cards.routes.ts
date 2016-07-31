@@ -20,9 +20,9 @@ export const cardsRoutes: RouterConfig = [
             {
                 path: ':url',
                 children: [
-                    {
+                    {   
                         path: ':url',
-                        component: CardDetailComponent
+                        component: CardDetailComponent,
                     }
                     ,
                     {

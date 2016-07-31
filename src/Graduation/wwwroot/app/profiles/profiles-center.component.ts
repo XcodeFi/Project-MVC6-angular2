@@ -18,7 +18,6 @@ export class ProfilesCenterComponent implements OnInit, AfterViewInit {
     constructor(
         private router: Router,
         private _accountService: AccountService
-    
     ) { }
 
     ngOnInit() {

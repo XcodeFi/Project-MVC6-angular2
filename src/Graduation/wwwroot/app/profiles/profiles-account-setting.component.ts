@@ -44,7 +44,7 @@ export class ProfileAccountSettingComponent implements OnInit, AfterViewInit {
         },
             error => {
                 if (error.status == 400) {
-                    let data = error.json().message;
+                    let data = error.json();
                     this._notify.printErrorMessage(data);
                 }
             }

@@ -18,7 +18,7 @@ exports.cardsRoutes = [
                 children: [
                     {
                         path: ':url',
-                        component: card_detail_component_1.CardDetailComponent
+                        component: card_detail_component_1.CardDetailComponent,
                     },
                     {
                         path: '',

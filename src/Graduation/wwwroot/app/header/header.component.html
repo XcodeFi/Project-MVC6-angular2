@@ -76,7 +76,7 @@
                         </a>
                     </li>
                     <!--login-->
-                    <li *ngIf="!isLogin()" class="dropdown search-collapse">
+                    <li *ngIf="!statusLogin" class="dropdown search-collapse">
                         <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">Đăng nhập<strong class="caret"></strong></a>
                         <div class="dropdown-menu" style="padding:20px;min-width:300px;">
                             <form (submit)="onSubmit()" autocomplete="off" [formGroup]="loginForm">
@@ -102,13 +102,13 @@
                                 <!--<a class="btn btn-block btn-social btn-google-plus">
                                     <i class="fa fa-google-plus"></i> Sign in with Google
                                 </a>-->
-                                <a class="btn btn-block btn-social btn-facebook">
+                                <a class="btn btn-block btn-social btn-facebook" href="/Account/Register">
                                     <i class="fa fa-facebook"></i> Sign in with Facebook
                                 </a>
                             </form>
                         </div>
                     </li>
-                    <li *ngIf="isLogin()" class="dropdown search-collapse">
+                    <li *ngIf="statusLogin" class="dropdown search-collapse">
                         <a href="javascript:void(0);" class="dropdown-toggle btn btn-crosscards-primary" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user" style="color: #fff"></i> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a routerLink="/profiles-center"><i class="fa fa-envelope"></i> Trang cá nhân</a></li>

@@ -15,8 +15,8 @@ export class CardService {
 
     private cardApiUrl = 'http://localhost:16174/api/cardapi';  // URL to web API
     //for anyone can get
-    getCards(): Observable<Card[]> {
-        return this.http.get(this.cardApiUrl+"/getNative")
+    getCards(page: number): Observable<Card[]> {
+        return this.http.get(this.cardApiUrl+"/getNative/"+page)
             .map(this.extractData)
             .catch(this.handleError);
     }

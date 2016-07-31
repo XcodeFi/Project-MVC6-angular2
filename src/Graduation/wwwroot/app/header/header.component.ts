@@ -19,7 +19,8 @@ import {AccountService} from '../account/account.service';
 export class HeaderComponent implements OnInit, AfterViewInit {
     private cates: Cate[];
     loginForm: any;
-
+    statusLogin: boolean=true;
+    
     
     constructor(private _cateService: CateService,
         private _notify: NotifyService,
@@ -27,6 +28,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         private router: Router,
         public _accountService: AccountService
     ) {
+        this.statusLogin = this.isLogin();
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.required]],
             password: ['', [Validators.required]],
@@ -34,7 +36,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         });
     }
     ngOnInit() {
-        
         this.getAllCate();
     }
 
@@ -45,8 +46,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     onSubmit() {
         this._accountService.doLogin(this.loginForm.value).subscribe(res => {
             if (res != 3) {
-                let user = res;
-                localStorage.setItem('user', JSON.stringify(res));
+                this.statusLogin = true;
+                localStorage.setItem('user', this._accountService.getLogInUser());
                 this._notify.printSuccessMessage('Welcome back ' + res.email + '!');
                 this.router.navigate(['/profiles-center']);
             }
@@ -55,12 +56,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             }
         })
     }
-
     logOut(event: any) {
         event.preventDefault();
         this._accountService.doLogout().subscribe(res => {
             if (res == 1) {
                 localStorage.removeItem('user');
+                this.statusLogin = false;
                 this._notify.printSuccessMessage('Logout Success!');
                 this.router.navigate(['/home']);
             }
@@ -68,7 +69,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
                 this._notify.printErrorMessage('Something not truely!');
             }
         });
-        //localStorage.removeItem('user');
     }
 
     getAllCate() {

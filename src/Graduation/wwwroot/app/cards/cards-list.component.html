@@ -24,7 +24,11 @@
             </div>
         </div>
         <div class="row">
-            <div id="message-output" class="col-md-4 col-lg-4 col-sm-6 col-xs-12" style="position:relative;" 
+            <div id="message-output" class="col-md-4 col-lg-4 col-sm-6 col-xs-12 search-results" infinite-scroll
+                 [infiniteScrollDistance]="100000"
+                 [infiniteScrollThrottle]="1000"
+                 (scrolled)="onScrollDown()"
+                  style="position:relative;" 
                  *ngFor="let card of cards" >
                 <div class="item margin-bottom-small">
                     <!--images-->
@@ -35,10 +39,10 @@
                     </div>
                     <div class="caption">
                         <!--title card and link-->
-                        <a class="black-text" href="/#/cards/{{card.cateId}}/{{card.urlSlug}}">
-                            <span class="center-block">
-                                {{card.title}}
-                            </span>
+                        <a class="black-text" href="/#/cards/{{card.cateId}}/{{card.urlSlug}}">  
+                                <span class="center-block">
+                                    {{card.title}}
+                                </span>
                         </a>
                         <!--Social button-->
                         <div class="row social-button-row hidden" role="group">
@@ -53,7 +57,7 @@
                         <!--Tags name-->
                         <div class="row share-button-row">
                             <div class="col-xs-3" style="padding-right: 0; margin-top:0;">
-                                <a class="btn btn-default btn-block btn-share toggle-social-buttons" href="javascript:void(0)"><strong>Share</strong></a>
+                                <a class="btn btn-default btn-block btn-share toggle-social-buttons" id="shared" href="javascript:void(0)"><strong>Share</strong></a>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <a *ngFor="let tag of card.tag" class="label label-primary" href="#/video.html">{{tag}}</a>
@@ -80,7 +84,7 @@
         <div class="item col-xs-12 margin-top-large" decorator="masonryItem" id="scroll-to-top">
             <a class="scroll-to-top shadow" href="#scroller">
                 <div class="alert alert-info text-center">
-                    <strong>You have reached the end! Take me back to the top.</strong>
+                    <strong>Không còn thiệp nào, Quay lên đầu</strong>
                 </div>
             </a>
         </div>

@@ -1,9 +1,9 @@
 "use strict";
 var UserLogin = (function () {
-    function UserLogin(email, password, rememberMe) {
+    function UserLogin(id, email, username) {
+        this.id = id;
         this.email = email;
-        this.password = password;
-        this.rememberMe = rememberMe;
+        this.username = username;
     }
     return UserLogin;
 }());

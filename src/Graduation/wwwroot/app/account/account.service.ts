@@ -38,38 +38,37 @@ export class AccountService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this.http.post(this._accountChangePassAPI, body, options)
-            .map(this.extractData);
+            .map(this.extractData).catch(this.handleError);
     }
 
-    isSignIn(): boolean {
-        let result: any;
+
+    isSignIn() {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        this.http.post(this._accountApi + "isSignIn", null, options)
-            .map(result = this.extractData).catch(this.handleError);
-        if (result) {
-            return true;
-        }
-        return false;
+        return this.http.post(this._accountApi + "isSignIn", null, options)
+            .map(this.extractData
+            ).catch(this.handleError);
     }
 
-    isUserAuthenticated(): boolean {
-        var _user: UserLogin = localStorage.getItem('user');
-        if (_user != null && this.isSignIn())
-            return true;
-        else
-            return false;
+    isUserAuthenticated(): any {
+        return this.isSignIn().subscribe(
+            res => {
+                return res;
+            }
+        );
     }
 
-    getLoggedInUser(): UserLogin {
-        var _user: UserLogin;
-
+    getLogInUser():any {
         if (this.isUserAuthenticated()) {
-            var _userData = JSON.parse(localStorage.getItem('user'));
-            _user = new UserLogin(_userData.email, _userData.password,_userData.remember);
+            return this.getUserInfo().subscribe(
+                res => {
+                    return JSON.stringify(res.id, res.email, res.usename);
+                }
+            );
         }
-
-        return _user;
+        else {
+            return null;
+        }
     }
 
 
