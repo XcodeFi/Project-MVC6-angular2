@@ -20,17 +20,17 @@ hoặc sau khi cài đặt các nên tẳng kể trên thì cài đặt visual c
 sau khi mở cở sổ cmd cho ứng dụng
 buid code: với visual code hay subline text
 Bước 1: Restore thư viện: dotnet restore
-bước 1.1: build code sever
+Bước 1.1: build code sever
 + build code first trước tiên gõ vào cửa sổ dòng lệnh: "dotnet ef Migrations add Initials" **Lưu ý thông báo sinh ra khi build
         ----> sau đó gõ tiếp: donet ef database update **Lưu ý đường dẫn data base trong appsetting.json
   **Lưu ý, khi thành công thì sẽ thông báo thành công
-bước 2: Restore node_modules
-bước 2.1: gõ vào cử sổ cmd: npm install
-bước 2.2: gõ tiếp: cpm npm install typings
+Bước 2: Restore node_modules
+Bước 2.1: gõ vào cử sổ cmd: npm install
+Bước 2.2: gõ tiếp: cpm npm install typings
 
 
 Bước 3: Build project:
-bước3.1 gõ : dotnet build
+Bước 3.1 gõ : dotnet build
 
 **thành công khi trình duyệt tự động bật lên
 
